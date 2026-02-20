@@ -1,0 +1,177 @@
+'use client';
+
+import { useState } from 'react';
+import { Listing } from '@/types';
+import { MapPin, Phone, MessageSquare, Calendar, ShieldCheck, ChevronLeft, ChevronRight, Heart, Share2, Tag } from 'lucide-react';
+import Button from '@/components/ui/Button';
+import Card from '@/components/ui/Card';
+import { Link } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
+import Image from 'next/image';
+
+export default function ListingDetailClient({ listing }: { listing: Listing }) {
+    const t = useTranslations('Listing');
+    const tCommon = useTranslations('Common');
+    const [currentImage, setCurrentImage] = useState(0);
+
+    const nextImage = () => setCurrentImage((prev) => (prev + 1) % listing.images.length);
+    const prevImage = () => setCurrentImage((prev) => (prev - 1 + listing.images.length) % listing.images.length);
+
+    return (
+        <div className="space-y-6">
+            {/* Breadcrumb */}
+            <nav className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
+                <Link href="/" className="hover:text-[var(--color-primary)] transition-colors">{tCommon('back')}</Link>
+                <span>/</span>
+                <Link href="/search" className="hover:text-[var(--color-primary)] transition-colors">{listing.category.name}</Link>
+                <span>/</span>
+                <span className="text-[var(--color-foreground)] font-medium truncate max-w-[200px]">{listing.title}</span>
+            </nav>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Left Column: Gallery & Description */}
+                <div className="lg:col-span-2 space-y-6">
+                    {/* Header */}
+                    <div className="border-b border-[var(--color-border)] pb-4">
+                        <div className="flex items-start justify-between">
+                            <h1 className="text-2xl font-bold text-[var(--color-foreground)]">{listing.title}</h1>
+                            <div className="flex items-center gap-2 flex-shrink-0 ml-4">
+                                <button className="p-2.5 rounded-xl border border-[var(--color-border)] text-[var(--color-muted)] hover:text-rose-500 hover:border-rose-200 transition-colors">
+                                    <Heart size={18} />
+                                </button>
+                                <button className="p-2.5 rounded-xl border border-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]/20 transition-colors">
+                                    <Share2 size={18} />
+                                </button>
+                            </div>
+                        </div>
+                        <div className="flex flex-wrap items-center text-sm text-[var(--color-muted)] mt-2 gap-4">
+                            <span className="flex items-center gap-1"><MapPin size={16} /> {listing.location.city} / {listing.location.district}</span>
+                            <span className="flex items-center gap-1"><Calendar size={16} /> {t('ad_date')}: {new Date(listing.createdAt).toLocaleDateString('tr-TR')}</span>
+                            <span className="text-[var(--color-primary)] font-medium">{t('ad_no')}: {listing.id}</span>
+                            {listing.listingType && (
+                                <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${listing.listingType === 'rent' ? 'bg-amber-500/10 text-amber-600' : 'bg-emerald-500/10 text-emerald-600'}`}>
+                                    <Tag size={12} className="inline mr-1" />
+                                    {listing.listingType === 'rent' ? 'Kiralık' : 'Satılık'}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Gallery */}
+                    <div className="space-y-3">
+                        <div className="aspect-video bg-[var(--color-surface-elevated)] rounded-2xl overflow-hidden border border-[var(--color-border)] relative group">
+                            <Image
+                                src={listing.images[currentImage]}
+                                alt={listing.title}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 66vw"
+                                priority
+                            />
+                            {/* Navigation Arrows */}
+                            {listing.images.length > 1 && (
+                                <>
+                                    <button onClick={prevImage} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-black/60 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
+                                        <ChevronLeft size={20} />
+                                    </button>
+                                    <button onClick={nextImage} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/40 hover:bg-black/60 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm">
+                                        <ChevronRight size={20} />
+                                    </button>
+                                </>
+                            )}
+                            <div className="absolute bottom-3 right-3 bg-black/50 text-white px-2.5 py-1 rounded-full text-xs font-medium backdrop-blur-sm">
+                                {currentImage + 1}/{listing.images.length}
+                            </div>
+                        </div>
+
+                        {/* Thumbnails */}
+                        {listing.images.length > 1 && (
+                            <div className="flex gap-2 overflow-x-auto pb-1">
+                                {listing.images.map((img, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => setCurrentImage(i)}
+                                        className={`relative w-20 h-16 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all ${i === currentImage ? 'border-[var(--color-primary)] ring-2 ring-[var(--color-primary)]/20' : 'border-[var(--color-border)] opacity-70 hover:opacity-100'}`}
+                                    >
+                                        <Image src={img} alt={`${listing.title} ${i + 1}`} fill className="object-cover" sizes="80px" />
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Description */}
+                    <Card className="p-6">
+                        <h2 className="text-lg font-bold mb-4 border-b border-[var(--color-border)] pb-3 text-[var(--color-foreground)]">{t('description')}</h2>
+                        <div className="text-[var(--color-foreground)] whitespace-pre-line leading-relaxed">
+                            {listing.description}
+                        </div>
+                    </Card>
+                </div>
+
+                {/* Right Column: Details & Seller */}
+                <div className="space-y-6">
+                    {/* Price Card */}
+                    <Card className="p-6 sticky top-24">
+                        <div className="text-3xl font-bold text-[var(--color-primary)] mb-1">
+                            {listing.price.toLocaleString('tr-TR')} {listing.currency}
+                        </div>
+                        <div className="text-sm text-[var(--color-muted)] mb-6 flex items-center gap-1">
+                            <MapPin size={14} />
+                            {listing.location.city} / {listing.location.district}
+                            {listing.location.neighborhood && ` / ${listing.location.neighborhood}`}
+                        </div>
+
+                        <div className="space-y-3 mb-6">
+                            <Button className="w-full justify-center gap-2" size="lg">
+                                <Phone size={20} />
+                                {listing.seller.phone || t('show_phone')}
+                            </Button>
+                            <Button variant="secondary" className="w-full justify-center gap-2" size="lg">
+                                <MessageSquare size={20} />
+                                {t('send_message')}
+                            </Button>
+                        </div>
+
+                        {/* Seller Info */}
+                        <div className="border-t border-[var(--color-border)] pt-4">
+                            <h3 className="font-bold mb-3 text-[var(--color-foreground)]">{t('seller')}</h3>
+                            <Link href={`/seller/${listing.seller.id}`} className="flex items-center gap-3 mb-3 group">
+                                <div className="w-12 h-12 bg-[var(--color-primary)]/10 rounded-full flex items-center justify-center text-[var(--color-primary)] font-bold text-lg">
+                                    {listing.seller.name.charAt(0)}
+                                </div>
+                                <div>
+                                    <p className="font-medium text-[var(--color-foreground)] group-hover:text-[var(--color-primary)] transition-colors">{listing.seller.storeName || listing.seller.name}</p>
+                                    <p className="text-xs text-[var(--color-muted)] capitalize">{listing.seller.type === 'corporate' ? t('corporate_member') : t('individual_member')}</p>
+                                </div>
+                            </Link>
+                            {listing.seller.type === 'corporate' && (
+                                <div className="text-xs text-[var(--color-primary)] flex items-center gap-1 bg-[var(--color-primary)]/10 px-3 py-1.5 rounded-full w-fit">
+                                    <ShieldCheck size={14} />
+                                    {t('authorized_office')}
+                                </div>
+                            )}
+                        </div>
+                    </Card>
+
+                    {/* Attributes Table */}
+                    <Card className="p-0 overflow-hidden">
+                        <h3 className="bg-[var(--color-surface-elevated)] font-bold p-4 border-b border-[var(--color-border)] text-[var(--color-foreground)]">{t('features')}</h3>
+                        <ul className="divide-y divide-[var(--color-border)]">
+                            {Object.entries(listing.attributes).map(([key, value]) => (
+                                <li key={key} className="flex justify-between p-3.5 text-sm hover:bg-[var(--color-surface-elevated)] transition-colors">
+                                    <span className="text-[var(--color-muted)] font-medium">{key}</span>
+                                    <span className="text-[var(--color-foreground)] font-semibold text-right">{String(value)}</span>
+                                </li>
+                            ))}
+                            <li className="flex justify-between p-3.5 text-sm hover:bg-[var(--color-surface-elevated)] transition-colors">
+                                <span className="text-[var(--color-muted)] font-medium">{t('category')}</span>
+                                <span className="text-[var(--color-primary)] font-semibold text-right">{listing.category.name}</span>
+                            </li>
+                        </ul>
+                    </Card>
+                </div>
+            </div>
+        </div>
+    );
+}

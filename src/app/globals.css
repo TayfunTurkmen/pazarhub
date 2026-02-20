@@ -1,0 +1,260 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Modern Color Palette ── */
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+  --color-primary-light: #3b82f6;
+  --color-secondary: #f59e0b;
+  --color-secondary-dark: #d97706;
+  --color-accent: #8b5cf6;
+
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #ffffff;
+  --color-text: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94a3b8;
+  --color-border: #e2e8f0;
+  --color-border-light: #f1f5f9;
+
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* ── Animations ── */
+  --animate-fade-in: fade-in 0.5s ease-out;
+  --animate-slide-up: slide-up 0.5s ease-out;
+  --animate-scale-in: scale-in 0.25s ease-out;
+  --animate-shimmer: shimmer 2s infinite;
+  --animate-float: float 3s ease-in-out infinite;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+}
+
+/* ── Custom Utilities ── */
+@utility container-custom {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+@utility btn {
+  @apply px-4 py-2.5 rounded-xl font-medium transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer;
+}
+
+@utility btn-primary {
+  @apply bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-dark)] hover:shadow-lg active:scale-[0.98];
+}
+
+@utility btn-secondary {
+  @apply bg-[var(--color-secondary)] text-[var(--color-text)] hover:bg-[var(--color-secondary-dark)] hover:shadow-lg active:scale-[0.98];
+}
+
+@utility card {
+  @apply bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl transition-all duration-300;
+}
+
+@utility glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+}
+
+@utility glass-card {
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-card-border);
+  box-shadow: var(--glass-card-shadow);
+}
+
+@utility shimmer-bg {
+  background: var(--shimmer-gradient);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@utility gradient-text {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Light Theme Variables ── */
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-card-bg: rgba(255, 255, 255, 0.92);
+  --glass-card-border: rgba(0, 0, 0, 0.04);
+  --glass-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shimmer-gradient: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+}
+
+/* ── Dark Theme ── */
+.dark {
+  --color-primary: #3b82f6;
+  --color-primary-dark: #2563eb;
+  --color-primary-light: #60a5fa;
+  --color-secondary: #fbbf24;
+  --color-secondary-dark: #f59e0b;
+  --color-accent: #a78bfa;
+
+  --color-background: #0c0f1a;
+  --color-surface: #151929;
+  --color-surface-elevated: #1c2236;
+  --color-text: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+  --color-border: #1e293b;
+  --color-border-light: #1a2332;
+
+  --glass-bg: rgba(15, 23, 42, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-card-bg: rgba(21, 25, 41, 0.9);
+  --glass-card-border: rgba(255, 255, 255, 0.04);
+  --glass-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shimmer-gradient: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+}
+
+/* ── Global Styles ── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ── Selection ── */
+::selection {
+  background: rgba(37, 99, 235, 0.2);
+  color: var(--color-primary);
+}
+
+/* ── Focus Accessibility ── */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* ── Prose Dark Mode ── */
+.dark .prose {
+  color: #e2e8f0;
+}
+
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3 {
+  color: #f1f5f9;
+}
+
+.dark .prose p,
+.dark .prose li {
+  color: #cbd5e1;
+}
+
+.dark .prose strong {
+  color: #f1f5f9;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* ── Smooth transitions for all themed elements ── */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
+/* Exclude animations and transforms from the global transition */
+a,
+button,
+input,
+select,
+textarea,
+[class*="hover:"],
+[class*="group-hover:"] {
+  transition-property: background-color, border-color, color, box-shadow, transform, opacity;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
