@@ -136,9 +136,9 @@ export default function AdminDashboard() {
                     <div className="grid grid-cols-2 gap-3">
                         {[
                             { icon: FileText, label: t('manage_pages'), color: 'text-blue-500', bg: 'bg-blue-500/10', href: '/admin/pages' },
-                            { icon: Users, label: t('manage_users'), color: 'text-emerald-500', bg: 'bg-emerald-500/10', href: '/admin' },
-                            { icon: BarChart3, label: t('view_reports'), color: 'text-violet-500', bg: 'bg-violet-500/10', href: '/admin' },
-                            { icon: Clock, label: t('review_pending'), color: 'text-amber-500', bg: 'bg-amber-500/10', href: '/admin' },
+                            { icon: Users, label: t('manage_users'), color: 'text-emerald-500', bg: 'bg-emerald-500/10', href: '/admin/users' },
+                            { icon: BarChart3, label: t('view_reports'), color: 'text-violet-500', bg: 'bg-violet-500/10', href: '/admin/listings' },
+                            { icon: Clock, label: t('review_pending'), color: 'text-amber-500', bg: 'bg-amber-500/10', href: '/admin/listings' },
                         ].map((action) => (
                             <Link key={action.label} href={action.href} className="flex items-center gap-3 p-4 rounded-xl border border-[var(--color-border)] hover:bg-[var(--color-surface-elevated)] hover:border-[var(--color-primary)]/20 transition-all text-left group">
                                 <div className={`w-9 h-9 ${action.bg} rounded-lg flex items-center justify-center`}>

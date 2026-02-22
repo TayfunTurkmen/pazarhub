@@ -5,7 +5,7 @@ export default function Card({
 }: {
     children: React.ReactNode;
     className?: string;
-    onClick?: () => void;
+    onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }) {
     return (
         <div

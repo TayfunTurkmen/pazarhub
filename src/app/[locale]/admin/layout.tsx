@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Link } from '@/i18n/navigation';
-import { LayoutDashboard, FileText, Settings, LogOut, Menu, Users, BarChart3, Shield, Share2 } from 'lucide-react';
+import { LayoutDashboard, FileText, Settings, LogOut, Menu, Users, BarChart3, Shield, Share2, ListChecks } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/AuthContext';
 
@@ -44,9 +44,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
                 <nav className="p-3 space-y-1">
                     <AdminLink href="/admin" icon={LayoutDashboard} label={t('dashboard')} collapsed={!sidebarOpen} />
+                    <AdminLink href="/admin/listings" icon={ListChecks} label="İlanlar" collapsed={!sidebarOpen} />
+                    <AdminLink href="/admin/users" icon={Users} label="Kullanıcılar" collapsed={!sidebarOpen} />
                     <AdminLink href="/admin/pages" icon={FileText} label={t('pages')} collapsed={!sidebarOpen} />
                     <AdminLink href="/admin/social" icon={Share2} label="Sosyal Medya" collapsed={!sidebarOpen} />
-                    <AdminLink href="/admin" icon={Settings} label={t('settings')} collapsed={!sidebarOpen} />
+                    <AdminLink href="/admin/settings" icon={Settings} label={t('settings')} collapsed={!sidebarOpen} />
                     <div className="pt-3 mt-3 border-t border-[var(--color-border)]">
                         <Link href="/" className="flex items-center gap-3 px-3 py-2.5 text-rose-500 hover:bg-rose-500/10 rounded-xl transition-colors">
                             <LogOut size={20} />

@@ -9,7 +9,8 @@ import { Edit, Trash2, MessageSquare, Eye, PlusCircle, Settings, Heart, BarChart
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 type Tab = 'listings' | 'messages' | 'favorites' | 'settings';
 
@@ -17,9 +18,21 @@ export default function DashboardPage() {
     const t = useTranslations('Common');
     const tDash = useTranslations('Dashboard');
     const { user } = useAuth();
+    const searchParams = useSearchParams();
     const myListings = LISTINGS.filter(l => l.seller.id === 'u1');
     const [activeTab, setActiveTab] = useState<Tab>('listings');
     const [settingsSaved, setSettingsSaved] = useState(false);
+
+    // Modal states
+    const [selectedMessage, setSelectedMessage] = useState<any>(null);
+    const [editingListing, setEditingListing] = useState<any>(null);
+
+    useEffect(() => {
+        const tab = searchParams.get('tab') as Tab;
+        if (tab && ['listings', 'messages', 'favorites', 'settings'].includes(tab)) {
+            setActiveTab(tab);
+        }
+    }, [searchParams]);
 
     const stats = [
         { label: tDash('active_count'), value: myListings.length, icon: BarChart3, color: 'text-blue-500' },
@@ -144,7 +157,7 @@ export default function DashboardPage() {
                                                 </div>
                                             </div>
                                             <div className="flex flex-col gap-2 justify-center flex-shrink-0">
-                                                <Button size="sm" variant="outline" className="text-xs"><Edit size={14} /> {t('edit')}</Button>
+                                                <Button size="sm" variant="outline" className="text-xs" onClick={() => setEditingListing(listing)}><Edit size={14} /> {t('edit')}</Button>
                                                 <Button size="sm" variant="ghost" className="text-rose-500 hover:text-rose-700"><Trash2 size={14} /></Button>
                                             </div>
                                         </div>
@@ -167,7 +180,7 @@ export default function DashboardPage() {
                             <h2 className="text-lg font-bold mb-4 text-[var(--color-foreground)]">{t('messages')}</h2>
                             <div className="space-y-2">
                                 {mockMessages.map((msg) => (
-                                    <div key={msg.id} className={`flex items-center gap-3 p-3 border border-[var(--color-border)] rounded-xl cursor-pointer transition-all hover:shadow-md ${msg.unread ? 'bg-[var(--color-primary)]/5 border-[var(--color-primary)]/20' : 'hover:bg-[var(--color-surface-elevated)]'}`}>
+                                    <div key={msg.id} onClick={() => setSelectedMessage(msg)} className={`flex items-center gap-3 p-3 border border-[var(--color-border)] rounded-xl cursor-pointer transition-all hover:shadow-md ${msg.unread ? 'bg-[var(--color-primary)]/5 border-[var(--color-primary)]/20' : 'hover:bg-[var(--color-surface-elevated)]'}`}>
                                         <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${msg.unread ? 'bg-[var(--color-primary)]/15' : 'bg-[var(--color-surface-elevated)]'}`}>
                                             <MessageSquare size={16} className={msg.unread ? 'text-[var(--color-primary)]' : 'text-[var(--color-muted)]'} />
                                         </div>
@@ -299,6 +312,64 @@ export default function DashboardPage() {
                     )}
                 </div>
             </div>
+
+            {/* MESSAGE MODAL */}
+            {selectedMessage && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedMessage(null)}>
+                    <Card className="w-full max-w-lg p-0 overflow-hidden shadow-2xl modal-content" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between p-4 border-b border-[var(--color-border)] bg-[var(--color-surface-elevated)]">
+                            <h3 className="font-bold text-[var(--color-foreground)]">Mesaj Detayı</h3>
+                            <button onClick={() => setSelectedMessage(null)} className="p-1 rounded-lg text-[var(--color-muted)] hover:text-[var(--color-foreground)] hover:bg-[var(--color-primary)]/10 transition-colors">✕</button>
+                        </div>
+                        <div className="p-6 space-y-6">
+                            <div className="flex items-start gap-4">
+                                <div className="w-12 h-12 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center flex-shrink-0">
+                                    <User size={20} className="text-[var(--color-primary)]" />
+                                </div>
+                                <div className="flex-1">
+                                    <p className="font-bold text-[var(--color-foreground)]">{selectedMessage.name}</p>
+                                    <p className="text-sm text-[var(--color-muted)] mb-3">{selectedMessage.time}</p>
+                                    <div className="bg-[var(--color-surface-elevated)] p-4 rounded-xl border border-[var(--color-border)]">
+                                        <p className="text-sm text-[var(--color-foreground)] leading-relaxed">{selectedMessage.message}</p>
+                                    </div>
+                                    <p className="text-xs text-[var(--color-primary)] font-medium mt-3 flex items-center gap-1">
+                                        <ArrowRight size={12} /> İlgili İlan: {selectedMessage.listing}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="pt-4 border-t border-[var(--color-border)]">
+                                <textarea
+                                    placeholder="Cevabınızı yazın..."
+                                    className="w-full h-24 p-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] text-sm text-[var(--color-foreground)] placeholder-[var(--color-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] resize-none"
+                                ></textarea>
+                            </div>
+                        </div>
+                        <div className="flex items-center justify-end gap-3 p-4 border-t border-[var(--color-border)] bg-[var(--color-surface-elevated)]">
+                            <Button variant="outline" onClick={() => setSelectedMessage(null)}>Kapat</Button>
+                            <Button onClick={() => { alert('Mesaj gönderildi'); setSelectedMessage(null); }}>Gönder</Button>
+                        </div>
+                    </Card>
+                </div>
+            )}
+
+            {/* EDIT LISTING MODAL */}
+            {editingListing && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={() => setEditingListing(null)}>
+                    <Card className="w-full max-w-md p-6 shadow-2xl text-center" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+                        <div className="w-16 h-16 mx-auto bg-blue-500/10 rounded-full flex items-center justify-center mb-4">
+                            <Edit size={28} className="text-blue-500" />
+                        </div>
+                        <h3 className="text-xl font-bold text-[var(--color-foreground)] mb-2">İlan Düzenleme</h3>
+                        <p className="text-sm text-[var(--color-muted)] mb-6">
+                            <span className="font-semibold text-[var(--color-foreground)]">{editingListing.title}</span> başlıklı ilanınızı düzenlemek üzeresiniz.
+                        </p>
+                        <div className="flex flex-col gap-3">
+                            <Link href="/post-ad" className="btn btn-primary w-full">Düzenleme Sayfasına Git</Link>
+                            <Button variant="outline" onClick={() => setEditingListing(null)} className="w-full">İptal</Button>
+                        </div>
+                    </Card>
+                </div>
+            )}
         </div>
     );
 }

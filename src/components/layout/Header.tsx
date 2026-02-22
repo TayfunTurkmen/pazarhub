@@ -218,10 +218,10 @@ function UserActions({ mobile }: { mobile?: boolean }) {
                             <Link href="/dashboard" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[var(--color-foreground)] hover:bg-[var(--color-surface-elevated)] rounded-xl transition-colors">
                                 <LayoutDashboard size={16} className="text-[var(--color-muted)]" /> Panelim
                             </Link>
-                            <Link href="/dashboard" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[var(--color-foreground)] hover:bg-[var(--color-surface-elevated)] rounded-xl transition-colors">
+                            <Link href="/dashboard?tab=favorites" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[var(--color-foreground)] hover:bg-[var(--color-surface-elevated)] rounded-xl transition-colors">
                                 <Heart size={16} className="text-[var(--color-muted)]" /> Favorilerim
                             </Link>
-                            <Link href="/dashboard" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[var(--color-foreground)] hover:bg-[var(--color-surface-elevated)] rounded-xl transition-colors">
+                            <Link href="/dashboard?tab=messages" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[var(--color-foreground)] hover:bg-[var(--color-surface-elevated)] rounded-xl transition-colors">
                                 <MessageSquare size={16} className="text-[var(--color-muted)]" /> Mesajlarım
                             </Link>
                             {user.role === 'admin' && (
