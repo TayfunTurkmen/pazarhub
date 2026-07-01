@@ -1,13 +1,16 @@
 import { getTranslations } from 'next-intl/server';
-import { getListings, CATEGORIES } from '@/services/mockData';
+import { getPaginatedListings } from '@/services/serverData';
+import { CATEGORIES } from '@/services/mockData';
 import ListingCard from '@/components/listing/ListingCard';
 import FilterSidebar from '@/components/listing/FilterSidebar';
 import SearchResultsHeader from '@/components/listing/SearchResultsHeader';
+import Pagination from '@/components/listing/Pagination';
 import { getMessages } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
 import { Search as SearchIcon, FolderOpen, ChevronRight, Hash, User, Store, Type } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
-
+import MapWrapper from '@/components/listing/MapWrapper';
+import { parseFilterState } from '@/lib/filters';
 function getMatchingCategories(query: string) {
     if (!query) return [];
     const q = query.toLowerCase();
@@ -39,9 +42,11 @@ export default async function SearchPage({
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
     const resolvedParams = await searchParams;
-    const listings = await getListings(resolvedParams);
+    const filter = parseFilterState(resolvedParams);
+    const { items: listings, total } = await getPaginatedListings(filter);
     const messages = await getMessages();
     const t = await getTranslations('Search');
+    const viewMode = resolvedParams.view === 'map' ? 'map' : resolvedParams.view === 'list' ? 'list' : 'grid';
 
     const query = typeof resolvedParams.query === 'string' ? resolvedParams.query : '';
     const listingId = typeof resolvedParams.listingId === 'string' ? resolvedParams.listingId : '';
@@ -188,15 +193,22 @@ export default async function SearchPage({
                 {/* Results */}
                 <div className="md:col-span-9">
                     <NextIntlClientProvider messages={messages}>
-                        <SearchResultsHeader count={listings.length} />
+                        <SearchResultsHeader count={total} />
                     </NextIntlClientProvider>
 
                     {listings.length > 0 ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                            {listings.map((listing) => (
-                                <ListingCard key={listing.id} listing={listing} />
-                            ))}
-                        </div>
+                        viewMode === 'map' ? (
+                            <MapWrapper listings={listings} />
+                        ) : (
+                            <>
+                                <div className={`grid gap-4 ${viewMode === 'list' ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'}`}>
+                                    {listings.map((listing) => (
+                                        <ListingCard key={listing.id} listing={listing} />
+                                    ))}
+                                </div>
+                                <Pagination filter={filter} total={total} basePath="/search" />
+                            </>
+                        )
                     ) : (
                         <div className="bg-[var(--color-surface)] p-12 rounded-2xl text-center text-[var(--color-muted)] border border-[var(--color-border)]">
                             <SearchIcon size={48} className="mx-auto mb-4 opacity-30" />

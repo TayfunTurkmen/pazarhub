@@ -1,18 +1,24 @@
 'use client';
 
 import { useState } from 'react';
-import { CATEGORIES } from '@/services/mockData';
+import { CATEGORIES } from '@/services/mockDb';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import Card from '@/components/ui/Card';
 import { Check, ChevronRight, Upload } from 'lucide-react';
 import { useRouter } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
+import { useAuth } from '@/context/AuthContext';
+import { Listing } from '@/types';
 
 export default function PostAdWizard() {
     const router = useRouter();
     const t = useTranslations('PostAd');
+    const { user } = useAuth();
     const [step, setStep] = useState(1);
+    const [submitting, setSubmitting] = useState(false);
+    const [uploading, setUploading] = useState(false);
+    const [images, setImages] = useState<string[]>([]);
     const [formData, setFormData] = useState({
         category: '',
         title: '',
@@ -28,17 +34,62 @@ export default function PostAdWizard() {
 
     const handleNext = () => setStep(step + 1);
     const handleBack = () => setStep(step - 1);
+
+    const handleImageUpload = async (files: FileList | null) => {
+        if (!files?.length) return;
+        setUploading(true);
+        try {
+            const uploaded: string[] = [];
+            for (const file of Array.from(files).slice(0, 10)) {
+                const form = new FormData();
+                form.append('file', file);
+                const res = await fetch('/api/upload', { method: 'POST', body: form });
+                const json = await res.json() as { success: boolean; data?: { url: string } };
+                if (json.success && json.data?.url) uploaded.push(json.data.url);
+            }
+            setImages((prev) => [...prev, ...uploaded].slice(0, 20));
+        } finally {
+            setUploading(false);
+        }
+    };
+
     const handleSubmit = async () => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        alert(t('success'));
-        router.push('/');
+        if (!user) return;
+        setSubmitting(true);
+        try {
+            const res = await fetch('/api/listings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: formData.title,
+                    description: formData.description,
+                    price: Number(formData.price),
+                    categoryId: formData.category,
+                    city: formData.city,
+                    district: formData.district,
+                    roomCount: formData.roomCount || undefined,
+                    netArea: formData.netArea ? Number(formData.netArea) : undefined,
+                    floor: formData.floor ? Number(formData.floor) : undefined,
+                    heating: formData.heating || undefined,
+                    images,
+                }),
+            });
+            const json = await res.json() as { success: boolean; data?: Listing; error?: string };
+            if (!json.success || !json.data) {
+                throw new Error(json.error || 'Publish failed');
+            }
+            router.push(`/listing/${json.data.id}`);
+        } catch {
+            alert(t('error'));
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     const steps = [t('category'), t('details'), t('preview')];
 
     return (
         <div className="space-y-6">
-            {/* Steps Indicator */}
             <div className="flex items-center mb-8">
                 {steps.map((label, i) => {
                     const s = i + 1;
@@ -70,6 +121,7 @@ export default function PostAdWizard() {
                             {CATEGORIES.filter(c => !c.parentId).map(category => (
                                 <button
                                     key={category.id}
+                                    type="button"
                                     onClick={() => {
                                         setFormData({ ...formData, category: category.id });
                                         handleNext();
@@ -110,6 +162,13 @@ export default function PostAdWizard() {
                             />
                         </div>
 
+                        <Input
+                            label={t('district')}
+                            placeholder={t('district')}
+                            value={formData.district}
+                            onChange={(e) => setFormData({ ...formData, district: e.target.value })}
+                        />
+
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <Input
                                 label={t('room_count')}
@@ -139,22 +198,24 @@ export default function PostAdWizard() {
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 placeholder={t('description_placeholder')}
-                            ></textarea>
+                            />
                         </div>
 
-                        {/* Image Upload Area */}
                         <div>
                             <label className="block text-sm font-medium text-[var(--color-foreground)] mb-1">{t('photos')}</label>
-                            <div className="border-2 border-dashed border-[var(--color-border)] rounded-lg p-8 text-center hover:border-[var(--color-primary)] transition-colors cursor-pointer">
+                            <label className="border-2 border-dashed border-[var(--color-border)] rounded-lg p-8 text-center hover:border-[var(--color-primary)] transition-colors cursor-pointer block">
                                 <Upload size={32} className="mx-auto text-[var(--color-muted)] mb-2" />
-                                <p className="text-sm text-[var(--color-muted)]">{t('drag_drop')}</p>
-                                <p className="text-xs text-[var(--color-muted)]/70 mt-1">{t('max_photos')}</p>
-                            </div>
+                                <p className="text-sm text-[var(--color-muted)]">{uploading ? t('uploading') : t('drag_drop')}</p>
+                                <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => handleImageUpload(e.target.files)} />
+                            </label>
+                            {images.length > 0 && (
+                                <p className="text-xs text-[var(--color-muted)] mt-2">{images.length} {t('photos_selected')}</p>
+                            )}
                         </div>
 
                         <div className="flex justify-between pt-4">
                             <Button variant="outline" onClick={handleBack}>{t('back')}</Button>
-                            <Button onClick={handleNext}>{t('next')}</Button>
+                            <Button onClick={handleNext} disabled={!formData.title || !formData.price || !formData.city}>{t('next')}</Button>
                         </div>
                     </div>
                 )}
@@ -174,7 +235,7 @@ export default function PostAdWizard() {
                                 </div>
                                 <div>
                                     <span className="font-bold text-[var(--color-muted)] text-xs uppercase">{t('city')}</span>
-                                    <p className="text-[var(--color-foreground)]">{formData.city || '-'}</p>
+                                    <p className="text-[var(--color-foreground)]">{formData.city || '-'}{formData.district ? `, ${formData.district}` : ''}</p>
                                 </div>
                                 <div>
                                     <span className="font-bold text-[var(--color-muted)] text-xs uppercase">{t('room_count')}</span>
@@ -188,12 +249,12 @@ export default function PostAdWizard() {
                                 </div>
                             )}
                         </div>
-                        <p className="text-xs text-[var(--color-muted)]">
-                            {t('terms_agree')}
-                        </p>
+                        <p className="text-xs text-[var(--color-muted)]">{t('terms_agree')}</p>
                         <div className="flex justify-between pt-4">
                             <Button variant="outline" onClick={handleBack}>{t('back')}</Button>
-                            <Button onClick={handleSubmit} className="px-8 font-bold">{t('publish')}</Button>
+                            <Button onClick={handleSubmit} disabled={submitting} className="px-8 font-bold">
+                                {submitting ? t('publishing') : t('publish')}
+                            </Button>
                         </div>
                     </div>
                 )}

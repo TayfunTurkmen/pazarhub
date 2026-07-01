@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
-import { getFeaturedListings, getListings, CATEGORIES } from '@/services/mockData';
+import { getFeaturedListings, getListings } from '@/services/serverData';
+import { CATEGORIES } from '@/services/mockData';
 import ListingCard from '@/components/listing/ListingCard';
 import CategorySidebar from '@/components/home/CategorySidebar';
 import { Building2, Car, ShoppingBag, UserPlus, FileText, MessageCircle, ArrowRight, Star, Sparkles, Crown, Flame, TreePalm, Wrench, PawPrint, Briefcase } from 'lucide-react';

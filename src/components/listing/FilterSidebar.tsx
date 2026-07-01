@@ -8,8 +8,7 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { ChevronDown, ChevronUp, MapPin, Tag, Home, Ruler, Flame, Building, Car, Gauge, Calendar, Palette, Smartphone, Cpu, HardDrive, ShieldCheck } from 'lucide-react';
 
-const AVAILABLE_CITIES = ['İstanbul', 'Ankara', 'İzmir', 'Antalya', 'Bursa', 'Eskişehir', 'Trabzon'];
-
+import { LOCATION_DATA } from '@/services/locationData';
 // Category-specific filter configurations
 type FilterConfig = {
     showListingType: boolean;
@@ -88,6 +87,10 @@ export default function FilterSidebar() {
         gear: searchParams.get('gear') || '',
         year: searchParams.get('year') || '',
         brand: searchParams.get('brand') || '',
+        district: searchParams.get('district') || '',
+        neighborhood: searchParams.get('neighborhood') || '',
+        street: searchParams.get('street') || '',
+        condition: searchParams.get('condition') || '',
     });
 
     const [collapsed, setCollapsed] = useState<Record<string, boolean>>({
@@ -107,7 +110,21 @@ export default function FilterSidebar() {
     };
 
     const handleChange = (key: string, value: string) => {
-        setFilters(prev => ({ ...prev, [key]: value }));
+        setFilters(prev => {
+            const next = { ...prev, [key]: value };
+            // Cascade clear locations
+            if (key === 'city') {
+                next.district = '';
+                next.neighborhood = '';
+                next.street = '';
+            } else if (key === 'district') {
+                next.neighborhood = '';
+                next.street = '';
+            } else if (key === 'neighborhood') {
+                next.street = '';
+            }
+            return next;
+        });
     };
 
     const handleApply = () => {
@@ -128,7 +145,7 @@ export default function FilterSidebar() {
     };
 
     const handleClear = () => {
-        setFilters({ minPrice: '', maxPrice: '', city: '', minArea: '', maxArea: '', roomCount: [], listingType: '', heating: '', fuel: '', gear: '', year: '', brand: '' });
+        setFilters({ minPrice: '', maxPrice: '', city: '', district: '', neighborhood: '', street: '', minArea: '', maxArea: '', roomCount: [], listingType: '', heating: '', fuel: '', gear: '', year: '', brand: '', condition: '' });
         const params = new URLSearchParams();
         const sort = searchParams.get('sort');
         if (sort) params.set('sort', sort);
@@ -136,6 +153,11 @@ export default function FilterSidebar() {
         if (query) params.set('query', query);
         router.replace(`?${params.toString()}`);
     };
+
+    // Location Derived State
+    const selectedCity = useMemo(() => LOCATION_DATA.find(c => c.name === filters.city), [filters.city]);
+    const selectedDistrict = useMemo(() => selectedCity?.districts?.find(d => d.name === filters.district), [selectedCity, filters.district]);
+    const selectedNeighborhood = useMemo(() => selectedDistrict?.neighborhoods?.find(n => n.name === filters.neighborhood), [selectedDistrict, filters.neighborhood]);
 
     const Section = ({ id, title, icon: Icon, children }: any) => (
         <div className="border-b border-[var(--color-border)] py-4 last:border-0">
@@ -188,16 +210,54 @@ export default function FilterSidebar() {
 
                 {/* Location - always visible */}
                 <Section id="location" title={t('location')} icon={MapPin}>
-                    <select
-                        value={filters.city}
-                        onChange={(e) => handleChange('city', e.target.value)}
-                        className="w-full border border-[var(--color-border)] rounded-xl p-2.5 text-sm bg-[var(--color-surface)] text-[var(--color-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-colors"
-                    >
-                        <option value="">{t('all')} — {t('city_search')}</option>
-                        {AVAILABLE_CITIES.map(city => (
-                            <option key={city} value={city}>{city}</option>
-                        ))}
-                    </select>
+                    <div className="flex flex-col gap-2">
+                        <select
+                            value={filters.city}
+                            onChange={(e) => handleChange('city', e.target.value)}
+                            className="w-full border border-[var(--color-border)] rounded-xl p-2.5 text-sm bg-[var(--color-surface)] text-[var(--color-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-colors"
+                        >
+                            <option value="">İl — Tümü</option>
+                            {LOCATION_DATA.map(city => (
+                                <option key={city.id} value={city.name}>{city.name}</option>
+                            ))}
+                        </select>
+                        {selectedCity && selectedCity.districts && (
+                            <select
+                                value={filters.district}
+                                onChange={(e) => handleChange('district', e.target.value)}
+                                className="w-full border border-[var(--color-border)] rounded-xl p-2.5 text-sm bg-[var(--color-surface)] text-[var(--color-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-colors"
+                            >
+                                <option value="">İlçe — Tümü</option>
+                                {selectedCity.districts.map(dist => (
+                                    <option key={dist.id} value={dist.name}>{dist.name}</option>
+                                ))}
+                            </select>
+                        )}
+                        {selectedDistrict && selectedDistrict.neighborhoods && (
+                            <select
+                                value={filters.neighborhood}
+                                onChange={(e) => handleChange('neighborhood', e.target.value)}
+                                className="w-full border border-[var(--color-border)] rounded-xl p-2.5 text-sm bg-[var(--color-surface)] text-[var(--color-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-colors"
+                            >
+                                <option value="">Mahalle — Tümü</option>
+                                {selectedDistrict.neighborhoods.map(neigh => (
+                                    <option key={neigh.id} value={neigh.name}>{neigh.name}</option>
+                                ))}
+                            </select>
+                        )}
+                        {selectedNeighborhood && selectedNeighborhood.streets && (
+                            <select
+                                value={filters.street}
+                                onChange={(e) => handleChange('street', e.target.value)}
+                                className="w-full border border-[var(--color-border)] rounded-xl p-2.5 text-sm bg-[var(--color-surface)] text-[var(--color-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-colors"
+                            >
+                                <option value="">Sokak/Cadde — Tümü</option>
+                                {selectedNeighborhood.streets.map(street => (
+                                    <option key={street.id} value={street.name}>{street.name}</option>
+                                ))}
+                            </select>
+                        )}
+                    </div>
                 </Section>
 
                 {/* Price - always visible */}
@@ -334,9 +394,9 @@ export default function FilterSidebar() {
                         </Section>
                         <Section id="elec_condition" title="Durumu" icon={ShieldCheck}>
                             <div className="grid grid-cols-2 gap-2">
-                                <ToggleButton label={t('all')} active={true} onClick={() => { }} />
-                                <ToggleButton label="Sıfır" active={false} onClick={() => { }} />
-                                <ToggleButton label="İkinci El" active={false} onClick={() => { }} />
+                                <ToggleButton label={t('all')} active={filters.condition === ''} onClick={() => handleChange('condition', '')} />
+                                <ToggleButton label="Sıfır" active={filters.condition === 'Sıfır'} onClick={() => handleChange('condition', 'Sıfır')} />
+                                <ToggleButton label="İkinci El" active={filters.condition === 'İkinci El'} onClick={() => handleChange('condition', 'İkinci El')} />
                             </div>
                         </Section>
                     </>

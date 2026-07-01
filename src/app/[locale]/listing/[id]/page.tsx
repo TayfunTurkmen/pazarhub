@@ -1,4 +1,4 @@
-import { getListingById } from '@/services/mockData';
+import { getListingById } from '@/services/serverData';
 import { notFound } from 'next/navigation';
 import ListingDetailClient from '@/components/listing/ListingDetailClient';
 import { getMessages } from 'next-intl/server';

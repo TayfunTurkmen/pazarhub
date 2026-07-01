@@ -1,62 +1,55 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User } from '@/types';
-import * as authService from '@/services/auth';
-
-interface AuthContextType {
-    user: User | null;
-    isAuthenticated: boolean;
-    login: (email: string, pass: string) => Promise<boolean>;
-    logout: () => void;
-    register: (data: any) => Promise<void>;
-}
-
-const AuthContext = createContext<AuthContextType>({
-    user: null,
-    isAuthenticated: false,
-    login: async () => false,
-    logout: () => { },
-    register: async () => { },
-});
+import { SessionProvider, signIn, signOut, useSession } from 'next-auth/react';
+import { RegisterInput, User } from '@/types';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [user, setUser] = useState<User | null>(null);
-
-    // Check for persisted user on mount (mock)
-    useEffect(() => {
-        const stored = localStorage.getItem('sahibinden_user');
-        if (stored) {
-            setUser(JSON.parse(stored));
-        }
-    }, []);
-
-    const login = async (email: string, pass: string) => {
-        const u = await authService.login(email, pass);
-        if (u) {
-            setUser(u);
-            localStorage.setItem('sahibinden_user', JSON.stringify(u));
-            return true;
-        }
-        return false;
-    };
-
-    const logout = () => {
-        setUser(null);
-        localStorage.removeItem('sahibinden_user');
-    };
-
-    const register = async (data: any) => {
-        const u = await authService.register(data);
-        setUser(u);
-        localStorage.setItem('sahibinden_user', JSON.stringify(u));
-    };
-
-    return (
-        <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout, register }}>
-            {children}
-        </AuthContext.Provider>
-    );
+    return <SessionProvider>{children}</SessionProvider>;
 }
 
-export const useAuth = () => useContext(AuthContext);
+export function useAuth() {
+    const { data: session, status } = useSession();
+
+    const user: User | null = session?.user
+        ? {
+              id: session.user.id,
+              name: session.user.name ?? '',
+              email: session.user.email ?? '',
+              avatar: session.user.image ?? undefined,
+              type: 'individual',
+              role: session.user.role === 'admin' ? 'admin' : 'user',
+          }
+        : null;
+
+    return {
+        user,
+        isAuthenticated: Boolean(session?.user),
+        isLoading: status === 'loading',
+        login: async (email: string, password: string) => {
+            const result = await signIn('credentials', {
+                email: email.toLowerCase(),
+                password,
+                redirect: false,
+            });
+            return !result?.error;
+        },
+        logout: () => signOut({ redirect: false }),
+        register: async (data: RegisterInput) => {
+            const res = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            const json = await res.json() as { success: boolean };
+            if (!res.ok || !json.success) {
+                throw new Error('REGISTER_FAILED');
+            }
+            const result = await signIn('credentials', {
+                email: data.email.toLowerCase(),
+                password: data.password,
+                redirect: false,
+            });
+            if (result?.error) throw new Error('REGISTER_LOGIN_FAILED');
+        },
+    };
+}

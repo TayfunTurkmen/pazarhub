@@ -1,0 +1,207 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserType {
+  INDIVIDUAL
+  CORPORATE
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  BANNED
+  PENDING
+}
+
+enum Currency {
+  TL
+  USD
+  EUR
+  GBP
+}
+
+enum ListingStatus {
+  ACTIVE
+  PASSIVE
+  SOLD
+  PENDING
+  REJECTED
+}
+
+enum ListingTier {
+  STANDARD
+  PREMIUM
+  SHOWCASE
+}
+
+enum ListingType {
+  SALE
+  RENT
+}
+
+model User {
+  id            String     @id @default(cuid())
+  name          String
+  email         String     @unique
+  emailVerified DateTime?
+  passwordHash  String?
+  image         String?
+  phone         String?
+  type          UserType   @default(INDIVIDUAL)
+  role          Role       @default(USER)
+  storeName     String?
+  verified      Boolean    @default(false)
+  status        UserStatus @default(PENDING)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  listings      Listing[]
+  favorites     Favorite[]
+  sentMessages  Message[]  @relation("SentMessages")
+  participants  ConversationParticipant[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Category {
+  id       String     @id
+  name     String
+  slug     String     @unique
+  parentId String?
+  icon     String?
+  parent   Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryTree")
+  listings Listing[]
+}
+
+model Listing {
+  id           String        @id @default(cuid())
+  title        String
+  description  String        @db.Text
+  price        Decimal       @db.Decimal(14, 2)
+  currency     Currency      @default(TL)
+  status       ListingStatus @default(ACTIVE)
+  featured     Boolean       @default(false)
+  tier         ListingTier   @default(STANDARD)
+  listingType  ListingType?
+  roomCount    String?
+  netArea      Int?
+  floor        Int?
+  heating      String?
+  city         String
+  district     String
+  neighborhood String?
+  street       String?
+  lat          Float?
+  lng          Float?
+  attributes   Json          @default("{}")
+  categoryId   String
+  sellerId     String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  category      Category       @relation(fields: [categoryId], references: [id])
+  seller        User           @relation(fields: [sellerId], references: [id])
+  images        ListingImage[]
+  favorites     Favorite[]
+  conversations Conversation[]
+}
+
+model ListingImage {
+  id        String  @id @default(cuid())
+  url       String
+  order     Int     @default(0)
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+}
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  listingId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, listingId])
+}
+
+model Conversation {
+  id        String   @id @default(cuid())
+  listingId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  listing      Listing                   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  participants ConversationParticipant[]
+  messages     Message[]
+}
+
+model ConversationParticipant {
+  id             String @id @default(cuid())
+  conversationId String
+  userId         String
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([conversationId, userId])
+}
+
+model Message {
+  id             String    @id @default(cuid())
+  conversationId String
+  senderId       String
+  body           String    @db.Text
+  readAt         DateTime?
+  createdAt      DateTime  @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User         @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+}

@@ -83,6 +83,7 @@ export default function LoginPage() {
                     <p className="text-xs font-semibold text-[var(--color-foreground)] mb-1.5">{t('demo_accounts')}</p>
                     <div className="space-y-1 text-xs text-[var(--color-muted)]">
                         <p>👤 demo@example.com / demo</p>
+                        <p>🏢 corporate@example.com / corporate</p>
                         <p>🛡️ admin@example.com / admin</p>
                     </div>
                 </div>

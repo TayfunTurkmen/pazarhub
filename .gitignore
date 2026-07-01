@@ -39,3 +39,25 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
+
+# uploads
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# prisma generated client
+/src/generated/
+
+# playwright
+/playwright-report/
+/test-results/
+
+# local debug artifacts
+build-log.txt
+eslint-*.json
+eslint-*.txt
+lint*.txt
+parse-eslint.js
+tsc-out.txt
+typescript-errors.txt

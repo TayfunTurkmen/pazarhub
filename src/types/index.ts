@@ -8,8 +8,27 @@ export interface User {
     phone?: string;
     type: 'individual' | 'corporate';
     role?: 'user' | 'admin';
-    storeName?: string; // If corporate
+    storeName?: string;
     verified?: boolean;
+    status?: 'active' | 'banned' | 'pending';
+    joinedAt?: string;
+}
+
+export interface RegisterInput {
+    type: 'individual' | 'corporate';
+    email: string;
+    name: string;
+    password: string;
+    phone?: string;
+    storeName?: string;
+}
+
+export interface PaginatedResult<T> {
+    items: T[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
 }
 
 export interface Category {
@@ -24,6 +43,9 @@ export interface Location {
     city: string;
     district: string;
     neighborhood?: string;
+    street?: string;
+    lat?: number;
+    lng?: number;
 }
 
 export interface Listing {
@@ -39,7 +61,7 @@ export interface Listing {
     seller: User;
     createdAt: string;
     updatedAt: string;
-    status: 'active' | 'passive' | 'sold';
+    status: 'active' | 'passive' | 'sold' | 'pending' | 'rejected';
     featured: boolean;
     listingType?: 'sale' | 'rent';
     tier?: 'standard' | 'premium' | 'showcase'; // doping tier
@@ -56,6 +78,9 @@ export interface FilterState {
     minPrice?: number;
     maxPrice?: number;
     city?: string;
+    district?: string;
+    neighborhood?: string;
+    street?: string;
     query?: string;
     listingId?: string;
     sellerName?: string;
@@ -65,5 +90,34 @@ export interface FilterState {
     maxArea?: number;
     floor?: string[];
     heating?: string;
+    fuel?: string;
+    gear?: string;
+    year?: string;
+    brand?: string;
+    condition?: string;
     sort?: 'newest' | 'price_asc' | 'price_desc';
+    page?: number;
+    limit?: number;
+    status?: Listing['status'];
+    adminAll?: boolean;
+}
+
+export interface Message {
+    id: string;
+    conversationId: string;
+    senderId: string;
+    senderName: string;
+    body: string;
+    readAt?: string;
+    createdAt: string;
+}
+
+export interface Conversation {
+    id: string;
+    listingId: string;
+    listingTitle: string;
+    otherUserName: string;
+    lastMessage?: string;
+    lastMessageAt?: string;
+    unread: boolean;
 }
