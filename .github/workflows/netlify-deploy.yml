@@ -1,0 +1,40 @@
+name: Deploy to Netlify
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/production-saas-infrastructure
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          AUTH_URL: https://sahibindenkonutal.netlify.app
+          NEXTAUTH_URL: https://sahibindenkonutal.netlify.app
+          NEXT_PUBLIC_APP_URL: https://sahibindenkonutal.netlify.app
+          NEXT_PUBLIC_APP_NAME: SahibindenKonutal
+
+      - name: Deploy to Netlify
+        run: npx netlify-cli deploy --prod
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

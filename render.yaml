@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: sahibindenkonutal
+    runtime: node
+    plan: free
+    branch: feat/production-saas-infrastructure
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /tr
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: AUTH_SECRET
+        generateValue: true
+      - key: NEXTAUTH_SECRET
+        generateValue: true
+      - key: AUTH_URL
+        value: https://sahibindenkonutal.onrender.com
+      - key: NEXTAUTH_URL
+        value: https://sahibindenkonutal.onrender.com
+      - key: NEXT_PUBLIC_APP_URL
+        value: https://sahibindenkonutal.onrender.com
+      - key: NEXT_PUBLIC_APP_NAME
+        value: SahibindenKonutal
