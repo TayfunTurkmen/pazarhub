@@ -61,3 +61,7 @@ lint*.txt
 parse-eslint.js
 tsc-out.txt
 typescript-errors.txt
+.vercel
+
+# Local Netlify folder
+.netlify
