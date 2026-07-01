@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
-import { Settings, Save, CheckCircle, Globe, Bell, Shield, Database, Palette } from 'lucide-react';
+import { Save, CheckCircle, Globe, Bell, Shield, Database, Palette } from 'lucide-react';
 
 export default function AdminSettingsPage() {
     const [saved, setSaved] = useState(false);
@@ -31,7 +31,7 @@ export default function AdminSettingsPage() {
         setTimeout(() => setSaved(false), 3000);
     };
 
-    const updateSetting = (key: string, value: any) => {
+    const updateSetting = (key: string, value: string | boolean) => {
         setSettings(prev => ({ ...prev, [key]: value }));
     };
 
@@ -131,7 +131,7 @@ export default function AdminSettingsPage() {
                                 <p className="text-xs text-[var(--color-muted)]">{item.desc}</p>
                             </div>
                             <label className="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" checked={(settings as any)[item.key]} onChange={e => updateSetting(item.key, e.target.checked)} className="sr-only peer" />
+                                <input type="checkbox" checked={(settings as Record<string, string | boolean>)[item.key] as boolean} onChange={e => updateSetting(item.key, e.target.checked)} className="sr-only peer" />
                                 <div className="w-11 h-6 bg-[var(--color-border)] peer-focus:ring-2 peer-focus:ring-[var(--color-primary)]/20 rounded-full peer peer-checked:bg-[var(--color-primary)] transition-colors after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full" />
                             </label>
                         </div>

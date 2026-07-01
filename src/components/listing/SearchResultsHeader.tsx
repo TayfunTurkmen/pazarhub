@@ -3,20 +3,25 @@
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
-import { ArrowUpDown, LayoutGrid, List } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowUpDown, LayoutGrid, List, Map as MapIcon } from 'lucide-react';
 
 export default function SearchResultsHeader({ count }: { count: number }) {
     const router = useRouter();
     const searchParams = useSearchParams();
     const t = useTranslations('Search');
-    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+    const viewMode = searchParams.get('view') || 'grid';
 
     const currentSort = searchParams.get('sort') || 'newest';
 
     const handleSort = (sort: string) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('sort', sort);
+        router.replace(`?${params.toString()}`);
+    };
+
+    const handleViewMode = (mode: string) => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set('view', mode);
         router.replace(`?${params.toString()}`);
     };
 
@@ -45,18 +50,27 @@ export default function SearchResultsHeader({ count }: { count: number }) {
                 </div>
 
                 {/* View Toggle */}
-                <div className="flex border border-[var(--color-border)] rounded-xl overflow-hidden">
+                <div className="flex border border-[var(--color-border)] rounded-xl overflow-hidden bg-[var(--color-surface)]">
                     <button
-                        onClick={() => setViewMode('grid')}
-                        className={`p-2 ${viewMode === 'grid' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-muted)] hover:bg-[var(--color-surface-elevated)]'} transition-colors`}
+                        onClick={() => handleViewMode('grid')}
+                        className={`p-2.5 ${viewMode === 'grid' ? 'bg-[var(--color-primary)] text-white shadow-inner' : 'text-[var(--color-muted)] hover:bg-[var(--color-surface-elevated)]'} transition-colors`}
+                        title="Izgara Görünümü"
                     >
                         <LayoutGrid size={16} />
                     </button>
                     <button
-                        onClick={() => setViewMode('list')}
-                        className={`p-2 ${viewMode === 'list' ? 'bg-[var(--color-primary)] text-white' : 'text-[var(--color-muted)] hover:bg-[var(--color-surface-elevated)]'} transition-colors`}
+                        onClick={() => handleViewMode('list')}
+                        className={`p-2.5 border-l border-[var(--color-border)] ${viewMode === 'list' ? 'bg-[var(--color-primary)] text-white shadow-inner' : 'text-[var(--color-muted)] hover:bg-[var(--color-surface-elevated)]'} transition-colors`}
+                        title="Liste Görünümü"
                     >
                         <List size={16} />
+                    </button>
+                    <button
+                        onClick={() => handleViewMode('map')}
+                        className={`p-2.5 border-l border-[var(--color-border)] ${viewMode === 'map' ? 'bg-[var(--color-primary)] text-white shadow-inner' : 'text-[var(--color-muted)] hover:bg-[var(--color-surface-elevated)]'} transition-colors`}
+                        title="Harita Görünümü"
+                    >
+                        <MapIcon size={16} />
                     </button>
                 </div>
             </div>

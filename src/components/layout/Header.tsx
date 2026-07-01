@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Search, User, UserPlus, PlusCircle, Menu, X, ChevronDown, LayoutDashboard, Heart, MessageSquare, Settings, LogOut, Shield } from 'lucide-react';
+import { Search, User, UserPlus, PlusCircle, Menu, X, ChevronDown, LayoutDashboard, Heart, MessageSquare, Settings, LogOut, Shield, Store } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { ModeToggle } from '@/components/mode-toggle';
@@ -179,6 +179,11 @@ function UserActions({ mobile }: { mobile?: boolean }) {
                         <Link href="/dashboard" className="flex items-center gap-1.5 text-sm text-[var(--color-foreground)] border border-[var(--color-border)] py-2.5 px-3 rounded-xl justify-center">
                             <LayoutDashboard size={14} /> Panelim
                         </Link>
+                        {user.type === 'corporate' && (
+                            <Link href={`/seller/${user.id}`} className="flex items-center gap-1.5 text-sm text-[var(--color-primary)] border border-[var(--color-primary)]/30 py-2.5 px-3 rounded-xl justify-center">
+                                <Store size={14} /> Mağazam
+                            </Link>
+                        )}
                         {user.role === 'admin' && (
                             <Link href="/admin" className="flex items-center gap-1.5 text-sm text-[var(--color-primary)] border border-[var(--color-primary)]/30 py-2.5 px-3 rounded-xl justify-center">
                                 <Shield size={14} /> Admin
@@ -224,6 +229,11 @@ function UserActions({ mobile }: { mobile?: boolean }) {
                             <Link href="/dashboard?tab=messages" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[var(--color-foreground)] hover:bg-[var(--color-surface-elevated)] rounded-xl transition-colors">
                                 <MessageSquare size={16} className="text-[var(--color-muted)]" /> Mesajlarım
                             </Link>
+                            {user.type === 'corporate' && (
+                                <Link href={`/seller/${user.id}`} onClick={() => setDropdownOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 rounded-xl transition-colors">
+                                    <Store size={16} /> Mağazam
+                                </Link>
+                            )}
                             {user.role === 'admin' && (
                                 <Link href="/admin" onClick={() => setDropdownOpen(false)} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 rounded-xl transition-colors">
                                     <Shield size={16} /> Admin Paneli

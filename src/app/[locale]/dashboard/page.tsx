@@ -1,31 +1,42 @@
 'use client';
 
 import { Link } from '@/i18n/navigation';
-import { LISTINGS } from '@/services/mockData';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
-import { Edit, Trash2, MessageSquare, Eye, PlusCircle, Settings, Heart, BarChart3, User, Shield, Bell, Lock, Save, Star, Clock, ArrowRight } from 'lucide-react';
+import { Edit, Trash2, MessageSquare, Eye, PlusCircle, Settings, Heart, BarChart3, User, Shield, Bell, Lock, Save, Star, ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/AuthContext';
+import RouteGuard from '@/components/auth/RouteGuard';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { Listing, Conversation } from '@/types';
 
 type Tab = 'listings' | 'messages' | 'favorites' | 'settings';
+
+interface DashboardMessage {
+    id: number;
+    name: string;
+    message: string;
+    time: string;
+    listing: string;
+    unread: boolean;
+}
 
 export default function DashboardPage() {
     const t = useTranslations('Common');
     const tDash = useTranslations('Dashboard');
     const { user } = useAuth();
     const searchParams = useSearchParams();
-    const myListings = LISTINGS.filter(l => l.seller.id === 'u1');
+    const [myListings, setMyListings] = useState<Listing[]>([]);
+    const [favoriteListings, setFavoriteListings] = useState<Listing[]>([]);
+    const [conversations, setConversations] = useState<Conversation[]>([]);
+    const [loadingListings, setLoadingListings] = useState(true);
     const [activeTab, setActiveTab] = useState<Tab>('listings');
     const [settingsSaved, setSettingsSaved] = useState(false);
-
-    // Modal states
-    const [selectedMessage, setSelectedMessage] = useState<any>(null);
-    const [editingListing, setEditingListing] = useState<any>(null);
+    const [selectedMessage, setSelectedMessage] = useState<DashboardMessage | null>(null);
+    const [editingListing, setEditingListing] = useState<Listing | null>(null);
 
     useEffect(() => {
         const tab = searchParams.get('tab') as Tab;
@@ -34,22 +45,38 @@ export default function DashboardPage() {
         }
     }, [searchParams]);
 
+    useEffect(() => {
+        if (!user?.id) return;
+        setLoadingListings(true);
+        Promise.all([
+            fetch(`/api/users/${user.id}/listings`).then((res) => res.json()),
+            fetch('/api/favorites').then((res) => res.json()),
+            fetch('/api/conversations').then((res) => res.json()),
+        ])
+            .then(([listingsRes, favoritesRes, conversationsRes]) => {
+                if (listingsRes.success) setMyListings(listingsRes.data);
+                if (favoritesRes.success) setFavoriteListings(favoritesRes.data);
+                if (conversationsRes.success) setConversations(conversationsRes.data);
+            })
+            .finally(() => setLoadingListings(false));
+    }, [user?.id]);
+
     const stats = [
         { label: tDash('active_count'), value: myListings.length, icon: BarChart3, color: 'text-blue-500' },
         { label: tDash('views'), value: 1247, icon: Eye, color: 'text-emerald-500' },
-        { label: tDash('favorites_count'), value: 34, icon: Heart, color: 'text-rose-500' },
-        { label: tDash('messages_count'), value: 8, icon: MessageSquare, color: 'text-violet-500' },
+        { label: tDash('favorites_count'), value: favoriteListings.length, icon: Heart, color: 'text-rose-500' },
+        { label: tDash('messages_count'), value: conversations.filter((c) => c.unread).length, icon: MessageSquare, color: 'text-violet-500' },
     ];
 
-    const mockMessages = [
-        { id: 1, name: 'Mehmet K.', message: tDash('sample_msg_1'), time: tDash('time_10min'), listing: 'Kadıköy 3+1 Daire', unread: true },
-        { id: 2, name: 'Ayşe B.', message: tDash('sample_msg_2'), time: tDash('time_1hr'), listing: 'BMW 320i 2022', unread: true },
-        { id: 3, name: 'Ali R.', message: 'Ürün hala satılık mı?', time: '3 saat önce', listing: 'Samsung Galaxy S24', unread: false },
-        { id: 4, name: 'Fatma D.', message: 'Fiyatta pazarlık payı var mı?', time: '1 gün önce', listing: 'Volkswagen Golf', unread: false },
-        { id: 5, name: 'Emre S.', message: 'İlan açıklamasını inceledim, birkaç sorum olacak.', time: '2 gün önce', listing: 'Kadıköy Daire', unread: false },
-    ];
-
-    const mockFavorites = LISTINGS.slice(0, 6);
+    const mockMessages = conversations.map((c, index) => ({
+        id: index + 1,
+        name: c.otherUserName,
+        message: c.lastMessage ?? '',
+        time: c.lastMessageAt ? new Date(c.lastMessageAt).toLocaleString('tr-TR') : '',
+        listing: c.listingTitle,
+        unread: c.unread,
+        conversationId: c.id,
+    }));
 
     const handleSaveSettings = () => {
         setSettingsSaved(true);
@@ -58,12 +85,13 @@ export default function DashboardPage() {
 
     const tabs: { key: Tab; label: string; icon: React.ElementType; badge?: number }[] = [
         { key: 'listings', label: t('my_listings'), icon: BarChart3 },
-        { key: 'messages', label: t('messages'), icon: MessageSquare, badge: 2 },
+        { key: 'messages', label: t('messages'), icon: MessageSquare, badge: conversations.filter((c) => c.unread).length || undefined },
         { key: 'favorites', label: t('favorites'), icon: Heart },
         { key: 'settings', label: t('settings'), icon: Settings },
     ];
 
     return (
+        <RouteGuard requireAuth>
         <div className="space-y-8">
             {/* Header */}
             <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-5">
@@ -136,7 +164,9 @@ export default function DashboardPage() {
                     {activeTab === 'listings' && (
                         <Card className="p-6">
                             <h2 className="text-lg font-bold mb-4 text-[var(--color-foreground)]">{t('active_listings')}</h2>
-                            {myListings.length > 0 ? (
+                            {loadingListings ? (
+                                <p className="text-sm text-[var(--color-muted)]">{t('loading')}</p>
+                            ) : myListings.length > 0 ? (
                                 <div className="space-y-4">
                                     {myListings.map(listing => (
                                         <div key={listing.id} className="flex gap-4 border border-[var(--color-border)] p-3 rounded-xl hover:bg-[var(--color-surface-elevated)] transition-colors">
@@ -149,10 +179,10 @@ export default function DashboardPage() {
                                                 <div className="flex gap-2 text-xs">
                                                     <span className="bg-emerald-500/10 text-emerald-600 px-2 py-0.5 rounded-full font-medium">{t('active')}</span>
                                                     <span className="text-[var(--color-muted)] flex items-center gap-1">
-                                                        <Eye size={12} /> {Math.floor(Math.random() * 500) + 50}
+                                                        <Eye size={12} /> {124}
                                                     </span>
                                                     <span className="text-[var(--color-muted)] flex items-center gap-1">
-                                                        <Heart size={12} /> {Math.floor(Math.random() * 30) + 2}
+                                                        <Heart size={12} /> {14}
                                                     </span>
                                                 </div>
                                             </div>
@@ -178,8 +208,9 @@ export default function DashboardPage() {
                     {activeTab === 'messages' && (
                         <Card className="p-6">
                             <h2 className="text-lg font-bold mb-4 text-[var(--color-foreground)]">{t('messages')}</h2>
-                            <div className="space-y-2">
-                                {mockMessages.map((msg) => (
+                            {mockMessages.length > 0 ? (
+                                <div className="space-y-2">
+                                    {mockMessages.map((msg) => (
                                     <div key={msg.id} onClick={() => setSelectedMessage(msg)} className={`flex items-center gap-3 p-3 border border-[var(--color-border)] rounded-xl cursor-pointer transition-all hover:shadow-md ${msg.unread ? 'bg-[var(--color-primary)]/5 border-[var(--color-primary)]/20' : 'hover:bg-[var(--color-surface-elevated)]'}`}>
                                         <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${msg.unread ? 'bg-[var(--color-primary)]/15' : 'bg-[var(--color-surface-elevated)]'}`}>
                                             <MessageSquare size={16} className={msg.unread ? 'text-[var(--color-primary)]' : 'text-[var(--color-muted)]'} />
@@ -198,8 +229,11 @@ export default function DashboardPage() {
                                             <span className="text-xs text-[var(--color-muted)]">{msg.time}</span>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="text-sm text-[var(--color-muted)]">{tDash('no_messages')}</p>
+                            )}
                         </Card>
                     )}
 
@@ -207,9 +241,9 @@ export default function DashboardPage() {
                     {activeTab === 'favorites' && (
                         <Card className="p-6">
                             <h2 className="text-lg font-bold mb-4 text-[var(--color-foreground)]">{t('favorites')}</h2>
-                            {mockFavorites.length > 0 ? (
+                            {favoriteListings.length > 0 ? (
                                 <div className="space-y-3">
-                                    {mockFavorites.map(listing => (
+                                    {favoriteListings.map(listing => (
                                         <div key={listing.id} className="flex gap-4 border border-[var(--color-border)] p-3 rounded-xl hover:bg-[var(--color-surface-elevated)] transition-colors">
                                             <div className="w-20 h-20 bg-[var(--color-surface-elevated)] rounded-xl flex-shrink-0 overflow-hidden relative">
                                                 <Image src={listing.images[0]} alt={listing.title} fill className="object-cover" sizes="80px" />
@@ -371,5 +405,6 @@ export default function DashboardPage() {
                 </div>
             )}
         </div>
+        </RouteGuard>
     );
 }

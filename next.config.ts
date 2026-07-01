@@ -1,11 +1,11 @@
 import createNextIntlPlugin from 'next-intl/plugin';
+import type { NextConfig } from 'next';
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
     experimental: {
-        optimizePackageImports: ['lucide-react', 'date-fns', 'lodash'],
+        optimizePackageImports: ['lucide-react'],
     },
     images: {
         remotePatterns: [
@@ -17,7 +17,7 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'i.pravatar.cc',
             },
-        ] as any, // Temporary fix for type mismatch
+        ],
     },
 };
 
