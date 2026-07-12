@@ -9,6 +9,9 @@ let prismaDb: IDatabase | null = null;
 
 function getDb(): IDatabase {
     if (!isDatabaseEnabled()) {
+        if (process.env.NODE_ENV === 'production') {
+            throw new Error('[database] DATABASE_URL is required in production');
+        }
         return mockDb;
     }
     if (!prismaDb) {

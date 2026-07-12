@@ -1,13 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
-import { Save, CheckCircle, Globe, Bell, Shield, Database, Palette } from 'lucide-react';
+import { Save, CheckCircle, Globe, Bell, Shield, Database, Palette, KeyRound } from 'lucide-react';
+
+interface AuthSettingsState {
+    smsVerificationEnabled: boolean;
+    googleAuthEnabled: boolean;
+    facebookAuthEnabled: boolean;
+}
 
 export default function AdminSettingsPage() {
     const [saved, setSaved] = useState(false);
+    const [authSettings, setAuthSettings] = useState<AuthSettingsState>({
+        smsVerificationEnabled: false,
+        googleAuthEnabled: true,
+        facebookAuthEnabled: true,
+    });
     const [settings, setSettings] = useState({
         siteName: 'SahibindenKonutAl',
         siteDesc: 'Türkiye\'nin güvenilir ilan platformu',
@@ -25,10 +36,32 @@ export default function AdminSettingsPage() {
         showcasePrice: '499',
     });
 
-    const handleSave = () => {
+    useEffect(() => {
+        fetch('/api/admin/auth-settings')
+            .then((r) => r.json())
+            .then((data: { data?: AuthSettingsState }) => {
+                if (data.data) setAuthSettings(data.data);
+            })
+            .catch(() => undefined);
+    }, []);
+
+    const handleSave = async () => {
         localStorage.setItem('adminSettings', JSON.stringify(settings));
+        try {
+            await fetch('/api/admin/auth-settings', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(authSettings),
+            });
+        } catch {
+            // local settings still saved
+        }
         setSaved(true);
         setTimeout(() => setSaved(false), 3000);
+    };
+
+    const updateAuthSetting = (key: keyof AuthSettingsState, value: boolean) => {
+        setAuthSettings((prev) => ({ ...prev, [key]: value }));
     };
 
     const updateSetting = (key: string, value: string | boolean) => {
@@ -112,6 +145,52 @@ export default function AdminSettingsPage() {
                         <Input type="number" value={settings.showcasePrice} onChange={e => updateSetting('showcasePrice', e.target.value)} />
                     </div>
                 </div>
+            </Card>
+
+            {/* Auth Settings */}
+            <Card className="p-6">
+                <div className="flex items-center gap-2 mb-5">
+                    <KeyRound size={18} className="text-[var(--color-primary)]" />
+                    <h2 className="text-lg font-bold text-[var(--color-foreground)]">Giriş & Kayıt Ayarları</h2>
+                </div>
+                <div className="space-y-3">
+                    {[
+                        {
+                            key: 'smsVerificationEnabled' as const,
+                            label: 'SMS Doğrulama',
+                            desc: 'Açıkken girişte SMS kodu istenir. Kapalıyken telefon ile anında giriş yapılır.',
+                        },
+                        {
+                            key: 'googleAuthEnabled' as const,
+                            label: 'Google ile Giriş',
+                            desc: 'Google OAuth butonunu giriş/kayıt sayfalarında göster',
+                        },
+                        {
+                            key: 'facebookAuthEnabled' as const,
+                            label: 'Facebook ile Giriş',
+                            desc: 'Facebook OAuth butonunu giriş/kayıt sayfalarında göster',
+                        },
+                    ].map((item) => (
+                        <div key={item.key} className="flex items-center justify-between p-3 rounded-xl border border-[var(--color-border)]">
+                            <div>
+                                <p className="text-sm font-medium text-[var(--color-foreground)]">{item.label}</p>
+                                <p className="text-xs text-[var(--color-muted)]">{item.desc}</p>
+                            </div>
+                            <label className="relative inline-flex items-center cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    checked={authSettings[item.key]}
+                                    onChange={(e) => updateAuthSetting(item.key, e.target.checked)}
+                                    className="sr-only peer"
+                                />
+                                <div className="w-11 h-6 bg-[var(--color-border)] peer-focus:ring-2 peer-focus:ring-[var(--color-primary)]/20 rounded-full peer peer-checked:bg-[var(--color-primary)] transition-colors after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full" />
+                            </label>
+                        </div>
+                    ))}
+                </div>
+                <p className="mt-4 text-xs text-[var(--color-muted)]">
+                    Admin girişi: 05001234567 + SMS kodu 1337 (SMS doğrulama açık olsa bile geçerlidir).
+                </p>
             </Card>
 
             {/* Notifications */}

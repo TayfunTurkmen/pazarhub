@@ -200,6 +200,13 @@ class PrismaUserRepository implements IUserRepository {
     return row ? mapUser(row) : null;
   }
 
+  async getByPhone(phone: string): Promise<User | null> {
+    const { normalizePhone } = await import('@/lib/phone');
+    const normalized = normalizePhone(phone);
+    const row = await prisma.user.findFirst({ where: { phone: normalized } });
+    return row ? mapUser(row) : null;
+  }
+
   async create(user: Omit<User, 'id'>): Promise<User> {
     const row = await prisma.user.create({
       data: {
@@ -237,12 +244,32 @@ class PrismaUserRepository implements IUserRepository {
     return mapUser(row);
   }
 
+  async registerByPhone(phone: string, name?: string): Promise<User> {
+    const { normalizePhone, phoneToEmail } = await import('@/lib/phone');
+    const normalized = normalizePhone(phone);
+    const existing = await this.getByPhone(normalized);
+    if (existing) return existing;
+
+    const row = await prisma.user.create({
+      data: {
+        name: name ?? `Kullanıcı ${normalized.slice(-4)}`,
+        email: phoneToEmail(normalized),
+        phone: normalized,
+        type: 'INDIVIDUAL',
+        status: 'ACTIVE',
+        verified: true,
+      },
+    });
+    return mapUser(row);
+  }
+
   async update(id: string, data: Partial<User>): Promise<User | null> {
     const row = await prisma.user.update({
       where: { id },
       data: {
         name: data.name,
         phone: data.phone,
+        role: data.role === 'admin' ? 'ADMIN' : data.role === 'user' ? 'USER' : undefined,
         status: data.status?.toUpperCase() as 'ACTIVE' | 'BANNED' | 'PENDING' | undefined,
         verified: data.verified,
         storeName: data.storeName,
@@ -253,7 +280,7 @@ class PrismaUserRepository implements IUserRepository {
 
   async authenticate(email: string, password: string): Promise<User | null> {
     const row = await prisma.user.findUnique({ where: { email: email.toLowerCase() } });
-    if (!row?.passwordHash || row.status === 'BANNED') return null;
+    if (!row?.passwordHash || row.status !== 'ACTIVE') return null;
     const valid = await bcrypt.compare(password, row.passwordHash);
     return valid ? mapUser(row) : null;
   }

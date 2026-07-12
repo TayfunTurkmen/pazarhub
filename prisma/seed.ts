@@ -109,6 +109,19 @@ async function main() {
         });
     }
 
+    const authDefaults: [string, string][] = [
+        ['auth.smsVerificationEnabled', 'false'],
+        ['auth.googleAuthEnabled', 'true'],
+        ['auth.facebookAuthEnabled', 'true'],
+    ];
+    for (const [key, value] of authDefaults) {
+        await prisma.siteSetting.upsert({
+            where: { key },
+            update: { value },
+            create: { key, value },
+        });
+    }
+
     console.log(`Seeded ${CATEGORIES.length} categories, ${USERS.length} users, ${LISTINGS.length} listings.`);
     await prisma.$disconnect();
     await pool.end();

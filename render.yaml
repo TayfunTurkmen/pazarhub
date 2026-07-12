@@ -6,7 +6,7 @@ services:
     branch: feat/production-saas-infrastructure
     buildCommand: npm install && npm run build
     startCommand: npm start
-    healthCheckPath: /tr
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_VERSION
         value: "20"

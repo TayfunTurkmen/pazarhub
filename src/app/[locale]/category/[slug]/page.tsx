@@ -9,9 +9,13 @@ import { getMessages } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { notFound } from 'next/navigation';
-import { Search as SearchIcon, ChevronRight } from 'lucide-react';
+import { Search as SearchIcon, Building2 } from 'lucide-react';
 import MapWrapper from '@/components/listing/MapWrapper';
 import { parseFilterState } from '@/lib/filters';
+import PageBanner from '@/components/layout/PageBanner';
+import Breadcrumb from '@/components/layout/Breadcrumb';
+import EmptyState from '@/components/ui/EmptyState';
+
 export default async function CategoryPage({
     params,
     searchParams,
@@ -45,18 +49,17 @@ export default async function CategoryPage({
 
     return (
         <div className="space-y-6">
-            {/* Breadcrumb */}
-            <nav className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
-                <Link href="/" className="hover:text-[var(--color-primary)] transition-colors">Ana Sayfa</Link>
-                <ChevronRight size={14} />
-                {parentCategory && (
-                    <>
-                        <Link href={`/category/${parentCategory.slug}`} className="hover:text-[var(--color-primary)] transition-colors">{parentCategory.name}</Link>
-                        <ChevronRight size={14} />
-                    </>
-                )}
-                <span className="text-[var(--color-foreground)] font-medium">{category.name}</span>
-            </nav>
+            <PageBanner
+                icon={Building2}
+                title={category.name}
+                subtitle={parentCategory ? `${parentCategory.name} kategorisinde arama yapın` : 'Doğrulanmış ilanları keşfedin'}
+            />
+
+            <Breadcrumb items={[
+                { label: 'Ana Sayfa', href: '/' },
+                ...(parentCategory ? [{ label: parentCategory.name, href: `/category/${parentCategory.slug}` }] : []),
+                { label: category.name },
+            ]} />
 
             {/* Subcategories */}
             {subcategories.length > 0 && (
@@ -94,18 +97,14 @@ export default async function CategoryPage({
                             <>
                                 <div className={`grid gap-4 ${viewMode === 'list' ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'}`}>
                                     {listings.map((listing) => (
-                                        <ListingCard key={listing.id} listing={listing} />
+                                        <ListingCard key={listing.id} listing={listing} showVerified />
                                     ))}
                                 </div>
                                 <Pagination filter={filter} total={total} basePath={`/category/${slug}`} />
                             </>
                         )
                     ) : (
-                        <div className="bg-[var(--color-surface)] p-12 rounded-2xl text-center text-[var(--color-muted)] border border-[var(--color-border)]">
-                            <SearchIcon size={48} className="mx-auto mb-4 opacity-30" />
-                            <p className="text-lg font-medium mb-2 text-[var(--color-foreground)]">{t('no_results')}</p>
-                            <p className="text-sm">{t('try_different')}</p>
-                        </div>
+                        <EmptyState icon={SearchIcon} title={t('no_results')} description={t('try_different')} />
                     )}
                 </div>
             </div>

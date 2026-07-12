@@ -33,6 +33,17 @@ export function useAuth() {
             });
             return !result?.error;
         },
+        loginWithPhone: async (phone: string, code?: string, name?: string) => {
+            const result = await signIn('phone', {
+                phone,
+                code: code ?? '',
+                name: name ?? '',
+                redirect: false,
+            });
+            return !result?.error;
+        },
+        signInWithGoogle: () => signIn('google', { callbackUrl: '/dashboard' }),
+        signInWithFacebook: () => signIn('facebook', { callbackUrl: '/dashboard' }),
         logout: () => signOut({ redirect: false }),
         register: async (data: RegisterInput) => {
             const res = await fetch('/api/auth/register', {

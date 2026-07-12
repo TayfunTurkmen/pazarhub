@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { CATEGORIES } from '@/services/mockDb';
+import { CATEGORIES } from '@/services/mockData';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import Card from '@/components/ui/Card';
@@ -126,7 +126,7 @@ export default function PostAdWizard() {
                                         setFormData({ ...formData, category: category.id });
                                         handleNext();
                                     }}
-                                    className="p-4 border border-[var(--color-border)] rounded-lg text-left hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 transition-all flex justify-between items-center group"
+                                    className="p-4 border border-[var(--color-border)] rounded-xl text-left hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 transition-all flex justify-between items-center group"
                                 >
                                     <span className="font-medium text-[var(--color-foreground)] group-hover:text-[var(--color-primary)]">{category.name}</span>
                                     <ChevronRight size={16} className="text-[var(--color-muted)] group-hover:text-[var(--color-primary)] transition-colors" />
@@ -194,7 +194,7 @@ export default function PostAdWizard() {
                         <div>
                             <label className="block text-sm font-medium text-[var(--color-foreground)] mb-1">{t('description')}</label>
                             <textarea
-                                className="w-full border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-foreground)] placeholder:text-[var(--color-muted)] rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent h-32 transition-colors"
+                                className="w-full border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-foreground)] placeholder:text-[var(--color-muted)] rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] h-32 transition-colors"
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 placeholder={t('description_placeholder')}
@@ -203,7 +203,7 @@ export default function PostAdWizard() {
 
                         <div>
                             <label className="block text-sm font-medium text-[var(--color-foreground)] mb-1">{t('photos')}</label>
-                            <label className="border-2 border-dashed border-[var(--color-border)] rounded-lg p-8 text-center hover:border-[var(--color-primary)] transition-colors cursor-pointer block">
+                            <label className="border-2 border-dashed border-[var(--color-border)] rounded-2xl p-8 text-center hover:border-[var(--color-primary)] hover:bg-[var(--color-background)] transition-colors cursor-pointer block">
                                 <Upload size={32} className="mx-auto text-[var(--color-muted)] mb-2" />
                                 <p className="text-sm text-[var(--color-muted)]">{uploading ? t('uploading') : t('drag_drop')}</p>
                                 <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => handleImageUpload(e.target.files)} />
@@ -223,7 +223,7 @@ export default function PostAdWizard() {
                 {step === 3 && (
                     <div className="space-y-4">
                         <h2 className="text-lg font-bold mb-4 text-[var(--color-foreground)]">{t('preview_title')}</h2>
-                        <div className="bg-[var(--color-surface-elevated)] p-6 rounded-lg space-y-3 text-sm border border-[var(--color-border)]">
+                        <div className="bg-[var(--color-background)] p-6 rounded-2xl space-y-3 text-sm border border-[var(--color-border)]">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <span className="font-bold text-[var(--color-muted)] text-xs uppercase">{t('listing_title')}</span>

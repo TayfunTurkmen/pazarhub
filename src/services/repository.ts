@@ -20,8 +20,10 @@ export interface IUserRepository {
     getAll(): Promise<User[]>;
     getById(id: string): Promise<User | null>;
     getByEmail(email: string): Promise<User | null>;
+    getByPhone(phone: string): Promise<User | null>;
     create(user: Omit<User, 'id'>): Promise<User>;
     register(input: RegisterInput): Promise<User>;
+    registerByPhone(phone: string, name?: string): Promise<User>;
     update(id: string, data: Partial<User>): Promise<User | null>;
     authenticate(email: string, password: string): Promise<User | null>;
     getListingCount(userId: string): Promise<number>;

@@ -11,6 +11,8 @@ import { Search as SearchIcon, FolderOpen, ChevronRight, Hash, User, Store, Type
 import { Link } from '@/i18n/navigation';
 import MapWrapper from '@/components/listing/MapWrapper';
 import { parseFilterState } from '@/lib/filters';
+import PageBanner from '@/components/layout/PageBanner';
+import EmptyState from '@/components/ui/EmptyState';
 function getMatchingCategories(query: string) {
     if (!query) return [];
     const q = query.toLowerCase();
@@ -58,6 +60,13 @@ export default async function SearchPage({
 
     return (
         <div className="space-y-4">
+            <PageBanner
+                icon={SearchIcon}
+                title={t('results')}
+                subtitle="Güvenli arama ile doğrulanmış ilanları keşfedin"
+                badge="Doğrulanmış"
+            />
+
             {/* Advanced Search Form */}
             <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-6">
                 <div className="flex items-center gap-2 mb-4">
@@ -203,18 +212,14 @@ export default async function SearchPage({
                             <>
                                 <div className={`grid gap-4 ${viewMode === 'list' ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'}`}>
                                     {listings.map((listing) => (
-                                        <ListingCard key={listing.id} listing={listing} />
+                                        <ListingCard key={listing.id} listing={listing} showVerified />
                                     ))}
                                 </div>
                                 <Pagination filter={filter} total={total} basePath="/search" />
                             </>
                         )
                     ) : (
-                        <div className="bg-[var(--color-surface)] p-12 rounded-2xl text-center text-[var(--color-muted)] border border-[var(--color-border)]">
-                            <SearchIcon size={48} className="mx-auto mb-4 opacity-30" />
-                            <p className="text-lg font-medium mb-2 text-[var(--color-foreground)]">{t('no_results')}</p>
-                            <p className="text-sm">{t('try_different')}</p>
-                        </div>
+                        <EmptyState icon={SearchIcon} title={t('no_results')} description={t('try_different')} />
                     )}
                 </div>
             </div>

@@ -94,7 +94,7 @@ export default function DashboardPage() {
         <RouteGuard requireAuth>
         <div className="space-y-8">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-5">
+            <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-5 bg-gradient-to-r from-blue-900/5 to-transparent -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 py-4 rounded-2xl mb-2">
                 <div className="flex items-center gap-4">
                     <div className="w-14 h-14 rounded-2xl bg-[var(--color-primary)]/10 flex items-center justify-center">
                         <User size={24} className="text-[var(--color-primary)]" />

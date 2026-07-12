@@ -5,6 +5,8 @@ import { Listing } from '@/types';
 import { MapPin, Phone, MessageSquare, Calendar, ShieldCheck, ChevronLeft, ChevronRight, Heart, Share2, Tag } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
+import Breadcrumb from '@/components/layout/Breadcrumb';
+import SecurityNote from '@/components/ui/SecurityNote';
 import { Link, useRouter } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -74,13 +76,11 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
 
     return (
         <div className="space-y-6">
-            <nav className="flex items-center gap-2 text-sm text-[var(--color-muted)]">
-                <Link href="/" className="hover:text-[var(--color-primary)] transition-colors">{tCommon('back')}</Link>
-                <span>/</span>
-                <Link href="/search" className="hover:text-[var(--color-primary)] transition-colors">{listing.category.name}</Link>
-                <span>/</span>
-                <span className="text-[var(--color-foreground)] font-medium truncate max-w-[200px]">{listing.title}</span>
-            </nav>
+            <Breadcrumb items={[
+                { label: tCommon('back'), href: '/' },
+                { label: listing.category.name, href: `/category/${listing.category.slug}` },
+                { label: listing.title },
+            ]} />
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 space-y-6">
@@ -145,6 +145,11 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                             </Button>
                         </div>
 
+                        <SecurityNote
+                            title="Güvenli Mesajlaşma"
+                            description="Kişisel bilgilerinizi paylaşmadan önce satıcıyı doğrulayın."
+                        />
+
                         <div className="space-y-2 mb-6">
                             <textarea
                                 value={messageBody}
@@ -169,6 +174,12 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                                     <p className="text-xs text-[var(--color-muted)] capitalize">{listing.seller.type === 'corporate' ? t('corporate_member') : t('individual_member')}</p>
                                 </div>
                             </Link>
+                            {listing.seller.verified && (
+                                <div className="text-xs text-emerald-600 flex items-center gap-1 bg-emerald-500/10 px-3 py-1.5 rounded-full w-fit mt-2">
+                                    <ShieldCheck size={14} />
+                                    Doğrulanmış Satıcı
+                                </div>
+                            )}
                             {listing.seller.type === 'corporate' && (
                                 <div className="text-xs text-[var(--color-primary)] flex items-center gap-1 bg-[var(--color-primary)]/10 px-3 py-1.5 rounded-full w-fit">
                                     <ShieldCheck size={14} />

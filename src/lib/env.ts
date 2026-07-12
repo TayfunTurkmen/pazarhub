@@ -1,3 +1,45 @@
+import 'server-only';
+
+const isProduction = process.env.NODE_ENV === 'production';
+const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build';
+
+function warnIfMissing(name: string, value: string | undefined) {
+  if (!value && isProduction && !isBuildPhase) {
+    console.warn(`[env] Warning: ${name} is not set — related features may be degraded.`);
+  }
+}
+
+export const env = {
+  nodeEnv: process.env.NODE_ENV ?? 'development',
+  isProduction,
+  authSecret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET ?? '',
+  databaseUrl: process.env.DATABASE_URL ?? '',
+  upstashUrl: process.env.UPSTASH_REDIS_REST_URL ?? '',
+  upstashToken: process.env.UPSTASH_REDIS_REST_TOKEN ?? '',
+  blobToken: process.env.BLOB_READ_WRITE_TOKEN ?? '',
+} as const;
+
+warnIfMissing('AUTH_SECRET', env.authSecret);
+warnIfMissing('UPSTASH_REDIS_REST_URL', env.upstashUrl);
+warnIfMissing('UPSTASH_REDIS_REST_TOKEN', env.upstashToken);
+
 export function isDatabaseEnabled(): boolean {
-    return Boolean(process.env.DATABASE_URL);
+  return Boolean(env.databaseUrl);
+}
+
+/** Call at runtime startup (instrumentation) — not during build */
+export function validateProductionEnv(): void {
+  if (!isProduction) return;
+
+  const missing: string[] = [];
+  if (!env.authSecret) missing.push('AUTH_SECRET');
+  if (!env.databaseUrl) missing.push('DATABASE_URL');
+
+  if (missing.length > 0) {
+    throw new Error(`[env] Missing required production variables: ${missing.join(', ')}`);
+  }
+}
+
+export function isRateLimitDistributed(): boolean {
+  return Boolean(env.upstashUrl && env.upstashToken);
 }

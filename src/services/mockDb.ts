@@ -1,6 +1,7 @@
 import { Listing, Category, User, FilterState, PaginatedResult, RegisterInput, Conversation, Message } from '@/types';
 import { IListingRepository, IUserRepository, ICategoryRepository, IDatabase, IFavoriteRepository, IMessageRepository } from './repository';
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '@/lib/constants';
+import { normalizePhone, phoneToEmail } from '@/lib/phone';
 
 // ============================================================
 // Mock Data
@@ -512,6 +513,11 @@ class MockUserRepository implements IUserRepository {
         return this.data.find(u => u.email === email) || null;
     }
 
+    async getByPhone(phone: string): Promise<User | null> {
+        const normalized = normalizePhone(phone);
+        return this.data.find(u => u.phone && normalizePhone(u.phone) === normalized) || null;
+    }
+
     async create(user: Omit<User, 'id'>): Promise<User> {
         const newUser: User = {
             ...user,
@@ -543,6 +549,22 @@ class MockUserRepository implements IUserRepository {
         return user;
     }
 
+    async registerByPhone(phone: string, name?: string): Promise<User> {
+        const normalized = normalizePhone(phone);
+        const existing = await this.getByPhone(normalized);
+        if (existing) return existing;
+
+        return this.create({
+            name: name ?? `Kullanıcı ${normalized.slice(-4)}`,
+            email: phoneToEmail(normalized),
+            phone: normalized,
+            type: 'individual',
+            verified: true,
+            status: 'active',
+            role: 'user',
+        });
+    }
+
     async update(id: string, data: Partial<User>): Promise<User | null> {
         const idx = this.data.findIndex(u => u.id === id);
         if (idx === -1) return null;
@@ -557,7 +579,7 @@ class MockUserRepository implements IUserRepository {
             return null;
         }
         const user = this.data.find(u => u.email.toLowerCase() === normalizedEmail);
-        if (!user || user.status === 'banned') {
+        if (!user || user.status === 'banned' || user.status === 'pending') {
             return null;
         }
         return user;

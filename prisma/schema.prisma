@@ -56,7 +56,7 @@ model User {
   emailVerified DateTime?
   passwordHash  String?
   image         String?
-  phone         String?
+  phone         String?    @unique
   type          UserType   @default(INDIVIDUAL)
   role          Role       @default(USER)
   storeName     String?
@@ -150,6 +150,13 @@ model Listing {
   images        ListingImage[]
   favorites     Favorite[]
   conversations Conversation[]
+
+  @@index([status])
+  @@index([categoryId])
+  @@index([sellerId])
+  @@index([city])
+  @@index([createdAt])
+  @@index([status, createdAt])
 }
 
 model ListingImage {
@@ -204,4 +211,10 @@ model Message {
 
   conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   sender       User         @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
 }

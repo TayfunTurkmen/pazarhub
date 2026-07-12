@@ -15,6 +15,8 @@
   --color-text: #0f172a;
   --color-text-secondary: #475569;
   --color-text-muted: #94a3b8;
+  --color-foreground: #0f172a;
+  --color-muted: #64748b;
   --color-border: #e2e8f0;
   --color-border-light: #f1f5f9;
 
@@ -163,6 +165,8 @@
   --color-text: #f1f5f9;
   --color-text-secondary: #94a3b8;
   --color-text-muted: #64748b;
+  --color-foreground: #f1f5f9;
+  --color-muted: #94a3b8;
   --color-border: #1e293b;
   --color-border-light: #1a2332;
 
