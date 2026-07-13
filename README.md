@@ -12,6 +12,7 @@ Bu proje, popüler emlak ve alışveriş platformu benzeri kapsamlı bir ilan li
 - **Çoklu Dil Desteği (i18n):** `next-intl` entegrasyonu ile uygulamanın farklı diller için özelleştirilebilir yapıda çalışması.
 - **Responsive (Duyarlı) ve Modern Tasarım:** Mobil, tablet ve masaüstü cihazlarla tam uyumlu Tailwind CSS v4 tabanlı kullanıcı arayüzü ve modern tipografi (Lucide React ikon desteği ile).
 - **SEO Dostu Altyapı:** Next.js Server Components sayesinde arama motoru optimizasyonu (SEO).
+- **AI Destekli Platform:** Yapay zeka ile 7/24 müşteri desteği, akıllı emlak önerileri, SEO blog, görsel optimizasyonu ve lead kalifikasyonu.
 
 ## 🛠 Kullanılan Teknolojiler ve Araçlar
 

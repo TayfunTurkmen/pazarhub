@@ -13,6 +13,7 @@ import MapWrapper from '@/components/listing/MapWrapper';
 import { parseFilterState } from '@/lib/filters';
 import PageBanner from '@/components/layout/PageBanner';
 import EmptyState from '@/components/ui/EmptyState';
+import AiRecommendationsPanel from '@/components/ai/AiRecommendationsPanel';
 function getMatchingCategories(query: string) {
     if (!query) return [];
     const q = query.toLowerCase();
@@ -190,6 +191,10 @@ export default async function SearchPage({
                     </div>
                 </div>
             )}
+
+            <NextIntlClientProvider messages={messages}>
+                <AiRecommendationsPanel />
+            </NextIntlClientProvider>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
                 {/* Sidebar */}

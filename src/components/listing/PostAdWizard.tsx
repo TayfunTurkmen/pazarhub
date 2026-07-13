@@ -9,6 +9,7 @@ import { Check, ChevronRight, Upload } from 'lucide-react';
 import { useRouter } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/AuthContext';
+import AiImageOptimizer from '@/components/ai/AiImageOptimizer';
 import { Listing } from '@/types';
 
 export default function PostAdWizard() {
@@ -19,6 +20,7 @@ export default function PostAdWizard() {
     const [submitting, setSubmitting] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [images, setImages] = useState<string[]>([]);
+    const [pendingFile, setPendingFile] = useState<File | null>(null);
     const [formData, setFormData] = useState({
         category: '',
         title: '',
@@ -206,8 +208,15 @@ export default function PostAdWizard() {
                             <label className="border-2 border-dashed border-[var(--color-border)] rounded-2xl p-8 text-center hover:border-[var(--color-primary)] hover:bg-[var(--color-background)] transition-colors cursor-pointer block">
                                 <Upload size={32} className="mx-auto text-[var(--color-muted)] mb-2" />
                                 <p className="text-sm text-[var(--color-muted)]">{uploading ? t('uploading') : t('drag_drop')}</p>
-                                <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => handleImageUpload(e.target.files)} />
+                                <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => {
+                                    const files = e.target.files;
+                                    if (files?.[0]) setPendingFile(files[0]);
+                                    handleImageUpload(files);
+                                }} />
                             </label>
+                            {pendingFile && (
+                                <AiImageOptimizer file={pendingFile} listingTitle={formData.title || undefined} />
+                            )}
                             {images.length > 0 && (
                                 <p className="text-xs text-[var(--color-muted)] mt-2">{images.length} {t('photos_selected')}</p>
                             )}

@@ -88,6 +88,8 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-[var(--color-foreground)] mb-4">{t('services')}</h3>
             <ul className="space-y-2.5 text-sm">
+              <li><Link href="/ai" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('ai_platform')}</Link></li>
+              <li><Link href="/blog" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('ai_blog')}</Link></li>
               <li><Link href="/doping" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('doping')}</Link></li>
               <li><Link href="/safe-payment" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('safe_payment')}</Link></li>
               <li><Link href="/mobile" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('mobile_apps')}</Link></li>

@@ -218,3 +218,38 @@ model SiteSetting {
   value     String
   updatedAt DateTime @updatedAt
 }
+
+model BlogPost {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  excerpt         String   @db.Text
+  content         String   @db.Text
+  metaDescription String
+  keywords        String[] @default([])
+  published       Boolean  @default(true)
+  aiGenerated     Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([published, createdAt])
+}
+
+model Lead {
+  id         String   @id @default(cuid())
+  name       String
+  email      String
+  phone      String?
+  subject    String?
+  message    String   @db.Text
+  score      Int      @default(0)
+  grade      String   @default("cold")
+  intent     String   @default("info")
+  summary    String?  @db.Text
+  nextAction String?  @db.Text
+  tags       String[] @default([])
+  createdAt  DateTime @default(now())
+
+  @@index([grade, createdAt])
+  @@index([email])
+}
