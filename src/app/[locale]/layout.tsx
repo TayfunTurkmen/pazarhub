@@ -7,6 +7,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/theme-provider';
 import { AuthProvider } from '@/context/AuthContext';
+import AiChatWidget from '@/components/ai/AiChatWidget';
 import "../globals.css";
 
 const geistSans = Geist({
@@ -56,6 +57,7 @@ export default async function LocaleLayout({
                 {children}
               </main>
               <Footer />
+              <AiChatWidget />
             </ThemeProvider>
           </AuthProvider>
         </NextIntlClientProvider>

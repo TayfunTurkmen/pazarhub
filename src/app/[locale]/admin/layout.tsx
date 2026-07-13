@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Link } from '@/i18n/navigation';
-import { LayoutDashboard, FileText, Settings, LogOut, Menu, Users, Shield, Share2, ListChecks, LucideIcon } from 'lucide-react';
+import { LayoutDashboard, FileText, Settings, LogOut, Menu, Users, Shield, Share2, ListChecks, Sparkles, LucideIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/AuthContext';
 import RouteGuard from '@/components/auth/RouteGuard';
@@ -47,6 +47,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         <AdminLink href="/admin/listings" icon={ListChecks} label={t('listings')} collapsed={!sidebarOpen} />
                         <AdminLink href="/admin/users" icon={Users} label={t('users')} collapsed={!sidebarOpen} />
                         <AdminLink href="/admin/pages" icon={FileText} label={t('pages')} collapsed={!sidebarOpen} />
+                        <AdminLink href="/admin/ai" icon={Sparkles} label={t('ai')} collapsed={!sidebarOpen} />
                         <AdminLink href="/admin/social" icon={Share2} label={t('social')} collapsed={!sidebarOpen} />
                         <AdminLink href="/admin/settings" icon={Settings} label={t('settings')} collapsed={!sidebarOpen} />
                         <div className="pt-3 mt-3 border-t border-[var(--color-border)]">

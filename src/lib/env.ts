@@ -16,7 +16,8 @@ export const env = {
   databaseUrl: process.env.DATABASE_URL ?? '',
   upstashUrl: process.env.UPSTASH_REDIS_REST_URL ?? '',
   upstashToken: process.env.UPSTASH_REDIS_REST_TOKEN ?? '',
-  blobToken: process.env.BLOB_READ_WRITE_TOKEN ?? '',
+  openaiApiKey: process.env.OPENAI_API_KEY ?? '',
+  openaiModel: process.env.OPENAI_MODEL ?? 'gpt-4o-mini',
 } as const;
 
 warnIfMissing('AUTH_SECRET', env.authSecret);

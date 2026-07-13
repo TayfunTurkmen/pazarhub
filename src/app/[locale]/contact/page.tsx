@@ -6,18 +6,48 @@ import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
 import PageHero from '@/components/layout/PageHero';
 import SecurityNote from '@/components/ui/SecurityNote';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Sparkles, Flame, Thermometer, Snowflake, Loader2 } from 'lucide-react';
 import { useState } from 'react';
+
+interface LeadResult {
+  score: number;
+  grade: 'hot' | 'warm' | 'cold';
+  summary: string;
+  nextAction: string;
+}
+
+const gradeConfig = {
+  hot: { icon: Flame, color: 'text-rose-600 bg-rose-500/10', labelKey: 'lead_hot' as const },
+  warm: { icon: Thermometer, color: 'text-amber-600 bg-amber-500/10', labelKey: 'lead_warm' as const },
+  cold: { icon: Snowflake, color: 'text-blue-600 bg-blue-500/10', labelKey: 'lead_cold' as const },
+};
 
 export default function ContactPage() {
   const t = useTranslations('Pages');
+  const tAi = useTranslations('AI');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [lead, setLead] = useState<LeadResult | null>(null);
+  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setLoading(true);
+    try {
+      const res = await fetch('/api/ai/lead-qualify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, save: true }),
+      });
+      const json = await res.json() as { success: boolean; data?: LeadResult };
+      if (json.success && json.data) setLead(json.data);
+      setSubmitted(true);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const grade = lead ? gradeConfig[lead.grade] : null;
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -25,7 +55,7 @@ export default function ContactPage() {
 
       <SecurityNote
         title="Güvenli İletişim"
-        description="Mesajlarınız şifreli kanallar üzerinden iletilir. Kişisel bilgileriniz üçüncü taraflarla paylaşılmaz."
+        description="Mesajlarınız şifreli kanallar üzerinden iletilir. AI lead kalifikasyonu ile talebiniz önceliklendirilir."
       />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -49,29 +79,46 @@ export default function ContactPage() {
 
         <Card className="p-6 md:col-span-2">
           {submitted ? (
-            <div className="flex flex-col items-center justify-center h-full py-12">
-              <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-4">
+            <div className="flex flex-col items-center justify-center py-8 space-y-4">
+              <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center">
                 <Send size={28} className="text-emerald-500" />
               </div>
               <p className="text-lg font-semibold text-[var(--color-foreground)]">Mesajınız gönderildi!</p>
-              <p className="text-sm text-[var(--color-muted)] mt-2">En kısa sürede size dönüş yapacağız.</p>
+              {lead && grade && (
+                <div className={`w-full max-w-md p-4 rounded-2xl border border-[var(--color-border)] ${grade.color}`}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles size={16} />
+                    <span className="font-bold text-sm">{tAi('lead_qualified')}: {lead.score}/100</span>
+                    <grade.icon size={16} />
+                    <span className="text-xs font-medium">{tAi(grade.labelKey)}</span>
+                  </div>
+                  <p className="text-sm">{lead.summary}</p>
+                  <p className="text-xs mt-2 opacity-80">{tAi('lead_next_action')}: {lead.nextAction}</p>
+                </div>
+              )}
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Input label={t('contact_name')} placeholder={t('contact_name')} required />
-                <Input label={t('contact_email')} type="email" placeholder="email@example.com" required />
+                <Input label={t('contact_name')} placeholder={t('contact_name')} required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+                <Input label={t('contact_email')} type="email" placeholder="email@example.com" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
               </div>
-              <Input label={t('contact_subject')} placeholder={t('contact_subject')} required />
+              <Input label={t('contact_phone')} placeholder="+90 5XX XXX XX XX" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+              <Input label={t('contact_subject')} placeholder={t('contact_subject')} required value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })} />
               <div>
                 <label className="block text-sm font-medium text-[var(--color-foreground)] mb-1.5">{t('contact_message')}</label>
                 <textarea
                   className="w-full border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-foreground)] placeholder:text-[var(--color-muted)] rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] h-32 transition-colors"
                   placeholder={t('contact_message')}
                   required
+                  value={form.message}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
                 />
               </div>
-              <Button type="submit" className="w-full py-3 font-bold">{t('contact_send')}</Button>
+              <Button type="submit" className="w-full py-3 font-bold" disabled={loading}>
+                {loading ? <Loader2 size={16} className="animate-spin mr-2" /> : <Sparkles size={16} className="mr-2" />}
+                {t('contact_send')}
+              </Button>
             </form>
           )}
         </Card>

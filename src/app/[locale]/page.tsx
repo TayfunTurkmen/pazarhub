@@ -13,6 +13,7 @@ import TrustBanner from '@/components/home/TrustBanner';
 import {
   Building2, Car, ShoppingBag, UserPlus, FileText, MessageCircle,
   ArrowRight, ShieldCheck, TreePalm, Wrench, PawPrint, Briefcase,
+  Sparkles, Bot, Home, Target, ImageIcon,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -25,6 +26,7 @@ const categoryIcons: Record<string, LucideIcon> = {
 export default async function HomePage() {
   const allListings = await getListings({});
   const t = await getTranslations('Home');
+  const tAi = await getTranslations('AI');
 
   const rootCategories = CATEGORIES.filter((c) => !c.parentId);
   const showcaseListings = allListings.filter((l) => l.tier === 'showcase');
@@ -143,6 +145,36 @@ export default async function HomePage() {
         </section>
 
         <TrustBanner />
+
+        {/* AI Platform */}
+        <section className="relative overflow-hidden rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-500/5 via-blue-500/5 to-indigo-500/10 p-8 md:p-10">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+            <div className="max-w-xl space-y-4">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 text-violet-600 text-xs font-bold uppercase tracking-wide">
+                <Sparkles size={14} /> {tAi('platform_badge')}
+              </span>
+              <h2 className="text-2xl md:text-3xl font-bold text-[var(--color-foreground)]">{tAi('platform_title')}</h2>
+              <p className="text-[var(--color-muted)] leading-relaxed">{tAi('platform_desc')}</p>
+              <Link href="/ai" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 text-white font-semibold hover:shadow-lg transition-all">
+                {tAi('learn_more')} <ArrowRight size={16} />
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 flex-1 max-w-lg">
+              {[
+                { icon: Bot, label: tAi('feature_chat_title') },
+                { icon: Home, label: tAi('feature_recommend_title') },
+                { icon: FileText, label: tAi('feature_blog_title') },
+                { icon: ImageIcon, label: tAi('feature_image_title') },
+                { icon: Target, label: tAi('feature_lead_title') },
+              ].map(({ icon: Icon, label }) => (
+                <div key={label} className="p-4 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] text-center">
+                  <Icon size={22} className="mx-auto text-violet-500 mb-2" />
+                  <p className="text-[11px] font-medium text-[var(--color-foreground)] leading-tight">{label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* How it works */}
         <section>

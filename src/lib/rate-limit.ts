@@ -2,7 +2,7 @@ import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 import { isRateLimitDistributed, env } from '@/lib/env';
 
-type Bucket = 'auth' | 'listing' | 'upload' | 'message' | 'read';
+type Bucket = 'auth' | 'listing' | 'upload' | 'message' | 'read' | 'ai';
 
 const memoryStore = new Map<string, { count: number; resetAt: number }>();
 
@@ -32,6 +32,7 @@ function getUpstashLimit(bucket: Bucket): Ratelimit | null {
             upload: { requests: 15, window: '1 m' },
             message: { requests: 30, window: '1 m' },
             read: { requests: 120, window: '1 m' },
+            ai: { requests: 30, window: '1 m' },
         };
         upstashLimits[bucket] = new Ratelimit({
             redis,
@@ -48,6 +49,7 @@ const memoryLimits: Record<Bucket, { limit: number; windowMs: number }> = {
     upload: { limit: 20, windowMs: 60_000 },
     message: { limit: 40, windowMs: 60_000 },
     read: { limit: 200, windowMs: 60_000 },
+    ai: { limit: 40, windowMs: 60_000 },
 };
 
 export async function rateLimit(bucket: Bucket, identifier: string) {
