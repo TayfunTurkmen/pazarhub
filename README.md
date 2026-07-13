@@ -74,6 +74,8 @@ cp .env.example .env
 | `DATABASE_URL` | PostgreSQL bağlantı dizesi |
 | `AUTH_SECRET` | NextAuth JWT imzalama anahtarı |
 | `BLOB_READ_WRITE_TOKEN` | Vercel Blob (opsiyonel) |
+| `OPENAI_API_KEY` | OpenAI API anahtarı (AI özellikleri — yoksa akıllı fallback) |
+| `OPENAI_MODEL` | OpenAI model (varsayılan: gpt-4o-mini) |
 | `UPSTASH_REDIS_*` | Rate limiting (opsiyonel) |
 
 ### PostgreSQL (Docker)
@@ -112,6 +114,14 @@ npm run test:e2e
 - `GET/POST /api/favorites` — Favoriler
 - `GET/POST /api/conversations` — Mesajlaşma
 - `POST /api/upload` — Görsel yükleme
+
+### AI API
+
+- `POST /api/ai/chat` — 7/24 AI müşteri desteği
+- `POST /api/ai/recommendations` — Akıllı emlak önerileri
+- `GET/POST /api/ai/blog` — SEO blog listele / üret (admin)
+- `POST /api/ai/image-optimize` — Görsel optimizasyon analizi
+- `POST /api/ai/lead-qualify` — Lead kalifikasyonu
 
 ## 🤝 Katkıda Bulunma
 
