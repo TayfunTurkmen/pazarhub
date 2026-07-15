@@ -9,12 +9,25 @@ const globalForPrisma = globalThis as unknown as {
     pool: Pool | undefined;
 };
 
+function resolveDatabaseUrl(): string {
+    return (
+        process.env.DATABASE_URL ??
+        process.env.POSTGRES_PRISMA_URL ??
+        process.env.POSTGRES_URL ??
+        ''
+    );
+}
+
 function createPrismaClient(): PrismaClient {
-    if (!process.env.DATABASE_URL) {
+    const databaseUrl = resolveDatabaseUrl();
+    if (!databaseUrl) {
         throw new Error('DATABASE_URL is required when using Prisma');
     }
 
-    const pool = globalForPrisma.pool ?? new Pool({ connectionString: process.env.DATABASE_URL });
+    const pool = globalForPrisma.pool ?? new Pool({
+        connectionString: databaseUrl,
+        max: process.env.NODE_ENV === 'production' ? 1 : 10,
+    });
     if (process.env.NODE_ENV !== 'production') {
         globalForPrisma.pool = pool;
     }
@@ -40,5 +53,5 @@ export const prisma = new Proxy({} as PrismaClient, {
 });
 
 export function isDatabaseEnabled(): boolean {
-    return Boolean(process.env.DATABASE_URL);
+    return Boolean(resolveDatabaseUrl());
 }

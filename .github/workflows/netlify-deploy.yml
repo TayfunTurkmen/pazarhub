@@ -23,11 +23,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Push database schema
+        run: npx prisma db push --skip-generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       - name: Build
         run: npm run build
         env:
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           AUTH_URL: https://sahibindenkonutal.netlify.app
           NEXTAUTH_URL: https://sahibindenkonutal.netlify.app
           NEXT_PUBLIC_APP_URL: https://sahibindenkonutal.netlify.app

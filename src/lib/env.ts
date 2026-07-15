@@ -13,7 +13,11 @@ export const env = {
   nodeEnv: process.env.NODE_ENV ?? 'development',
   isProduction,
   authSecret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET ?? '',
-  databaseUrl: process.env.DATABASE_URL ?? '',
+  databaseUrl:
+    process.env.DATABASE_URL ??
+    process.env.POSTGRES_PRISMA_URL ??
+    process.env.POSTGRES_URL ??
+    '',
   upstashUrl: process.env.UPSTASH_REDIS_REST_URL ?? '',
   upstashToken: process.env.UPSTASH_REDIS_REST_TOKEN ?? '',
   openaiApiKey: process.env.OPENAI_API_KEY ?? '',
