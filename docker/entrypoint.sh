@@ -24,7 +24,7 @@ if [ -z "$SKIP_EMBEDDED" ]; then
   fi
 fi
 
-if [ "${SKIP_EMBEDDED}" != "1" ]; then
+if [ "${SKIP_EMBEDDED}" != "1" ] && command -v postgres >/dev/null 2>&1; then
   PG_MAJOR="$(ls /usr/lib/postgresql | head -n 1)"
   export PATH="/usr/lib/postgresql/${PG_MAJOR}/bin:${PATH}"
   export PGDATA="${PGDATA:-/var/lib/postgresql/${PG_MAJOR}/skonutal}"
@@ -61,23 +61,24 @@ if [ "${SKIP_EMBEDDED}" != "1" ]; then
     echo "[skonutal] Creating database ${POSTGRES_DB}..."
     su -s /bin/bash postgres -c "createdb -h 127.0.0.1 -U '${POSTGRES_USER}' '${POSTGRES_DB}'"
   fi
+elif [ -n "${DATABASE_URL:-}" ]; then
+  echo "[skonutal] External DATABASE_URL (${HOST:-remote}) — embedded Postgres skipped."
 else
-  echo "[skonutal] Coolify/external DATABASE_URL detected (${HOST}) — embedded Postgres skipped."
-  if [ -z "${DATABASE_URL:-}" ]; then
-    echo "[skonutal] DATABASE_URL is required when SKIP_EMBEDDED_POSTGRES=1" >&2
-    exit 1
-  fi
+  echo "[skonutal] DATABASE_URL missing — schema push skipped."
 fi
 
 cd /app
-echo "[skonutal] Applying schema..."
-npx prisma db push --skip-generate
+if [ -n "${DATABASE_URL:-}" ]; then
+  echo "[skonutal] Applying schema..."
+  npx prisma db push --skip-generate
+fi
 
 if [ "${SKIP_EMBEDDED}" != "1" ] && [ ! -f /var/lib/postgresql/.skonutal_seeded ]; then
   echo "[skonutal] Seeding demo data..."
-  npx tsx prisma/seed.ts
+  npx tsx prisma/seed.ts || true
+  mkdir -p /var/lib/postgresql
   touch /var/lib/postgresql/.skonutal_seeded
-  chown postgres:postgres /var/lib/postgresql/.skonutal_seeded || true
+  chown postgres:postgres /var/lib/postgresql/.skonutal_seeded 2>/dev/null || true
 elif [ "${SEED_ON_START:-0}" = "1" ]; then
   echo "[skonutal] SEED_ON_START=1 — seeding..."
   npx tsx prisma/seed.ts || true
@@ -92,38 +93,82 @@ export SERVER_URL="${SERVER_URL:-http://127.0.0.1:8080}"
 export CACHE_REDIS_ENABLED="${CACHE_REDIS_ENABLED:-true}"
 export CACHE_REDIS_URI="${CACHE_REDIS_URI:-redis://127.0.0.1:6379/6}"
 export DATABASE_PROVIDER="${DATABASE_PROVIDER:-postgresql}"
-export DATABASE_CONNECTION_URI="${DATABASE_CONNECTION_URI:-$(node -e 'const u=new URL(process.env.DATABASE_URL); u.searchParams.set("schema","evolution_api"); console.log(u.toString())')}"
+export DATABASE_CONNECTION_URI="${DATABASE_CONNECTION_URI:-$(node -e 'try{const u=new URL(process.env.DATABASE_URL||"");u.searchParams.set("schema","evolution_api");console.log(u.toString())}catch{console.log("")}')}"
 export CONFIG_SESSION_PHONE_CLIENT="${CONFIG_SESSION_PHONE_CLIENT:-skonutal.com}"
 export CONFIG_SESSION_PHONE_NAME="${CONFIG_SESSION_PHONE_NAME:-Chrome}"
 export LANGUAGE="${LANGUAGE:-tr}"
 export DOCKER_ENV=true
 
-mkdir -p /var/lib/redis /evolution/instances
-chown -R redis:redis /var/lib/redis 2>/dev/null || true
+evo_dir() {
+  if [ -f /evolution/package.json ]; then
+    echo /evolution
+  elif [ -f /app/evolution/package.json ]; then
+    echo /app/evolution
+  else
+    echo ""
+  fi
+}
 
-echo "[skonutal] Starting Redis..."
-redis-server --daemonize yes --bind 127.0.0.1 --port 6379 --dir /tmp --save "" --protected-mode yes || true
+start_redis() {
+  mkdir -p /var/lib/redis /tmp
+  chown -R redis:redis /var/lib/redis 2>/dev/null || true
+  if ! command -v redis-server >/dev/null 2>&1; then
+    echo "[skonutal] redis-server not installed — Evolution cache disabled"
+    export CACHE_REDIS_ENABLED=false
+    return 0
+  fi
+  echo "[skonutal] Starting Redis..."
+  redis-server --daemonize yes --bind 127.0.0.1 --port 6379 --dir /tmp --save "" --protected-mode yes || true
+}
 
-if [ -d /evolution ]; then
-  echo "[skonutal] Starting Evolution API on 127.0.0.1:${SERVER_PORT}..."
-  (
-    cd /evolution
-    if [ -x ./Docker/scripts/deploy_database.sh ]; then
-      bash ./Docker/scripts/deploy_database.sh || npx prisma db push --skip-generate || true
-    fi
-    npm run start:prod
-  ) > /tmp/evolution.log 2>&1 &
+start_evolution() {
+  local dir
+  dir="$(evo_dir)"
+  if [ -z "$dir" ]; then
+    echo "[skonutal] Evolution API files missing — WhatsApp QR login disabled"
+    return 0
+  fi
 
-  for _ in $(seq 1 40); do
-    if node -e "fetch('http://127.0.0.1:${SERVER_PORT}').then(()=>process.exit(0)).catch(()=>process.exit(1))" >/dev/null 2>&1; then
-      echo "[skonutal] Evolution API is up"
-      break
-    fi
-    sleep 1
+  mkdir -p "${dir}/instances"
+  echo "[skonutal] Evolution API starting with the site on 127.0.0.1:${SERVER_PORT}"
+  while true; do
+    (
+      cd "$dir"
+      if [ -x ./Docker/scripts/deploy_database.sh ]; then
+        bash ./Docker/scripts/deploy_database.sh || npx prisma db push --skip-generate || true
+      elif [ -n "${DATABASE_CONNECTION_URI:-}" ]; then
+        npx prisma db push --skip-generate || true
+      fi
+      npm run start:prod
+    ) >> /tmp/evolution.log 2>&1 || true
+    echo "[skonutal] Evolution API exited — restarting in 2s" >> /tmp/evolution.log
+    sleep 2
   done
-else
-  echo "[skonutal] Evolution API files missing — WhatsApp QR login disabled"
-fi
+}
 
-echo "[skonutal] Starting web server on ${HOSTNAME}:${PORT}"
-exec npx next start -H "${HOSTNAME}" -p "${PORT}"
+start_web() {
+  echo "[skonutal] Starting web server on ${HOSTNAME}:${PORT}"
+  npx next start -H "${HOSTNAME}" -p "${PORT}"
+}
+
+start_redis
+start_evolution &
+EVO_PID=$!
+start_web &
+WEB_PID=$!
+
+shutdown() {
+  echo "[skonutal] Stopping site and Evolution..."
+  kill -TERM "$WEB_PID" "$EVO_PID" 2>/dev/null || true
+  sleep 1
+  kill -KILL "$WEB_PID" "$EVO_PID" 2>/dev/null || true
+  wait "$WEB_PID" 2>/dev/null || true
+  exit 0
+}
+
+trap shutdown SIGTERM SIGINT
+wait "$WEB_PID"
+status=$?
+echo "[skonutal] Web server exited (${status})"
+kill -TERM "$EVO_PID" 2>/dev/null || true
+exit "$status"

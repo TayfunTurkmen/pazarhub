@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schema.railpack.com",
+  "provider": "node",
+  "packages": {
+    "node": "22"
+  },
+  "buildAptPackages": ["openssl", "git", "python3", "make", "g++", "ffmpeg"],
+  "steps": {
+    "install": {
+      "commands": ["npm ci --include=dev"]
+    },
+    "build": {
+      "commands": ["...", "bash docker/bundle-evolution.sh /app/evolution"]
+    }
+  },
+  "deploy": {
+    "aptPackages": ["openssl", "ffmpeg", "redis-server", "python3"],
+    "startCommand": "bash docker/entrypoint.sh"
+  }
+}

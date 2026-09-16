@@ -38,7 +38,7 @@ COPY --from=build /app /app
 COPY --from=evolution /evolution /evolution
 
 COPY docker/entrypoint.sh /entrypoint.sh
-RUN sed -i 's/\r$//' /entrypoint.sh && chmod +x /entrypoint.sh
+RUN sed -i 's/\r$//' /entrypoint.sh /app/docker/*.sh && chmod +x /entrypoint.sh /app/docker/*.sh
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
