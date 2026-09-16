@@ -7,10 +7,20 @@ FROM node:22-bookworm-slim AS evolution
 WORKDIR /evolution
 RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates python3 make g++ openssl \
     && rm -rf /var/lib/apt/lists/*
-RUN git clone --depth 1 https://github.com/EvolutionAPI/evolution-api.git .
+ARG EVOLUTION_REF=2.3.7
+RUN git clone --depth 1 --branch "${EVOLUTION_REF}" https://github.com/EvolutionAPI/evolution-api.git .
 ENV DATABASE_PROVIDER=postgresql
 ENV DATABASE_CONNECTION_URI=postgresql://postgres:postgres@127.0.0.1:5432/evolution?schema=evolution_api
-RUN npm ci && npm run build
+ENV DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/evolution?schema=evolution_api
+ENV DOCKER_ENV=true
+ENV PRISMA_SKIP_POSTINSTALL_GENERATE=1
+ENV HUSKY=0
+RUN if [ -f .env.example ]; then cp .env.example .env; fi \
+    && find Docker/scripts -type f -name '*.sh' -exec sed -i 's/\r$//' {} \; \
+    && chmod +x Docker/scripts/*.sh \
+    && npm ci \
+    && bash ./Docker/scripts/generate_database.sh \
+    && npm run build
 
 FROM node:22-bookworm-slim AS build
 WORKDIR /app
