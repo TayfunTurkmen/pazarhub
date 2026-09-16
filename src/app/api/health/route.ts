@@ -19,6 +19,13 @@ export async function GET() {
     }
   }
 
+  try {
+    const { pingEvolution } = await import('@/lib/evolution/client');
+    checks.evolution = (await pingEvolution()) ? 'ok' : 'skipped';
+  } catch {
+    checks.evolution = 'skipped';
+  }
+
   const healthy = Object.values(checks).every((v) => v === 'ok' || v === 'skipped');
 
   return NextResponse.json(

@@ -33,6 +33,7 @@ export default function DashboardPage() {
     const [favoriteListings, setFavoriteListings] = useState<Listing[]>([]);
     const [conversations, setConversations] = useState<Conversation[]>([]);
     const [loadingListings, setLoadingListings] = useState(true);
+    const [quotaLabel, setQuotaLabel] = useState('Ücretsiz: 1 ilan / 30 gün');
     const [activeTab, setActiveTab] = useState<Tab>('listings');
     const [settingsSaved, setSettingsSaved] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState<DashboardMessage | null>(null);
@@ -52,11 +53,16 @@ export default function DashboardPage() {
             fetch(`/api/users/${user.id}/listings`).then((res) => res.json()),
             fetch('/api/favorites').then((res) => res.json()),
             fetch('/api/conversations').then((res) => res.json()),
+            fetch('/api/billing/me').then((res) => res.json()),
         ])
-            .then(([listingsRes, favoritesRes, conversationsRes]) => {
+            .then(([listingsRes, favoritesRes, conversationsRes, billingRes]) => {
                 if (listingsRes.success) setMyListings(listingsRes.data);
                 if (favoritesRes.success) setFavoriteListings(favoritesRes.data);
                 if (conversationsRes.success) setConversations(conversationsRes.data);
+                if (billingRes.success) {
+                    const ent = billingRes.data.entitlements;
+                    setQuotaLabel(`${ent.plan.name}: ${ent.usedListings}/${ent.plan.listingQuota} ilan · ${ent.plan.listingDays} gün`);
+                }
             })
             .finally(() => setLoadingListings(false));
     }, [user?.id]);
@@ -102,7 +108,7 @@ export default function DashboardPage() {
                     <div>
                         <h1 className="text-2xl font-bold text-[var(--color-foreground)]">{t('my_account')}</h1>
                         <p className="text-sm text-[var(--color-muted)] mt-0.5">
-                            {user?.name || 'Kullanıcı'} — {user?.type === 'corporate' ? t('corporate_account') : t('individual_account')}
+                            {user?.name || 'Kullanıcı'} — {user?.type === 'corporate' ? t('corporate_account') : t('individual_account')} · {quotaLabel}
                         </p>
                     </div>
                 </div>
@@ -115,6 +121,12 @@ export default function DashboardPage() {
                             </Button>
                         </Link>
                     )}
+                    <Link href="/kurumsal">
+                        <Button variant="outline" className="flex items-center gap-2">
+                            <Star size={16} />
+                            Kurumsal
+                        </Button>
+                    </Link>
                     <Link href="/post-ad">
                         <Button className="flex items-center gap-2">
                             <PlusCircle size={18} />
@@ -188,6 +200,9 @@ export default function DashboardPage() {
                                             </div>
                                             <div className="flex flex-col gap-2 justify-center flex-shrink-0">
                                                 <Button size="sm" variant="outline" className="text-xs" onClick={() => setEditingListing(listing)}><Edit size={14} /> {t('edit')}</Button>
+                                                <Link href={`/doping?listingId=${listing.id}`}>
+                                                    <Button size="sm" variant="secondary" className="text-xs"><Star size={14} /> Doping</Button>
+                                                </Link>
                                                 <Button size="sm" variant="ghost" className="text-rose-500 hover:text-rose-700"><Trash2 size={14} /></Button>
                                             </div>
                                         </div>

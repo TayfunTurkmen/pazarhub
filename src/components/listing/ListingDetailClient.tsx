@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Listing } from '@/types';
-import { MapPin, Phone, MessageSquare, Calendar, ShieldCheck, ChevronLeft, ChevronRight, Heart, Share2, Tag } from 'lucide-react';
+import { MapPin, Phone, MessageSquare, Calendar, ShieldCheck, ChevronLeft, ChevronRight, Heart, Share2, Zap } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
 import Breadcrumb from '@/components/layout/Breadcrumb';
@@ -11,11 +11,12 @@ import { Link, useRouter } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
+import CheckoutButton from '@/components/billing/CheckoutButton';
 
 export default function ListingDetailClient({ listing }: { listing: Listing }) {
     const t = useTranslations('Listing');
     const tCommon = useTranslations('Common');
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, user } = useAuth();
     const router = useRouter();
     const [currentImage, setCurrentImage] = useState(0);
     const [isFavorite, setIsFavorite] = useState(false);
@@ -143,6 +144,17 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                                 <Phone size={20} />
                                 {listing.seller.phone || t('show_phone')}
                             </Button>
+                            {user?.id === listing.seller.id ? (
+                                <Link href={`/doping?listingId=${listing.id}`} className="btn btn-secondary w-full">
+                                    <Zap size={18} /> Doping / Vitrin
+                                </Link>
+                            ) : (
+                                <CheckoutButton
+                                    variant="secondary"
+                                    label="Param Güvende ile al"
+                                    payload={{ kind: 'ESCROW', listingId: listing.id }}
+                                />
+                            )}
                         </div>
 
                         <SecurityNote

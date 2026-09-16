@@ -28,6 +28,8 @@ export default function PhoneAuthForm({ mode, onSuccess }: PhoneAuthFormProps) {
   const [name, setName] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [whatsappConnected, setWhatsappConnected] = useState(false);
+  const [codeSent, setCodeSent] = useState(false);
 
   useEffect(() => {
     fetch('/api/auth/config')
@@ -39,9 +41,39 @@ export default function PhoneAuthForm({ mode, onSuccess }: PhoneAuthFormProps) {
         facebookAuthEnabled: false,
         phoneAuthEnabled: true,
       }));
+    fetch('/api/auth/whatsapp')
+      .then((r) => r.json())
+      .then((data: { data?: { connected?: boolean } }) => setWhatsappConnected(Boolean(data.data?.connected)))
+      .catch(() => setWhatsappConnected(false));
   }, []);
 
-  const needsCode = config?.smsVerificationEnabled ?? false;
+  const needsCode = (config?.smsVerificationEnabled ?? false) || codeSent;
+
+  const sendWhatsAppCode = async () => {
+    setError('');
+    if (!isValidTurkishMobile(phone)) {
+      setError(t('phone_invalid'));
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch('/api/auth/whatsapp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: normalizePhone(phone) }),
+      });
+      const json = await res.json() as { success: boolean; error?: string };
+      if (!json.success) {
+        setError(json.error || t('error_generic'));
+        return;
+      }
+      setCodeSent(true);
+    } catch {
+      setError(t('error_generic'));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -110,10 +142,18 @@ export default function PhoneAuthForm({ mode, onSuccess }: PhoneAuthFormProps) {
           required
         />
       )}
+      {whatsappConnected && !codeSent && (
+        <Button type="button" variant="secondary" className="w-full" onClick={sendWhatsAppCode} disabled={loading || config === null}>
+          WhatsApp ile giriş kodu gönder
+        </Button>
+      )}
+      {codeSent && (
+        <p className="text-xs text-center text-[var(--color-muted)]">Kod WhatsApp’ınıza gönderildi.</p>
+      )}
       {error && (
         <p className="text-rose-500 text-sm bg-rose-500/10 px-3 py-2 rounded-xl">{error}</p>
       )}
-      <Button type="submit" className="w-full" disabled={loading || config === null}>
+      <Button type="submit" className="w-full" disabled={loading || config === null || (whatsappConnected && !codeSent)}>
         {loading
           ? t('logging_in')
           : mode === 'register'
@@ -122,6 +162,9 @@ export default function PhoneAuthForm({ mode, onSuccess }: PhoneAuthFormProps) {
       </Button>
       {!needsCode && (
         <p className="text-xs text-center text-[var(--color-muted)]">{t('phone_fast_hint')}</p>
+      )}
+      {whatsappConnected && (
+        <p className="text-xs text-center text-[var(--color-muted)]">WhatsApp bağlı. Kodu telefonunuzdaki sohbetten alın.</p>
       )}
     </form>
   );

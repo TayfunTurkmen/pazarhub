@@ -21,6 +21,7 @@ export default function PostAdWizard() {
     const [uploading, setUploading] = useState(false);
     const [images, setImages] = useState<string[]>([]);
     const [pendingFile, setPendingFile] = useState<File | null>(null);
+    const [error, setError] = useState('');
     const [formData, setFormData] = useState({
         category: '',
         title: '',
@@ -58,6 +59,7 @@ export default function PostAdWizard() {
     const handleSubmit = async () => {
         if (!user) return;
         setSubmitting(true);
+        setError('');
         try {
             const res = await fetch('/api/listings', {
                 method: 'POST',
@@ -78,11 +80,15 @@ export default function PostAdWizard() {
             });
             const json = await res.json() as { success: boolean; data?: Listing; error?: string };
             if (!json.success || !json.data) {
+                if (res.status === 402) {
+                    setError(json.error || 'İlan kotanız doldu. Kurumsal plana geçin.');
+                    return;
+                }
                 throw new Error(json.error || 'Publish failed');
             }
             router.push(`/listing/${json.data.id}`);
         } catch {
-            alert(t('error'));
+            setError(t('error'));
         } finally {
             setSubmitting(false);
         }
@@ -259,6 +265,14 @@ export default function PostAdWizard() {
                             )}
                         </div>
                         <p className="text-xs text-[var(--color-muted)]">{t('terms_agree')}</p>
+                        {error && (
+                            <p className="text-sm text-rose-600">
+                                {error}{' '}
+                                <button type="button" className="underline font-bold" onClick={() => router.push('/kurumsal')}>
+                                    Kurumsal planlar
+                                </button>
+                            </p>
+                        )}
                         <div className="flex justify-between pt-4">
                             <Button variant="outline" onClick={handleBack}>{t('back')}</Button>
                             <Button onClick={handleSubmit} disabled={submitting} className="px-8 font-bold">

@@ -20,7 +20,7 @@ let PAGES: CMSPage[] = [
 ];
 
 let SETTINGS: SiteSettings = {
-    title: 'SahibindenKonutAl',
+    title: 'skonutal.com',
     primaryColor: '#3255a4',
     logoUrl: '/logo.png'
 };

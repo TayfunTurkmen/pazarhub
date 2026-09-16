@@ -1,5 +1,5 @@
 {
-  "name": "sahibindenkonutal",
+  "name": "skonutal",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,9 +13,11 @@
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
-    "db:up": "docker compose up -d",
+    "db:up": "docker compose up -d --build",
     "db:down": "docker compose down",
-    "db:setup": "docker compose up -d && npm run db:push && npm run db:seed",
+    "db:setup": "docker compose up -d --build",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down",
     "netlify:deploy": "netlify deploy --prod --build",
     "vercel:deploy": "vercel deploy --prod",
     "vercel:env": "vercel env pull .env.local --yes",

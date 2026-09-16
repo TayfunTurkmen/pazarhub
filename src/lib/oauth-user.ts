@@ -53,10 +53,13 @@ export async function resolvePhoneUser(
   const { getAuthSettings } = await import('@/lib/auth-settings');
   const { ADMIN_PHONE, ADMIN_SMS_CODE } = await import('@/lib/auth-constants');
 
+  const { consumeWhatsAppOtp } = await import('@/lib/evolution/otp');
+  const settings = await getAuthSettings();
+
   const normalized = normalizePhone(phone);
   if (!isValidTurkishMobile(normalized)) return null;
 
-  const settings = await getAuthSettings();
+  const whatsappOk = Boolean(code) && consumeWhatsAppOtp(normalized, code);
 
   if (normalized === normalizePhone(ADMIN_PHONE) && code === ADMIN_SMS_CODE) {
     let user = await db.users.getByPhone(normalized);
@@ -75,9 +78,32 @@ export async function resolvePhoneUser(
     };
   }
 
+  if (whatsappOk) {
+    let user = await db.users.getByPhone(normalized);
+    if (!user) {
+      user = await db.users.registerByPhone(normalized, name?.trim() || undefined);
+    }
+    if (user.status === 'pending' || user.status === 'banned') return null;
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      image: user.avatar ?? null,
+      role: user.role ?? 'user',
+    };
+  }
+
   if (settings.smsVerificationEnabled) {
     if (!code) return null;
     return null;
+  }
+
+  try {
+    const { getWhatsAppStatus } = await import('@/lib/evolution/client');
+    const wa = await getWhatsAppStatus();
+    if (wa.connected) return null;
+  } catch {
+    // Evolution yoksa mevcut telefon girişi
   }
 
   let user = await db.users.getByPhone(normalized);

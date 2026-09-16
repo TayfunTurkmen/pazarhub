@@ -1,46 +1,103 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
+
+import { useEffect, useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import Card from '@/components/ui/Card';
-import PageHero from '@/components/layout/PageHero';
-import { Link } from '@/i18n/navigation';
-import { Zap, TrendingUp, Eye, Star } from 'lucide-react';
+import RouteGuard from '@/components/auth/RouteGuard';
+import { BOOSTS } from '@/lib/billing/plans';
+import CheckoutButton from '@/components/billing/CheckoutButton';
+import { Listing } from '@/types';
+import { useAuth } from '@/context/AuthContext';
+import { Sparkles, Crown, Zap } from 'lucide-react';
 
-export default async function DopingPage() {
-  const t = await getTranslations('Pages');
+function DopingInner() {
+  const { user } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const preselect = searchParams.get('listingId') ?? '';
+  const [listings, setListings] = useState<Listing[]>([]);
+  const [listingId, setListingId] = useState(preselect);
 
-  const features = [
-    { icon: TrendingUp, label: t('doping_feature1'), desc: 'İlanınız arama sonuçlarında üst sıralarda yer alır.' },
-    { icon: Star, label: t('doping_feature2'), desc: 'Renkli çerçeve ile ilanınız dikkat çeker.' },
-    { icon: Eye, label: t('doping_feature3'), desc: 'Standart ilanlara göre 3 kat daha fazla görüntülenme alır.' },
+  useEffect(() => {
+    if (!user?.id) return;
+    fetch(`/api/users/${user.id}/listings`)
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.success) {
+          setListings(json.data);
+          if (!preselect && json.data[0]?.id) setListingId(json.data[0].id);
+        }
+      })
+      .catch(() => undefined);
+  }, [user?.id, preselect]);
+
+  const packs = [
+    { code: 'DOPING_7' as const, kind: 'DOPING' as const, icon: Zap, hint: 'Arama sonuçlarında öne çıkar' },
+    { code: 'DOPING_15' as const, kind: 'DOPING' as const, icon: Sparkles, hint: '2 haftalık premium çerçeve' },
+    { code: 'SHOWCASE_7' as const, kind: 'SHOWCASE' as const, icon: Crown, hint: 'Anasayfa vitrin bandı' },
+    { code: 'SHOWCASE_30' as const, kind: 'SHOWCASE' as const, icon: Crown, hint: '30 gün vitrin + öne çıkan rozet' },
   ];
 
   return (
-    <div className="max-w-4xl mx-auto space-y-10">
-      <PageHero
-        icon={Zap}
-        title={t('doping_title')}
-        description={t('doping_desc')}
-        iconClassName="bg-gradient-to-br from-[var(--color-secondary)] to-amber-500 text-blue-900"
-      />
+    <RouteGuard requireAuth>
+      <div className="space-y-8">
+        <section className="rounded-3xl bg-[var(--color-navy)] text-white px-6 py-10">
+          <p className="text-[var(--color-brand-yellow)] text-xs font-black uppercase tracking-[0.2em] mb-2">Doping & Vitrin</p>
+          <h1 className="text-3xl md:text-4xl font-black">İlanınızı sarı vitrine taşıyın</h1>
+          <p className="mt-3 text-white/75 max-w-2xl">
+            Doping arama sıralamasını yükseltir, vitrin anasayfada ve kategori tepesinde gösterir. Ücret PayTR veya iyzico ile alınır.
+          </p>
+        </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {features.map((f) => (
-          <Card key={f.label} className="p-6 text-center hover:shadow-lg hover:border-[var(--color-primary)]/20 transition-all">
-            <div className="w-12 h-12 rounded-xl bg-[var(--color-secondary)]/10 flex items-center justify-center mx-auto mb-4">
-              <f.icon size={24} className="text-[var(--color-secondary-dark)]" />
+        <Card className="p-5">
+          <label className="text-sm font-bold block mb-2">Hangi ilan?</label>
+          {listings.length === 0 ? (
+            <div className="text-sm text-[var(--color-muted)]">
+              Önce ilan verin.{' '}
+              <button type="button" className="underline" onClick={() => router.push('/post-ad')}>İlan ver</button>
             </div>
-            <h3 className="font-bold mb-2 text-[var(--color-foreground)]">{f.label}</h3>
-            <p className="text-sm text-[var(--color-muted)]">{f.desc}</p>
-          </Card>
-        ))}
-      </div>
+          ) : (
+            <select
+              value={listingId}
+              onChange={(e) => setListingId(e.target.value)}
+              className="w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-background)] px-3 py-2.5 text-sm"
+            >
+              {listings.map((listing) => (
+                <option key={listing.id} value={listing.id}>{listing.title}</option>
+              ))}
+            </select>
+          )}
+        </Card>
 
-      <Card className="p-8 text-center bg-gradient-to-br from-blue-900/5 to-indigo-900/5 border-[var(--color-primary)]/20">
-        <h2 className="text-xl font-bold mb-2 text-[var(--color-foreground)]">Hemen Başlayın!</h2>
-        <p className="text-[var(--color-muted)] mb-4">Doping hizmeti ile ilanınızı öne çıkarın.</p>
-        <Link href="/post-ad" className="btn btn-primary inline-flex px-8 py-3 font-bold">
-          Doping Paketleri
-        </Link>
-      </Card>
-    </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+          {packs.map((pack) => {
+            const meta = BOOSTS[pack.code];
+            return (
+              <Card key={pack.code} className="p-6">
+                <pack.icon className="text-[var(--color-navy)] mb-3" />
+                <h2 className="font-black">{meta.name}</h2>
+                <p className="text-2xl font-black mt-1">{meta.price.toLocaleString('tr-TR')} ₺</p>
+                <p className="text-xs text-[var(--color-muted)] mb-4">{pack.hint}</p>
+                <CheckoutButton
+                  variant={meta.tier === 'showcase' ? 'secondary' : 'primary'}
+                  label="Satın al"
+                  disabled={!listingId}
+                  payload={{ kind: pack.kind, productCode: pack.code, listingId }}
+                />
+              </Card>
+            );
+          })}
+        </div>
+      </div>
+    </RouteGuard>
+  );
+}
+
+export default function DopingPage() {
+  return (
+    <Suspense fallback={<p className="text-sm text-[var(--color-muted)]">Paketler yükleniyor…</p>}>
+      <DopingInner />
+    </Suspense>
   );
 }

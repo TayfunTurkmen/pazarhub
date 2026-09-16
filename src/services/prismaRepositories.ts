@@ -25,6 +25,7 @@ import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '@/lib/constants';
 
 function buildListingWhere(filter?: FilterState): Prisma.ListingWhereInput {
   const where: Prisma.ListingWhereInput = {};
+  const and: Prisma.ListingWhereInput[] = [];
 
   if (filter?.adminAll) {
     if (filter.status) {
@@ -32,9 +33,13 @@ function buildListingWhere(filter?: FilterState): Prisma.ListingWhereInput {
     }
   } else {
     where.status = 'ACTIVE';
+    and.push({ OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }] });
   }
 
-  if (!filter) return where;
+  if (!filter) {
+    if (and.length) where.AND = and;
+    return where;
+  }
 
   if (filter.minPrice) where.price = { ...(where.price as object), gte: filter.minPrice };
   if (filter.maxPrice) where.price = { ...(where.price as object), lte: filter.maxPrice };
@@ -62,13 +67,22 @@ function buildListingWhere(filter?: FilterState): Prisma.ListingWhereInput {
       ],
     };
   }
-  if (filter.category) where.categoryId = filter.category;
+  if (filter.category) {
+    where.category = {
+      OR: [
+        { id: filter.category },
+        { slug: filter.category },
+      ],
+    };
+  }
   if (filter.listingType) where.listingType = filter.listingType.toUpperCase() as 'SALE' | 'RENT';
+  if (filter.tier) where.tier = filter.tier.toUpperCase() as 'STANDARD' | 'PREMIUM' | 'SHOWCASE';
   if (filter.roomCount?.length) where.roomCount = { in: filter.roomCount };
   if (filter.minArea) where.netArea = { ...(where.netArea as object), gte: filter.minArea };
   if (filter.maxArea) where.netArea = { ...(where.netArea as object), lte: filter.maxArea };
   if (filter.heating) where.heating = { contains: filter.heating, mode: 'insensitive' };
 
+  if (and.length) where.AND = and;
   return where;
 }
 
@@ -146,6 +160,8 @@ class PrismaListingRepository implements IListingRepository {
         attributes: listing.attributes,
         categoryId: listing.category.id,
         sellerId: listing.seller.id,
+        expiresAt: listing.expiresAt ? new Date(listing.expiresAt) : undefined,
+        boostEndsAt: listing.boostEndsAt ? new Date(listing.boostEndsAt) : undefined,
         images: {
           create: listing.images.map((url, order) => ({ url, order })),
         },
@@ -164,6 +180,9 @@ class PrismaListingRepository implements IListingRepository {
         price: data.price,
         status: data.status?.toUpperCase() as 'ACTIVE' | 'PASSIVE' | 'SOLD' | 'PENDING' | 'REJECTED' | undefined,
         featured: data.featured,
+        tier: data.tier ? (data.tier.toUpperCase() as 'STANDARD' | 'PREMIUM' | 'SHOWCASE') : undefined,
+        expiresAt: data.expiresAt ? new Date(data.expiresAt) : undefined,
+        boostEndsAt: data.boostEndsAt ? new Date(data.boostEndsAt) : undefined,
       },
       include: listingInclude,
     }).catch(() => null);

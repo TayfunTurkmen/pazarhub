@@ -43,6 +43,7 @@ export function parseFilterState(params: SearchParams): FilterState {
         brand: first(params.brand),
         condition: first(params.condition),
         sort: first(params.sort) as FilterState['sort'],
+        tier: first(params.tier) as FilterState['tier'],
         page: parseNumber(first(params.page)) ?? 1,
         limit: parseNumber(first(params.limit)) ?? 24,
         status: first(params.status) as FilterState['status'],
@@ -74,6 +75,7 @@ export function buildFilterQueryString(filter: FilterState, extra?: Record<strin
         ['brand', filter.brand],
         ['condition', filter.condition],
         ['sort', filter.sort],
+        ['tier', filter.tier],
         ['page', filter.page && filter.page > 1 ? filter.page : undefined],
     ];
 

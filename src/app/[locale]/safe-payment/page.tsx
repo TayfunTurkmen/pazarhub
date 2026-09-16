@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import Card from '@/components/ui/Card';
 import PageHero from '@/components/layout/PageHero';
 import { Shield, Lock, CheckCircle, ArrowRight } from 'lucide-react';
+import { Link } from '@/i18n/navigation';
 
 export default async function SafePaymentPage() {
   const t = await getTranslations('Pages');
@@ -38,6 +39,12 @@ export default async function SafePaymentPage() {
           </div>
         ))}
       </div>
+
+      <Card className="p-8 text-center">
+        <h2 className="text-xl font-black mb-2">Param Güvende ile devam edin</h2>
+        <p className="text-sm text-[var(--color-muted)] mb-4">PayTR veya iyzico ile ödeme alınır, teslim onayına kadar tutar emanette bekler.</p>
+        <Link href="/param-guvende" className="btn btn-secondary px-8 py-3">Param Güvende paneli</Link>
+      </Card>
     </div>
   );
 }

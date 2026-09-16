@@ -13,5 +13,5 @@ export function isValidTurkishMobile(phone: string): boolean {
 }
 
 export function phoneToEmail(phone: string): string {
-  return `${normalizePhone(phone)}@phone.sahibindenkonutal.local`;
+  return `${normalizePhone(phone)}@phone.skonutal.local`;
 }

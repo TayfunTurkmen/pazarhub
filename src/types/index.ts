@@ -70,6 +70,8 @@ export interface Listing {
     netArea?: number; // m2
     floor?: number; // 0 for ground, etc.
     heating?: string; // 'Gas', 'Central'
+    expiresAt?: string;
+    boostEndsAt?: string;
 }
 
 // Filter Options
@@ -96,6 +98,7 @@ export interface FilterState {
     brand?: string;
     condition?: string;
     sort?: 'newest' | 'price_asc' | 'price_desc';
+    tier?: 'standard' | 'premium' | 'showcase';
     page?: number;
     limit?: number;
     status?: Listing['status'];

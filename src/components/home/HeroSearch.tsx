@@ -1,91 +1,133 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from '@/i18n/navigation';
-import { Search } from 'lucide-react';
+import { Link, useRouter } from '@/i18n/navigation';
+import { MapPinned, Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { sanitizeSearchInput } from '@/lib/sanitize';
+import { LOCATION_DATA } from '@/services/locationData';
 
 interface HeroSearchProps {
   categories: { id: string; name: string; slug: string }[];
 }
 
+const ROOM_OPTIONS = ['1+0', '1+1', '2+1', '3+1', '4+1', '5+'];
+
 export default function HeroSearch({ categories }: HeroSearchProps) {
   const t = useTranslations('Home');
   const router = useRouter();
+  const [tab, setTab] = useState<'sale' | 'rent' | 'projects'>('sale');
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('');
-  const [location, setLocation] = useState('');
-  const [error, setError] = useState('');
+  const [city, setCity] = useState('');
+  const [rooms, setRooms] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const safeQuery = sanitizeSearchInput(query);
-    const safeLocation = sanitizeSearchInput(location);
+    const safeCity = sanitizeSearchInput(city);
     const safeCategory = categories.some((c) => c.slug === category) ? category : '';
 
-    if (!safeQuery && !safeCategory && !safeLocation) {
-      setError(t('search_error_empty'));
-      return;
-    }
-
-    setError('');
     const params = new URLSearchParams();
+    if (tab === 'projects') {
+      params.set('tier', 'showcase');
+    } else {
+      params.set('listingType', tab);
+    }
     if (safeQuery) params.set('query', safeQuery);
     if (safeCategory) params.set('category', safeCategory);
-    if (safeLocation) params.set('city', safeLocation);
+    if (safeCity) params.set('city', safeCity);
+    if (rooms) params.set('roomCount', rooms);
     router.push(`/search?${params.toString()}`);
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-5xl mx-auto">
+      <div className="flex items-end gap-1 px-1">
+        {([
+          ['sale', t('tab_sale')],
+          ['rent', t('tab_rent')],
+          ['projects', t('tab_projects')],
+        ] as const).map(([id, label]) => (
+          <button
+            key={id}
+            type="button"
+            onClick={() => setTab(id)}
+            className={`px-5 py-2.5 rounded-t-xl text-sm font-bold transition-colors ${
+              tab === id
+                ? 'bg-white text-[var(--color-ink)] dark:bg-[var(--color-surface)] dark:text-white'
+                : 'bg-black/25 text-white/85 hover:bg-black/35'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
       <form
         onSubmit={handleSubmit}
-        className="bg-white dark:bg-[var(--color-surface)] rounded-2xl shadow-2xl shadow-black/20 p-2 flex flex-col sm:flex-row gap-2 border border-white/40"
+        className="bg-white dark:bg-[var(--color-surface)] rounded-2xl rounded-tl-none shadow-2xl shadow-black/25 p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2 border border-white/40"
         noValidate
       >
-        <div className="flex-1 flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-gray-100 dark:divide-[var(--color-border)]">
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => { setQuery(e.target.value); setError(''); }}
-            placeholder={t('search_what')}
-            maxLength={120}
-            autoComplete="off"
-            className="flex-1 px-4 py-3.5 text-sm text-[var(--color-foreground)] placeholder-[var(--color-muted)] focus:outline-none bg-transparent rounded-xl sm:rounded-none sm:rounded-l-xl"
-          />
-          <select
-            value={category}
-            onChange={(e) => { setCategory(e.target.value); setError(''); }}
-            className="flex-1 px-4 py-3.5 text-sm text-[var(--color-foreground)] bg-transparent focus:outline-none cursor-pointer"
-            aria-label={t('search_category')}
-          >
-            <option value="">{t('search_category')}</option>
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.slug}>{cat.name}</option>
-            ))}
-          </select>
-          <input
-            type="text"
-            value={location}
-            onChange={(e) => { setLocation(e.target.value); setError(''); }}
-            placeholder={t('search_location')}
-            maxLength={120}
-            autoComplete="off"
-            className="flex-1 px-4 py-3.5 text-sm text-[var(--color-foreground)] placeholder-[var(--color-muted)] focus:outline-none bg-transparent"
-          />
-        </div>
-        <button
-          type="submit"
-          className="flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white px-8 py-3.5 rounded-xl font-semibold text-sm transition-colors shrink-0"
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder={t('search_what')}
+          maxLength={120}
+          autoComplete="off"
+          className="lg:col-span-3 px-4 py-3 text-sm text-[var(--color-foreground)] placeholder-[var(--color-muted)] bg-[var(--color-background)] rounded-xl border border-[var(--color-border)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30"
+        />
+        <select
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          className="lg:col-span-2 px-4 py-3 text-sm text-[var(--color-foreground)] bg-[var(--color-background)] rounded-xl border border-[var(--color-border)] focus:outline-none cursor-pointer"
+          aria-label={t('search_city')}
         >
-          <Search size={18} />
-          {t('search_btn')}
-        </button>
+          <option value="">{t('search_city')}</option>
+          {LOCATION_DATA.map((item) => (
+            <option key={item.id} value={item.name}>{item.name}</option>
+          ))}
+        </select>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="lg:col-span-2 px-4 py-3 text-sm text-[var(--color-foreground)] bg-[var(--color-background)] rounded-xl border border-[var(--color-border)] focus:outline-none cursor-pointer"
+          aria-label={t('search_type')}
+        >
+          <option value="">{t('search_type')}</option>
+          {categories.map((cat) => (
+            <option key={cat.id} value={cat.slug}>{cat.name}</option>
+          ))}
+        </select>
+        <select
+          value={rooms}
+          onChange={(e) => setRooms(e.target.value)}
+          className="lg:col-span-2 px-4 py-3 text-sm text-[var(--color-foreground)] bg-[var(--color-background)] rounded-xl border border-[var(--color-border)] focus:outline-none cursor-pointer"
+          aria-label={t('search_rooms')}
+        >
+          <option value="">{t('search_rooms')}</option>
+          {ROOM_OPTIONS.map((room) => (
+            <option key={room} value={room}>{room}</option>
+          ))}
+        </select>
+        <div className="lg:col-span-3 flex gap-2">
+          <button
+            type="submit"
+            className="flex-1 flex items-center justify-center gap-2 bg-[var(--color-brand-yellow)] hover:bg-[var(--color-secondary-dark)] text-[var(--color-ink)] px-4 py-3 rounded-xl font-extrabold text-sm"
+          >
+            <Search size={18} />
+            {t('search_btn')}
+          </button>
+          <Link
+            href="/search?view=map"
+            className="hidden sm:flex items-center justify-center w-12 rounded-xl border border-[var(--color-border)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10"
+            aria-label={t('map_search')}
+          >
+            <MapPinned size={18} />
+          </Link>
+        </div>
       </form>
-      {error && (
-        <p className="mt-2 text-sm text-red-200 text-center" role="alert">{error}</p>
-      )}
     </div>
   );
 }

@@ -397,11 +397,20 @@ class MockListingRepository implements IListingRepository {
             filtered = filtered.filter(l => l.roomCount && filter.roomCount!.includes(l.roomCount));
         }
         if (filter.category) {
-            filtered = filtered.filter(l => l.category.id === filter.category || l.category.parentId === filter.category);
+            const q = filter.category.toLowerCase();
+            filtered = filtered.filter(l =>
+                l.category.id === filter.category ||
+                l.category.parentId === filter.category ||
+                l.category.slug.toLowerCase() === q
+            );
         }
         if (filter.listingType) {
             filtered = filtered.filter(l => l.listingType === filter.listingType);
         }
+        if (filter.tier) {
+            filtered = filtered.filter(l => l.tier === filter.tier);
+        }
+        filtered = filtered.filter((l) => !l.expiresAt || new Date(l.expiresAt) > new Date());
         if (filter.heating) {
             filtered = filtered.filter(l => l.heating?.toLowerCase().includes(filter.heating!.toLowerCase()));
         }

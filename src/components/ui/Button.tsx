@@ -15,7 +15,7 @@ export default function Button({
     const baseStyles = "inline-flex items-center justify-center rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-offset-1 active:scale-[0.98] cursor-pointer";
 
     const variants = {
-        primary: "bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary-dark)] focus:ring-[var(--color-primary)]/40 shadow-sm hover:shadow-md",
+        primary: "bg-[var(--color-navy)] text-[var(--color-brand-yellow)] hover:bg-[#13233d] focus:ring-[var(--color-brand-yellow)]/40 shadow-sm hover:shadow-md font-bold",
         secondary: "bg-[var(--color-secondary)] text-[var(--color-text)] hover:bg-[var(--color-secondary-dark)] focus:ring-[var(--color-secondary)]/40 shadow-sm hover:shadow-md",
         outline: "border border-[var(--color-border)] bg-transparent hover:bg-[var(--color-background)] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] focus:ring-[var(--color-primary)]/40",
         ghost: "bg-transparent hover:bg-[var(--color-background)] text-[var(--color-text-secondary)] hover:text-[var(--color-text)] focus:ring-[var(--color-primary)]/40",

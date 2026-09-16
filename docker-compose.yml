@@ -1,21 +1,45 @@
 services:
-  postgres:
-    image: postgres:16-alpine
-    container_name: sahibindenkonutal-db
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: sahibindenkonutal
+  app:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+    container_name: skonutal
     ports:
-      - "5432:5432"
+      - "${PORT:-3000}:3000"
+    environment:
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+      AUTH_SECRET: ${AUTH_SECRET:-skonutal-dev-secret-change-me-32chars}
+      AUTH_TRUST_HOST: "true"
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@127.0.0.1:5432/skonutal}
+      SKIP_EMBEDDED_POSTGRES: ${SKIP_EMBEDDED_POSTGRES:-0}
+      PAYTR_MERCHANT_ID: ${PAYTR_MERCHANT_ID:-}
+      PAYTR_MERCHANT_KEY: ${PAYTR_MERCHANT_KEY:-}
+      PAYTR_MERCHANT_SALT: ${PAYTR_MERCHANT_SALT:-}
+      PAYTR_TEST_MODE: ${PAYTR_TEST_MODE:-1}
+      IYZICO_API_KEY: ${IYZICO_API_KEY:-}
+      IYZICO_SECRET_KEY: ${IYZICO_SECRET_KEY:-}
+      IYZICO_SANDBOX: ${IYZICO_SANDBOX:-1}
+      EVOLUTION_API_URL: http://127.0.0.1:8080
+      EVOLUTION_API_KEY: ${EVOLUTION_API_KEY:-skonutal-evolution-key}
+      AUTHENTICATION_API_KEY: ${EVOLUTION_API_KEY:-skonutal-evolution-key}
+      EVOLUTION_INSTANCE: skonutal
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - skonutal-pg:/var/lib/postgresql
+      - skonutal-evo:/evolution/instances
+      - skonutal-redis:/var/lib/redis
+    restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d sahibindenkonutal"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 8s
+      retries: 5
+      start_period: 120s
 
 volumes:
-  pgdata:
+  skonutal-pg:
+  skonutal-evo:
+  skonutal-redis:

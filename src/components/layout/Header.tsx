@@ -12,15 +12,19 @@ import { ModeToggle } from '@/components/mode-toggle';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from '@/i18n/navigation';
 import { sanitizeSearchInput } from '@/lib/sanitize';
+import Logo from '@/components/brand/Logo';
 
 const NAV_CATEGORIES = [
-  { name: 'Emlak', slug: 'emlak', emoji: '🏠' },
-  { name: 'Vasıta', slug: 'vasita', emoji: '🚗' },
-  { name: 'Alışveriş', slug: 'alisveris', emoji: '🛍️' },
-  { name: 'İş İlanları', slug: 'is-ilanlari', emoji: '💼' },
-  { name: 'Hizmetler', slug: 'yardimci-hizmetler', emoji: '🔧' },
-  { name: 'Turlar', slug: 'turizm', emoji: '✈️' },
-  { name: 'Yardım', slug: 'contact', emoji: '❓', isHelp: true },
+  { name: 'Satılık', href: '/search?listingType=sale' },
+  { name: 'Kiralık', href: '/search?listingType=rent' },
+  { name: 'Konut', href: '/category/konut' },
+  { name: 'İş Yeri', href: '/category/isyeri' },
+  { name: 'Arsa', href: '/category/arsa' },
+  { name: 'Projeler', href: '/#projeler' },
+  { name: 'Kurumsal', href: '/kurumsal' },
+  { name: 'Doping', href: '/doping' },
+  { name: 'Param Güvende', href: '/param-guvende' },
+  { name: 'Blog', href: '/blog' },
 ];
 
 export default function Header() {
@@ -38,69 +42,77 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white dark:bg-[var(--color-surface)] border-b border-[var(--color-border)] shadow-sm">
-      <div className="container-custom h-16 flex items-center justify-between gap-4">
-        <Link href="/" className="text-lg font-bold text-[var(--color-primary)] flex items-center gap-2 shrink-0 group">
-          <span className="w-9 h-9 bg-gradient-to-br from-[var(--color-secondary)] to-amber-400 text-blue-900 rounded-lg flex items-center justify-center text-sm font-black shadow-md">S</span>
-          <span className="hidden sm:inline tracking-tight text-[var(--color-foreground)]">
-            sahibinden<span className="text-[var(--color-primary)]">konutal</span>.com
-          </span>
-        </Link>
-
-        <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-2xl relative">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={t('search_placeholder')}
-            maxLength={120}
-            autoComplete="off"
-            className="w-full pl-4 pr-12 py-2.5 bg-[var(--color-background)] border border-[var(--color-border)] rounded-xl text-[var(--color-foreground)] placeholder-[var(--color-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] text-sm"
-          />
-          <button type="submit" aria-label={t('search_btn')} className="absolute right-1 top-1/2 -translate-y-1/2 p-2 text-[var(--color-muted)] hover:text-[var(--color-primary)] rounded-lg hover:bg-[var(--color-primary)]/10">
-            <Search size={18} />
-          </button>
-        </form>
-
-        <div className="hidden md:flex items-center gap-1 shrink-0">
-          <Link href="/post-ad" className="text-sm font-medium text-[var(--color-foreground)] hover:text-[var(--color-primary)] px-3 py-2 rounded-lg transition-colors">
-            {t('post_ad')}
-          </Link>
-          <Link href="/dashboard?tab=favorites" className="text-sm font-medium text-[var(--color-foreground)] hover:text-[var(--color-primary)] px-3 py-2 rounded-lg transition-colors">
-            {t('favorites')}
-          </Link>
-          <UserActions />
-          <ModeToggle />
-          <LanguageSwitcher />
+    <header className="sticky top-0 z-50">
+      <div className="bg-[var(--color-brand-yellow)] text-[var(--color-ink)]">
+        <div className="container-custom h-8 flex items-center justify-between text-[11px] font-semibold">
+          <p className="truncate">{t('topbar')}</p>
+          <div className="hidden sm:flex items-center gap-4">
+            <Link href="/about" className="hover:underline">{t('about_short')}</Link>
+            <Link href="/contact" className="hover:underline">{t('help_short')}</Link>
+            <span>444 76 66</span>
+          </div>
         </div>
-
-        <button
-          type="button"
-          className="md:hidden p-2 text-[var(--color-foreground)] hover:text-[var(--color-primary)] rounded-xl"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
-        >
-          {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
       </div>
 
-      <div className="hidden md:block border-t border-[var(--color-border)] bg-[var(--color-background)]">
-        <div className="container-custom flex items-center gap-0.5 h-10 overflow-x-auto">
+      <div className="bg-white dark:bg-[var(--color-surface)] border-b border-[var(--color-border)]">
+        <div className="container-custom h-16 flex items-center justify-between gap-4">
+          <Logo />
+
+          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-xl relative">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={t('search_placeholder')}
+              maxLength={120}
+              autoComplete="off"
+              className="w-full pl-4 pr-12 py-2.5 bg-[var(--color-background)] border border-[var(--color-border)] rounded-xl text-[var(--color-foreground)] placeholder-[var(--color-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] text-sm"
+            />
+            <button type="submit" aria-label={t('search_btn')} className="absolute right-1 top-1/2 -translate-y-1/2 p-2 text-[var(--color-muted)] hover:text-[var(--color-primary)] rounded-lg hover:bg-[var(--color-primary)]/10">
+              <Search size={18} />
+            </button>
+          </form>
+
+          <div className="hidden md:flex items-center gap-1 shrink-0">
+            <Link href="/dashboard?tab=favorites" className="text-sm font-medium text-[var(--color-foreground)] hover:text-[var(--color-primary)] px-3 py-2 rounded-lg">
+              {t('favorites')}
+            </Link>
+            <UserActions />
+            <Link href="/post-ad" className="ml-1 inline-flex items-center gap-1.5 bg-[var(--color-brand-yellow)] hover:bg-[var(--color-secondary-dark)] text-[var(--color-ink)] px-4 py-2 rounded-xl text-sm font-extrabold">
+              <PlusCircle size={16} />
+              {t('post_ad')}
+            </Link>
+            <ModeToggle />
+            <LanguageSwitcher />
+          </div>
+
+          <button
+            type="button"
+            className="md:hidden p-2 text-[var(--color-foreground)] rounded-xl"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
+          >
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </div>
+
+      <div className="hidden md:block bg-[var(--color-navy)]">
+        <div className="container-custom flex items-center gap-1 h-11 overflow-x-auto">
           {NAV_CATEGORIES.map((cat) => (
             <Link
-              key={cat.slug}
-              href={cat.isHelp ? '/contact' : `/category/${cat.slug}`}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-[var(--color-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 rounded-lg transition-colors whitespace-nowrap"
+              key={cat.href}
+              href={cat.href}
+              className="px-3 py-1.5 text-xs font-semibold text-white/80 hover:text-[var(--color-brand-yellow)] whitespace-nowrap"
             >
-              <span>{cat.emoji}</span>
-              <span>{cat.name}</span>
+              {cat.name}
             </Link>
           ))}
         </div>
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-[var(--color-border)] bg-[var(--color-surface)] p-4 space-y-4">
+        <div className="md:hidden border-b border-[var(--color-border)] bg-[var(--color-surface)] p-4 space-y-4">
           <form onSubmit={(e) => { handleSearch(e); setMobileMenuOpen(false); }} className="relative">
             <input
               type="text"
@@ -118,20 +130,19 @@ export default function Header() {
           <div className="flex flex-wrap gap-2">
             {NAV_CATEGORIES.map((cat) => (
               <Link
-                key={cat.slug}
-                href={cat.isHelp ? '/contact' : `/category/${cat.slug}`}
+                key={cat.href}
+                href={cat.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-1.5 px-3 py-2 bg-[var(--color-background)] border border-[var(--color-border)] rounded-xl text-xs font-medium"
+                className="px-3 py-2 bg-[var(--color-background)] border border-[var(--color-border)] rounded-xl text-xs font-medium"
               >
-                <span>{cat.emoji}</span>
-                <span>{cat.name}</span>
+                {cat.name}
               </Link>
             ))}
           </div>
 
           <div className="space-y-3">
             <UserActions mobile />
-            <Link href="/post-ad" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-1.5 justify-center bg-[var(--color-primary)] text-white px-4 py-3 rounded-xl text-sm font-semibold w-full">
+            <Link href="/post-ad" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-1.5 justify-center bg-[var(--color-brand-yellow)] text-[var(--color-ink)] px-4 py-3 rounded-xl text-sm font-extrabold w-full">
               <PlusCircle size={16} />
               {t('post_ad')}
             </Link>
@@ -259,7 +270,7 @@ function UserActions({ mobile }: { mobile?: boolean }) {
       </Link>
       <Link
         href="/register"
-        className={`text-sm font-semibold bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl transition-colors ${mobile ? 'w-full justify-center py-2.5 flex items-center gap-1.5' : 'px-4 py-2'}`}
+        className={`text-sm font-semibold border border-[var(--color-navy)] text-[var(--color-navy)] dark:text-white dark:border-white/30 rounded-xl ${mobile ? 'w-full justify-center py-2.5 flex items-center gap-1.5' : 'px-4 py-2'}`}
       >
         {t('register_free')}
       </Link>

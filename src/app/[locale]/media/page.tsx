@@ -7,7 +7,7 @@ export default async function MediaPage() {
   const t = await getTranslations('Pages');
 
   const articles = [
-    { title: 'SahibindenKonutAl, 1 Milyon Aktif İlana Ulaştı', source: 'Hürriyet Ekonomi', date: '15 Ocak 2026' },
+    { title: 'skonutal.com, 1 Milyon Aktif İlana Ulaştı', source: 'Hürriyet Ekonomi', date: '15 Ocak 2026' },
     { title: 'Emlak Sektöründe Dijital Dönüşümün Yeni Yüzü', source: 'Bloomberg HT', date: '8 Ocak 2026' },
     { title: 'Güvenli Ödeme Sistemi ile Dolandırıcılığa Son', source: 'Sabah Teknoloji', date: '22 Aralık 2025' },
     { title: 'Mobil Uygulama İndirme Rekoru Kırdı', source: 'Webrazzi', date: '10 Aralık 2025' },

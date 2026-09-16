@@ -78,6 +78,8 @@ export function mapListing(listing: ListingWithRelations): Listing {
     netArea: listing.netArea ?? undefined,
     floor: listing.floor ?? undefined,
     heating: listing.heating ?? undefined,
+    expiresAt: listing.expiresAt?.toISOString(),
+    boostEndsAt: listing.boostEndsAt?.toISOString(),
   };
 }
 

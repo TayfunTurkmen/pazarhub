@@ -20,9 +20,9 @@ export default function AdminSettingsPage() {
         facebookAuthEnabled: true,
     });
     const [settings, setSettings] = useState({
-        siteName: 'SahibindenKonutAl',
-        siteDesc: 'Türkiye\'nin güvenilir ilan platformu',
-        contactEmail: 'info@sahibindenkonutal.com',
+        siteName: 'skonutal.com',
+        siteDesc: 'Türkiye\'nin yeni nesil emlak platformu',
+        contactEmail: 'info@skonutal.com',
         contactPhone: '+90 (212) 555 00 00',
         maxListingsPerUser: '50',
         maxPhotosPerListing: '20',

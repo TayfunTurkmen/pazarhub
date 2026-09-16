@@ -6,6 +6,7 @@ import { Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import NewsletterForm from '@/components/home/NewsletterForm';
 import { isSafeExternalUrl } from '@/lib/sanitize';
+import Logo from '@/components/brand/Logo';
 
 interface SocialLinks {
   facebook: string;
@@ -49,15 +50,12 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-[var(--color-surface)] border-t border-[var(--color-border)] mt-auto">
+    <footer className="bg-[var(--color-navy)] text-white mt-auto">
       <div className="container-custom py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <span className="w-9 h-9 bg-gradient-to-br from-[var(--color-secondary)] to-amber-400 text-blue-900 rounded-lg flex items-center justify-center text-sm font-black">S</span>
-              <span className="font-bold text-[var(--color-foreground)]">sahibindenkonutal.com</span>
-            </Link>
-            <p className="text-sm text-[var(--color-muted)] leading-relaxed mb-4">
+            <Logo inverted />
+            <p className="text-sm text-white/70 leading-relaxed mt-4 mb-4">
               {t('tagline')}
             </p>
             <div className="flex gap-2">
@@ -68,7 +66,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="w-9 h-9 bg-[var(--color-background)] border border-[var(--color-border)] rounded-lg flex items-center justify-center hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)] hover:text-white text-[var(--color-muted)] transition-colors"
+                  className="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[var(--color-brand-yellow)] hover:text-[var(--color-ink)] text-white/80"
                 >
                   <social.icon size={16} />
                 </a>
@@ -77,46 +75,48 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="font-semibold text-[var(--color-foreground)] mb-4">{t('corporate')}</h3>
+            <h3 className="font-semibold mb-4">{t('corporate')}</h3>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/about" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('about')}</Link></li>
-              <li><Link href="/media" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('press')}</Link></li>
-              <li><Link href="/contact" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('contact')}</Link></li>
+              <li><Link href="/about" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('about')}</Link></li>
+              <li><Link href="/media" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('press')}</Link></li>
+              <li><Link href="/contact" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('contact')}</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-semibold text-[var(--color-foreground)] mb-4">{t('services')}</h3>
+            <h3 className="font-semibold mb-4">{t('services')}</h3>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/ai" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('ai_platform')}</Link></li>
-              <li><Link href="/blog" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('ai_blog')}</Link></li>
-              <li><Link href="/doping" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('doping')}</Link></li>
-              <li><Link href="/safe-payment" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('safe_payment')}</Link></li>
-              <li><Link href="/mobile" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('mobile_apps')}</Link></li>
+              <li><Link href="/ai" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('ai_platform')}</Link></li>
+              <li><Link href="/blog" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('ai_blog')}</Link></li>
+              <li><Link href="/kurumsal" className="text-white/70 hover:text-[var(--color-brand-yellow)]">Kurumsal Üyelik</Link></li>
+              <li><Link href="/doping" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('doping')}</Link></li>
+              <li><Link href="/param-guvende" className="text-white/70 hover:text-[var(--color-brand-yellow)]">Param Güvende</Link></li>
+              <li><Link href="/safe-payment" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('safe_payment')}</Link></li>
+              <li><Link href="/mobile" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('mobile_apps')}</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-semibold text-[var(--color-foreground)] mb-4">{t('help')}</h3>
+            <h3 className="font-semibold mb-4">{t('help')}</h3>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/contact" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('faq')}</Link></li>
-              <li><Link href="/terms" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('terms')}</Link></li>
-              <li><Link href="/privacy" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('privacy')}</Link></li>
-              <li><Link href="/cookie" className="text-[var(--color-muted)] hover:text-[var(--color-primary)]">{t('cookies')}</Link></li>
+              <li><Link href="/contact" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('faq')}</Link></li>
+              <li><Link href="/terms" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('terms')}</Link></li>
+              <li><Link href="/privacy" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('privacy')}</Link></li>
+              <li><Link href="/cookie" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('cookies')}</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-semibold text-[var(--color-foreground)] mb-4">{t('follow_us')}</h3>
-            <p className="text-sm text-[var(--color-muted)] mb-3">{t('newsletter_desc')}</p>
+            <h3 className="font-semibold mb-4">{t('follow_us')}</h3>
+            <p className="text-sm text-white/70 mb-3">{t('newsletter_desc')}</p>
             <NewsletterForm />
           </div>
         </div>
       </div>
 
-      <div className="bg-blue-950 dark:bg-slate-950 py-4">
-        <div className="container-custom text-center text-sm text-blue-200/70">
-          &copy; {new Date().getFullYear()} SahibindenKonutAl.com — {t('copyright')}
+      <div className="bg-black/30 py-4">
+        <div className="container-custom text-center text-sm text-white/50">
+          &copy; {new Date().getFullYear()} skonutal.com — {t('copyright')}
         </div>
       </div>
     </footer>

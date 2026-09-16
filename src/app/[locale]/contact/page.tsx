@@ -63,7 +63,7 @@ export default function ContactPage() {
           {[
             { icon: MapPin, title: t('contact_address'), text: 'Levent Mah. Büyükdere Cad. No:123, Beşiktaş / İstanbul', color: 'bg-blue-500/10 text-blue-500' },
             { icon: Phone, title: t('contact_phone'), text: '+90 (212) 555 00 00', color: 'bg-emerald-500/10 text-emerald-500' },
-            { icon: Mail, title: t('contact_email_label'), text: 'info@sahibindenkonutal.com', color: 'bg-violet-500/10 text-violet-500' },
+            { icon: Mail, title: t('contact_email_label'), text: 'info@skonutal.com', color: 'bg-violet-500/10 text-violet-500' },
           ].map((item) => (
             <Card key={item.title} className="p-5 flex items-start gap-4">
               <div className={`w-10 h-10 rounded-xl ${item.color} flex items-center justify-center shrink-0`}>
