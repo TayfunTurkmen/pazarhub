@@ -54,10 +54,10 @@ function PaymentInner() {
       <Card className="p-10 text-center max-w-xl mx-auto">
         <CheckCircle2 className="mx-auto text-emerald-500 mb-3" size={40} />
         <h1 className="text-2xl font-black">Ödeme alındı</h1>
-        <p className="text-sm text-[var(--color-muted)] mt-2">Üyelik, doping veya Param Güvende bakiyeniz güncellendi.</p>
+        <p className="text-sm text-[var(--color-muted)] mt-2">Üyelik, doping veya Sendeöde bakiyeniz güncellendi.</p>
         <div className="flex justify-center gap-3 mt-6">
           <Link href="/dashboard" className="btn btn-primary">Hesabım</Link>
-          <Link href="/param-guvende" className="btn btn-secondary">Param Güvende</Link>
+          <Link href="/sendeode" className="btn btn-secondary">Sendeöde</Link>
         </div>
       </Card>
     );

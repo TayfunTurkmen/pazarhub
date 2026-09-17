@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { CATEGORIES } from '@/services/mockData';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
@@ -15,11 +16,14 @@ import LocationCascade from '@/components/listing/LocationCascade';
 
 export default function PostAdWizard() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const editId = searchParams.get('edit');
     const t = useTranslations('PostAd');
     const { user } = useAuth();
     const [step, setStep] = useState(1);
     const [submitting, setSubmitting] = useState(false);
     const [uploading, setUploading] = useState(false);
+    const [loadingEdit, setLoadingEdit] = useState(Boolean(editId));
     const [images, setImages] = useState<string[]>([]);
     const [pendingFile, setPendingFile] = useState<File | null>(null);
     const [error, setError] = useState('');
@@ -36,6 +40,43 @@ export default function PostAdWizard() {
         floor: '',
         heating: '',
     });
+
+    useEffect(() => {
+        if (!editId || !user) return;
+        let cancelled = false;
+        setLoadingEdit(true);
+        fetch(`/api/listings/${editId}`)
+            .then((res) => res.json())
+            .then((json: { success: boolean; data?: Listing; error?: string }) => {
+                if (cancelled || !json.success || !json.data) {
+                    setError(json.error || t('update_error'));
+                    return;
+                }
+                const listing = json.data;
+                if (listing.seller.id !== user.id && user.role !== 'admin') {
+                    setError(t('update_error'));
+                    return;
+                }
+                setFormData({
+                    category: listing.category.id,
+                    title: listing.title,
+                    price: String(listing.price),
+                    description: listing.description || '',
+                    city: listing.location.city || '',
+                    district: listing.location.district || '',
+                    neighborhood: listing.location.neighborhood || '',
+                    roomCount: listing.roomCount || '',
+                    netArea: listing.netArea != null ? String(listing.netArea) : '',
+                    floor: listing.floor != null ? String(listing.floor) : '',
+                    heating: listing.heating || '',
+                });
+                setImages(listing.images || []);
+                setStep(2);
+            })
+            .catch(() => setError(t('update_error')))
+            .finally(() => { if (!cancelled) setLoadingEdit(false); });
+        return () => { cancelled = true; };
+    }, [editId, user, t]);
 
     const handleNext = () => setStep(step + 1);
     const handleBack = () => setStep(step - 1);
@@ -63,23 +104,25 @@ export default function PostAdWizard() {
         setSubmitting(true);
         setError('');
         try {
-            const res = await fetch('/api/listings', {
-                method: 'POST',
+            const payload = {
+                title: formData.title,
+                description: formData.description,
+                price: Number(formData.price),
+                categoryId: formData.category,
+                city: formData.city,
+                district: formData.district,
+                neighborhood: formData.neighborhood || undefined,
+                roomCount: formData.roomCount || undefined,
+                netArea: formData.netArea ? Number(formData.netArea) : undefined,
+                floor: formData.floor ? Number(formData.floor) : undefined,
+                heating: formData.heating || undefined,
+                images,
+            };
+
+            const res = await fetch(editId ? `/api/listings/${editId}` : '/api/listings', {
+                method: editId ? 'PATCH' : 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    title: formData.title,
-                    description: formData.description,
-                    price: Number(formData.price),
-                    categoryId: formData.category,
-                    city: formData.city,
-                    district: formData.district,
-                    neighborhood: formData.neighborhood || undefined,
-                    roomCount: formData.roomCount || undefined,
-                    netArea: formData.netArea ? Number(formData.netArea) : undefined,
-                    floor: formData.floor ? Number(formData.floor) : undefined,
-                    heating: formData.heating || undefined,
-                    images,
-                }),
+                body: JSON.stringify(payload),
             });
             const json = await res.json() as { success: boolean; data?: Listing; error?: string };
             if (!json.success || !json.data) {
@@ -91,7 +134,7 @@ export default function PostAdWizard() {
             }
             router.push(`/listing/${json.data.id}`);
         } catch {
-            setError(t('error'));
+            setError(editId ? t('update_error') : t('error'));
         } finally {
             setSubmitting(false);
         }
@@ -99,8 +142,15 @@ export default function PostAdWizard() {
 
     const steps = [t('category'), t('details'), t('preview')];
 
+    if (loadingEdit) {
+        return <p className="text-sm text-[var(--color-muted)]">Yükleniyor…</p>;
+    }
+
     return (
         <div className="space-y-6">
+            {editId && (
+                <p className="text-sm font-semibold text-[var(--color-primary)]">{t('edit_title')}</p>
+            )}
             <div className="flex items-center mb-8">
                 {steps.map((label, i) => {
                     const s = i + 1;
@@ -287,7 +337,9 @@ export default function PostAdWizard() {
                         <div className="flex justify-between pt-4">
                             <Button variant="outline" onClick={handleBack}>{t('back')}</Button>
                             <Button onClick={handleSubmit} disabled={submitting} className="px-8 font-bold">
-                                {submitting ? t('publishing') : t('publish')}
+                                {submitting
+                                    ? (editId ? t('saving') : t('publishing'))
+                                    : (editId ? t('save_changes') : t('publish'))}
                             </Button>
                         </div>
                     </div>

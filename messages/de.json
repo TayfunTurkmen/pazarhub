@@ -23,7 +23,7 @@
         "nav_projects": "Projekte",
         "nav_corporate": "Unternehmen",
         "nav_doping": "Boost",
-        "nav_escrow": "Sichere Zahlung",
+        "nav_escrow": "Sendeöde",
         "nav_blog": "Blog",
         "menu_open": "Menü öffnen",
         "menu_close": "Menü schließen",
@@ -57,7 +57,7 @@
         "faq": "FAQ",
         "copyright": "Alle Rechte vorbehalten.",
         "corporate_membership": "Firmenmitgliedschaft",
-        "escrow": "Sichere Zahlung"
+        "escrow": "Sendeöde"
     },
     "Home": {
         "categories": "Kategorien",
@@ -189,7 +189,10 @@
         "job_type": "Arbeitsmodell",
         "job_hint": "Mit Unterkategorien Vollzeit, Teilzeit oder Freelance eingrenzen.",
         "service_area": "Dienste",
-        "service_hint": "Mit Standortfiltern Anbieter in Ihrer Nähe finden."
+        "service_hint": "Mit Standortfiltern Anbieter in Ihrer Nähe finden.",
+        "seller_type": "Anbieter",
+        "from_owner": "Privat",
+        "from_agency": "Makler"
     },
     "PostAd": {
         "title": "Kostenlose Anzeige aufgeben",
@@ -220,8 +223,13 @@
         "neighborhood": "Viertel",
         "photos_selected": "{count} Fotos ausgewählt",
         "publishing": "Wird veröffentlicht…",
+        "saving": "Wird gespeichert…",
+        "save_changes": "Änderungen speichern",
+        "edit_title": "Anzeige bearbeiten",
+        "update_success": "Ihre Anzeige wurde aktualisiert!",
         "uploading": "Wird hochgeladen…",
         "error": "Beim Veröffentlichen ist ein Fehler aufgetreten.",
+        "update_error": "Beim Aktualisieren ist ein Fehler aufgetreten.",
         "district": "Bezirk"
     },
     "Listing": {
@@ -330,7 +338,14 @@
         "sample_msg_2": "Ist die Wohnung noch zu verkaufen?",
         "time_10min": "vor 10 Min.",
         "time_1hr": "vor 1 Stunde",
-        "no_messages": "Noch keine Nachrichten."
+        "no_messages": "Noch keine Nachrichten.",
+        "unpublish": "Veröffentlichung zurückziehen",
+        "republish": "Erneut veröffentlichen",
+        "delete_confirm": "Möchten Sie diese Anzeige wirklich löschen?",
+        "passive": "Nicht veröffentlicht",
+        "pending": "Ausstehende Genehmigung",
+        "sold": "Verkauft",
+        "action_failed": "Aktion fehlgeschlagen."
     },
     "Admin": {
         "panel_title": "Admin-Panel",

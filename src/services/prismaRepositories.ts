@@ -69,6 +69,12 @@ function buildListingWhere(filter?: FilterState): Prisma.ListingWhereInput {
       ],
     };
   }
+  if (filter.sellerType) {
+    where.seller = {
+      ...(where.seller as object),
+      type: filter.sellerType === 'corporate' ? 'CORPORATE' : 'INDIVIDUAL',
+    };
+  }
   if (filter.category) {
     const ids = getDescendantIds(CATEGORIES, filter.category);
     const slugs = CATEGORIES.filter((c) => ids.includes(c.id)).map((c) => c.slug);
@@ -220,8 +226,26 @@ class PrismaListingRepository implements IListingRepository {
         status: data.status?.toUpperCase() as 'ACTIVE' | 'PASSIVE' | 'SOLD' | 'PENDING' | 'REJECTED' | undefined,
         featured: data.featured,
         tier: data.tier ? (data.tier.toUpperCase() as 'STANDARD' | 'PREMIUM' | 'SHOWCASE') : undefined,
+        listingType: data.listingType ? (data.listingType.toUpperCase() as 'SALE' | 'RENT') : undefined,
+        roomCount: data.roomCount,
+        netArea: data.netArea,
+        floor: data.floor,
+        heating: data.heating,
+        city: data.location?.city,
+        district: data.location?.district,
+        neighborhood: data.location?.neighborhood,
+        street: data.location?.street,
+        categoryId: data.category?.id,
         expiresAt: data.expiresAt ? new Date(data.expiresAt) : undefined,
         boostEndsAt: data.boostEndsAt ? new Date(data.boostEndsAt) : undefined,
+        ...(data.images
+          ? {
+              images: {
+                deleteMany: {},
+                create: data.images.map((url, order) => ({ url, order })),
+              },
+            }
+          : {}),
       },
       include: listingInclude,
     }).catch(() => null);

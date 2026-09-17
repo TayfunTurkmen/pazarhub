@@ -23,7 +23,7 @@
         "nav_projects": "Projeler",
         "nav_corporate": "Kurumsal",
         "nav_doping": "Doping",
-        "nav_escrow": "Param Güvende",
+        "nav_escrow": "Sendeöde",
         "nav_blog": "Blog",
         "menu_open": "Menüyü aç",
         "menu_close": "Menüyü kapat",
@@ -57,7 +57,7 @@
         "newsletter_success": "Teşekkürler! Aboneliğiniz alındı.",
         "copyright": "Tüm hakları saklıdır.",
         "corporate_membership": "Kurumsal Üyelik",
-        "escrow": "Param Güvende"
+        "escrow": "Sendeöde"
     },
     "Home": {
         "categories": "Kategoriler",
@@ -189,7 +189,10 @@
         "job_type": "Çalışma şekli",
         "job_hint": "Alt kategori seçerek tam/yarı zamanlı veya freelance ilanlara daraltın.",
         "service_area": "Hizmet",
-        "service_hint": "Konum filtresiyle bölgenizdeki hizmet verenleri bulun."
+        "service_hint": "Konum filtresiyle bölgenizdeki hizmet verenleri bulun.",
+        "seller_type": "Kimden",
+        "from_owner": "Sahibinden",
+        "from_agency": "Emlakçıdan"
     },
     "PostAd": {
         "title": "Ücretsiz İlan Ver",
@@ -216,8 +219,13 @@
         "back": "Geri",
         "publish": "İlanı Yayınla",
         "publishing": "Yayınlanıyor…",
+        "save_changes": "Değişiklikleri Kaydet",
+        "saving": "Kaydediliyor…",
+        "edit_title": "İlanı Düzenle",
         "success": "İlanınız başarıyla oluşturuldu!",
+        "update_success": "İlanınız güncellendi!",
         "error": "İlan yayınlanırken bir hata oluştu.",
+        "update_error": "İlan güncellenirken bir hata oluştu.",
         "district": "İlçe",
         "uploading": "Yükleniyor…",
         "photos_selected": "{count} fotoğraf seçildi",
@@ -330,7 +338,14 @@
         "sample_msg_2": "Daire hâlâ satılık mı?",
         "time_10min": "10 dk önce",
         "time_1hr": "1 saat önce",
-        "no_messages": "Henuz mesajiniz yok."
+        "no_messages": "Henuz mesajiniz yok.",
+        "unpublish": "Yayından kaldır",
+        "republish": "Yeniden yayınla",
+        "delete_confirm": "Bu ilanı silmek istediğinize emin misiniz?",
+        "passive": "Yayında değil",
+        "pending": "Onay bekliyor",
+        "sold": "Satıldı",
+        "action_failed": "İşlem başarısız oldu."
     },
     "Admin": {
         "panel_title": "Yönetim Paneli",
@@ -448,6 +463,7 @@
         "settings": "Ayarlar",
         "active_listings": "Yayındaki İlanlarım",
         "active": "Yayında",
+        "passive_status": "Pasif",
         "no_listings": "Henüz yayında ilanınız yok.",
         "post_ad_now": "Hemen İlan Ver",
         "recent_messages": "Son Mesajlar",

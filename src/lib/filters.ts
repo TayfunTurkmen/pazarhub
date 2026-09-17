@@ -48,6 +48,7 @@ export function parseFilterState(params: SearchParams): FilterState {
         page: parseNumber(first(params.page)) ?? 1,
         limit: parseNumber(first(params.limit)) ?? 24,
         status: first(params.status) as FilterState['status'],
+        sellerType: first(params.sellerType) as FilterState['sellerType'],
         adminAll: first(params.adminAll) === 'true',
     };
 }
@@ -75,6 +76,7 @@ export function buildFilterQueryString(filter: FilterState, extra?: Record<strin
         ['year', filter.year],
         ['brand', filter.brand],
         ['condition', filter.condition],
+        ['sellerType', filter.sellerType],
         ['sort', filter.sort],
         ['tier', filter.tier],
         ['page', filter.page && filter.page > 1 ? filter.page : undefined],

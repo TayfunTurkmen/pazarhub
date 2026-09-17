@@ -15,9 +15,9 @@ export default function CorporateStrip() {
           <h3 className="font-black text-lg">Doping + Vitrin</h3>
           <p className="text-sm text-white/70 mt-2">Aramada üst sıra, sarı çerçeve ve anasayfa vitrini.</p>
         </Link>
-        <Link href="/param-guvende" className="p-6 md:p-8 hover:bg-white/5">
+        <Link href="/sendeode" className="p-6 md:p-8 hover:bg-white/5">
           <Shield className="text-[var(--color-brand-accent)] mb-3" />
-          <h3 className="font-black text-lg">Param Güvende</h3>
+          <h3 className="font-black text-lg">Sendeöde</h3>
           <p className="text-sm text-white/70 mt-2">PayTR / iyzico ile emanet ödeme. Teslim onayına kadar para güvende.</p>
         </Link>
       </div>

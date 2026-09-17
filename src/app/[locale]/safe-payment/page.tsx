@@ -41,9 +41,9 @@ export default async function SafePaymentPage() {
       </div>
 
       <Card className="p-8 text-center">
-        <h2 className="text-xl font-black mb-2">Param Güvende ile devam edin</h2>
+        <h2 className="text-xl font-black mb-2">Sendeöde ile devam edin</h2>
         <p className="text-sm text-[var(--color-muted)] mb-4">PayTR veya iyzico ile ödeme alınır, teslim onayına kadar tutar emanette bekler.</p>
-        <Link href="/param-guvende" className="btn btn-secondary px-8 py-3">Param Güvende paneli</Link>
+        <Link href="/sendeode" className="btn btn-secondary px-8 py-3">Sendeöde paneli</Link>
       </Card>
     </div>
   );

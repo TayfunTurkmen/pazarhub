@@ -169,7 +169,7 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                             ) : (
                                 <CheckoutButton
                                     variant="secondary"
-                                    label="Param Güvende ile al"
+                                    label="Sendeöde ile al"
                                     payload={{ kind: 'ESCROW', listingId: listing.id }}
                                 />
                             )}

@@ -102,6 +102,7 @@ export interface FilterState {
     page?: number;
     limit?: number;
     status?: Listing['status'];
+    sellerType?: 'individual' | 'corporate';
     adminAll?: boolean;
 }
 

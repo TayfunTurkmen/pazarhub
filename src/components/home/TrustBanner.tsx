@@ -21,7 +21,7 @@ export default async function TrustBanner() {
             </p>
           </div>
           <Link
-            href="/param-guvende"
+            href="/sendeode"
             className="shrink-0 w-full md:w-auto text-center bg-[var(--color-brand-yellow)] hover:bg-[var(--color-secondary-dark)] text-[var(--color-navy)] font-extrabold px-6 py-3 rounded-xl text-sm shadow-lg"
           >
             {t('trust_cta')}

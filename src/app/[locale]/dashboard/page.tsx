@@ -4,7 +4,7 @@ import { Link } from '@/i18n/navigation';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
-import { Edit, Trash2, MessageSquare, Eye, PlusCircle, Settings, Heart, BarChart3, User, Shield, Bell, Lock, Save, Star, ArrowRight, X } from 'lucide-react';
+import { Edit, Trash2, MessageSquare, Eye, PlusCircle, Settings, Heart, BarChart3, User, Shield, Bell, Lock, Save, Star, ArrowRight, X, EyeOff } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/AuthContext';
 import RouteGuard from '@/components/auth/RouteGuard';
@@ -37,7 +37,8 @@ export default function DashboardPage() {
     const [activeTab, setActiveTab] = useState<Tab>('listings');
     const [settingsSaved, setSettingsSaved] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState<DashboardMessage | null>(null);
-    const [editingListing, setEditingListing] = useState<Listing | null>(null);
+    const [actionBusyId, setActionBusyId] = useState('');
+    const [actionError, setActionError] = useState('');
 
     useEffect(() => {
         const tab = searchParams.get('tab') as Tab;
@@ -45,6 +46,12 @@ export default function DashboardPage() {
             setActiveTab(tab);
         }
     }, [searchParams]);
+
+    const reloadListings = async () => {
+        if (!user?.id) return;
+        const listingsRes = await fetch(`/api/users/${user.id}/listings`).then((res) => res.json());
+        if (listingsRes.success) setMyListings(listingsRes.data);
+    };
 
     useEffect(() => {
         if (!user?.id) return;
@@ -67,8 +74,60 @@ export default function DashboardPage() {
             .finally(() => setLoadingListings(false));
     }, [user?.id]);
 
+    const statusLabel = (status: Listing['status']) => {
+        if (status === 'active') return t('active');
+        if (status === 'passive') return tDash('passive');
+        if (status === 'pending') return tDash('pending');
+        if (status === 'sold') return tDash('sold');
+        return status;
+    };
+
+    const statusClass = (status: Listing['status']) => {
+        if (status === 'active') return 'bg-emerald-500/10 text-emerald-600';
+        if (status === 'passive') return 'bg-slate-500/10 text-slate-600';
+        if (status === 'pending') return 'bg-amber-500/10 text-amber-600';
+        if (status === 'sold') return 'bg-blue-500/10 text-blue-600';
+        return 'bg-rose-500/10 text-rose-600';
+    };
+
+    const handleTogglePublish = async (listing: Listing) => {
+        const nextStatus = listing.status === 'active' ? 'passive' : 'active';
+        setActionBusyId(listing.id);
+        setActionError('');
+        try {
+            const res = await fetch(`/api/listings/${listing.id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: nextStatus }),
+            });
+            const json = await res.json();
+            if (!json.success) throw new Error(json.error || tDash('action_failed'));
+            await reloadListings();
+        } catch {
+            setActionError(tDash('action_failed'));
+        } finally {
+            setActionBusyId('');
+        }
+    };
+
+    const handleDeleteListing = async (listing: Listing) => {
+        if (!window.confirm(tDash('delete_confirm'))) return;
+        setActionBusyId(listing.id);
+        setActionError('');
+        try {
+            const res = await fetch(`/api/listings/${listing.id}`, { method: 'DELETE' });
+            const json = await res.json();
+            if (!json.success) throw new Error(json.error || tDash('action_failed'));
+            setMyListings((prev) => prev.filter((l) => l.id !== listing.id));
+        } catch {
+            setActionError(tDash('action_failed'));
+        } finally {
+            setActionBusyId('');
+        }
+    };
+
     const stats = [
-        { label: tDash('active_count'), value: myListings.length, icon: BarChart3, color: 'text-blue-500' },
+        { label: tDash('active_count'), value: myListings.filter((l) => l.status === 'active').length, icon: BarChart3, color: 'text-blue-500' },
         { label: tDash('views'), value: 1247, icon: Eye, color: 'text-emerald-500' },
         { label: tDash('favorites_count'), value: favoriteListings.length, icon: Heart, color: 'text-rose-500' },
         { label: tDash('messages_count'), value: conversations.filter((c) => c.unread).length, icon: MessageSquare, color: 'text-violet-500' },
@@ -177,7 +236,10 @@ export default function DashboardPage() {
                     {/* ═══ MY LISTINGS TAB ═══ */}
                     {activeTab === 'listings' && (
                         <Card className="p-6">
-                            <h2 className="text-lg font-bold mb-4 text-[var(--color-foreground)]">{t('active_listings')}</h2>
+                            <h2 className="text-lg font-bold mb-4 text-[var(--color-foreground)]">{t('my_listings')}</h2>
+                            {actionError && (
+                                <p className="text-sm text-rose-600 mb-3">{actionError}</p>
+                            )}
                             {loadingListings ? (
                                 <p className="text-sm text-[var(--color-muted)]">{t('loading')}</p>
                             ) : myListings.length > 0 ? (
@@ -190,8 +252,10 @@ export default function DashboardPage() {
                                             <div className="flex-grow min-w-0">
                                                 <h3 className="font-bold text-[var(--color-primary)] mb-1 truncate">{listing.title}</h3>
                                                 <p className="text-sm text-[var(--color-muted)] mb-2">{listing.price.toLocaleString('tr-TR')} {listing.currency}</p>
-                                                <div className="flex gap-2 text-xs">
-                                                    <span className="bg-emerald-500/10 text-emerald-600 px-2 py-0.5 rounded-full font-medium">{t('active')}</span>
+                                                <div className="flex gap-2 text-xs flex-wrap">
+                                                    <span className={`px-2 py-0.5 rounded-full font-medium ${statusClass(listing.status)}`}>
+                                                        {statusLabel(listing.status)}
+                                                    </span>
                                                     <span className="text-[var(--color-muted)] flex items-center gap-1">
                                                         <Eye size={12} /> {124}
                                                     </span>
@@ -201,11 +265,31 @@ export default function DashboardPage() {
                                                 </div>
                                             </div>
                                             <div className="flex flex-col gap-2 justify-center flex-shrink-0">
-                                                <Button size="sm" variant="outline" className="text-xs" onClick={() => setEditingListing(listing)}><Edit size={14} /> {t('edit')}</Button>
-                                                <Link href={`/doping?listingId=${listing.id}`}>
-                                                    <Button size="sm" variant="secondary" className="text-xs"><Star size={14} /> Doping</Button>
+                                                <Link href={`/post-ad?edit=${listing.id}`}>
+                                                    <Button size="sm" variant="outline" className="text-xs w-full"><Edit size={14} /> {t('edit')}</Button>
                                                 </Link>
-                                                <Button size="sm" variant="ghost" className="text-rose-500 hover:text-rose-700"><Trash2 size={14} /></Button>
+                                                <Button
+                                                    size="sm"
+                                                    variant="secondary"
+                                                    className="text-xs"
+                                                    disabled={actionBusyId === listing.id || !['active', 'passive'].includes(listing.status)}
+                                                    onClick={() => handleTogglePublish(listing)}
+                                                >
+                                                    {listing.status === 'active' ? <EyeOff size={14} /> : <Eye size={14} />}
+                                                    {listing.status === 'active' ? tDash('unpublish') : tDash('republish')}
+                                                </Button>
+                                                <Link href={`/doping?listingId=${listing.id}`}>
+                                                    <Button size="sm" variant="ghost" className="text-xs w-full"><Star size={14} /> Doping</Button>
+                                                </Link>
+                                                <Button
+                                                    size="sm"
+                                                    variant="ghost"
+                                                    className="text-rose-500 hover:text-rose-700"
+                                                    disabled={actionBusyId === listing.id}
+                                                    onClick={() => handleDeleteListing(listing)}
+                                                >
+                                                    <Trash2 size={14} /> {t('delete')}
+                                                </Button>
                                             </div>
                                         </div>
                                     ))}
@@ -400,25 +484,6 @@ export default function DashboardPage() {
                         <div className="flex items-center justify-end gap-3 p-4 border-t border-[var(--color-border)] bg-[var(--color-surface-elevated)]">
                             <Button variant="outline" onClick={() => setSelectedMessage(null)}>Kapat</Button>
                             <Button onClick={() => { alert('Mesaj gönderildi'); setSelectedMessage(null); }}>Gönder</Button>
-                        </div>
-                    </Card>
-                </div>
-            )}
-
-            {/* EDIT LISTING MODAL */}
-            {editingListing && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={() => setEditingListing(null)}>
-                    <Card className="w-full max-w-md p-6 shadow-2xl text-center" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
-                        <div className="w-16 h-16 mx-auto bg-blue-500/10 rounded-full flex items-center justify-center mb-4">
-                            <Edit size={28} className="text-blue-500" />
-                        </div>
-                        <h3 className="text-xl font-bold text-[var(--color-foreground)] mb-2">İlan Düzenleme</h3>
-                        <p className="text-sm text-[var(--color-muted)] mb-6">
-                            <span className="font-semibold text-[var(--color-foreground)]">{editingListing.title}</span> başlıklı ilanınızı düzenlemek üzeresiniz.
-                        </p>
-                        <div className="flex flex-col gap-3">
-                            <Link href="/post-ad" className="btn btn-primary w-full">Düzenleme Sayfasına Git</Link>
-                            <Button variant="outline" onClick={() => setEditingListing(null)} className="w-full">İptal</Button>
                         </div>
                     </Card>
                 </div>
