@@ -42,10 +42,10 @@ export default function Logo({ compact = false, inverted = false }: LogoProps) {
         width={56}
         height={42}
         priority
-        className="h-10 w-auto object-contain group-hover:-translate-y-0.5 transition-transform drop-shadow-sm"
+        className="h-9 w-auto object-contain group-hover:-translate-y-0.5 transition-transform drop-shadow-sm"
       />
       {!compact && (
-        <span className="hidden sm:flex items-baseline font-extrabold text-lg tracking-tight text-[var(--color-brand-yellow)]">
+        <span className="flex items-baseline font-extrabold text-sm sm:text-lg tracking-tight text-[var(--color-brand-yellow)] truncate max-w-[140px] sm:max-w-none">
           sendekonutal
           <span className="text-white/75">.com</span>
         </span>

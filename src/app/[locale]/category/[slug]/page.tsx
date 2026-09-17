@@ -80,16 +80,16 @@ export default async function CategoryPage({
                 </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 min-w-0">
                 {/* Sidebar */}
-                <div className="md:col-span-3">
+                <div className="md:col-span-3 min-w-0">
                     <NextIntlClientProvider messages={messages}>
                         <FilterSidebar />
                     </NextIntlClientProvider>
                 </div>
 
                 {/* Results */}
-                <div className="md:col-span-9">
+                <div className="md:col-span-9 min-w-0">
                     <NextIntlClientProvider messages={messages}>
                         <SearchResultsHeader count={total} />
                     </NextIntlClientProvider>
