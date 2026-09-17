@@ -14,7 +14,19 @@
         "logout": "Logout",
         "settings": "Settings",
         "individual": "Individual",
-        "corporate": "Corporate"
+        "corporate": "Corporate",
+        "nav_sale": "For Sale",
+        "nav_rent": "For Rent",
+        "nav_housing": "Housing",
+        "nav_commercial": "Commercial",
+        "nav_land": "Land",
+        "nav_projects": "Projects",
+        "nav_corporate": "Corporate",
+        "nav_doping": "Boost",
+        "nav_escrow": "Safe Funds",
+        "nav_blog": "Blog",
+        "menu_open": "Open menu",
+        "menu_close": "Close menu"
     },
     "Footer": {
         "corporate": "Corporate",
@@ -40,7 +52,9 @@
         "newsletter_submit": "Subscribe",
         "newsletter_error": "Please enter a valid email address.",
         "newsletter_success": "Thank you! You've been subscribed.",
-        "copyright": "All rights reserved."
+        "copyright": "All rights reserved.",
+        "corporate_membership": "Corporate Membership",
+        "escrow": "Safe Funds"
     },
     "Home": {
         "categories": "Categories",
@@ -136,7 +150,24 @@
         "clear": "Clear",
         "city_search": "Search City...",
         "price_tl": "Price (TL)",
-        "show_results": "Show Results"
+        "show_results": "Show Results",
+        "province_all": "Province — All",
+        "district_all": "District — All",
+        "neighborhood_all": "Neighborhood — All",
+        "street_all": "Street — All",
+        "loading_locations": "Loading locations…",
+        "fuel_type": "Fuel Type",
+        "gear": "Transmission",
+        "model_year": "Model Year",
+        "all_years": "All Years",
+        "year_and_up": "and newer",
+        "brand": "Brand",
+        "all_brands": "All Brands",
+        "condition": "Condition",
+        "condition_new": "New",
+        "condition_used": "Used",
+        "floor_entry": "Ground",
+        "floor_label": "Floor"
     },
     "PostAd": {
         "title": "Post Free Ad",
@@ -163,7 +194,13 @@
         "back": "Back",
         "publish": "Publish Listing",
         "success": "Your listing was created successfully!",
-        "login_required": "You must be logged in to post an ad."
+        "login_required": "You must be logged in to post an ad.",
+        "neighborhood": "Neighborhood",
+        "photos_selected": "{count} photos selected",
+        "publishing": "Publishing…",
+        "uploading": "Uploading…",
+        "error": "An error occurred while publishing the listing.",
+        "district": "District"
     },
     "Listing": {
         "description": "Description",
@@ -177,7 +214,9 @@
         "corporate_member": "Corporate Member",
         "individual_member": "Individual Member",
         "authorized_office": "Authorized Office",
-        "vitrin": "Showcase"
+        "vitrin": "Showcase",
+        "message_placeholder": "Write your message…",
+        "sending": "Sending…"
     },
     "Auth": {
         "login_title": "Login",

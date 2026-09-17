@@ -14,7 +14,19 @@
         "logout": "Çıkış",
         "settings": "Ayarlar",
         "individual": "Bireysel",
-        "corporate": "Kurumsal"
+        "corporate": "Kurumsal",
+        "nav_sale": "Satılık",
+        "nav_rent": "Kiralık",
+        "nav_housing": "Konut",
+        "nav_commercial": "İş Yeri",
+        "nav_land": "Arsa",
+        "nav_projects": "Projeler",
+        "nav_corporate": "Kurumsal",
+        "nav_doping": "Doping",
+        "nav_escrow": "Param Güvende",
+        "nav_blog": "Blog",
+        "menu_open": "Menüyü aç",
+        "menu_close": "Menüyü kapat"
     },
     "Footer": {
         "corporate": "Kurumsal",
@@ -40,7 +52,9 @@
         "newsletter_submit": "Abone ol",
         "newsletter_error": "Geçerli bir e-posta adresi girin.",
         "newsletter_success": "Teşekkürler! Aboneliğiniz alındı.",
-        "copyright": "Tüm hakları saklıdır."
+        "copyright": "Tüm hakları saklıdır.",
+        "corporate_membership": "Kurumsal Üyelik",
+        "escrow": "Param Güvende"
     },
     "Home": {
         "categories": "Kategoriler",
@@ -136,7 +150,24 @@
         "clear": "Temizle",
         "city_search": "Şehir Ara...",
         "price_tl": "Fiyat (TL)",
-        "show_results": "Sonuçları Göster"
+        "show_results": "Sonuçları Göster",
+        "province_all": "İl — Tümü",
+        "district_all": "İlçe — Tümü",
+        "neighborhood_all": "Mahalle — Tümü",
+        "street_all": "Sokak/Cadde — Tümü",
+        "loading_locations": "Konumlar yükleniyor…",
+        "fuel_type": "Yakıt Tipi",
+        "gear": "Vites",
+        "model_year": "Model Yılı",
+        "all_years": "Tüm Yıllar",
+        "year_and_up": "ve üzeri",
+        "brand": "Marka",
+        "all_brands": "Tüm Markalar",
+        "condition": "Durumu",
+        "condition_new": "Sıfır",
+        "condition_used": "İkinci El",
+        "floor_entry": "Giriş",
+        "floor_label": "Kat"
     },
     "PostAd": {
         "title": "Ücretsiz İlan Ver",
@@ -162,13 +193,14 @@
         "next": "İleri",
         "back": "Geri",
         "publish": "İlanı Yayınla",
-        "publishing": "Yayınlanıyor...",
+        "publishing": "Yayınlanıyor…",
         "success": "İlanınız başarıyla oluşturuldu!",
         "error": "İlan yayınlanırken bir hata oluştu.",
         "district": "İlçe",
-        "uploading": "Yükleniyor...",
-        "photos_selected": "fotoğraf seçildi",
-        "login_required": "İlan vermek için giriş yapmalısınız."
+        "uploading": "Yükleniyor…",
+        "photos_selected": "{count} fotoğraf seçildi",
+        "login_required": "İlan vermek için giriş yapmalısınız.",
+        "neighborhood": "Mahalle"
     },
     "Listing": {
         "description": "Açıklama",

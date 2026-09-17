@@ -112,15 +112,14 @@ export default function CategorySidebar({ rootCategories, allCategories }: Categ
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-blue-900 to-indigo-900 rounded-2xl p-5 text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-secondary)]/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+      <div className="bg-gradient-to-br from-[var(--color-navy)] to-[#152a48] rounded-2xl p-5 text-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--color-brand-accent)]/20 rounded-full -translate-y-1/2 translate-x-1/2" />
         <div className="relative">
-          <div className="text-3xl mb-2">🏠</div>
           <h3 className="font-bold text-lg mb-1">{t('cta_title')}</h3>
-          <p className="text-blue-200/70 text-xs mb-4">{t('cta_desc')}</p>
+          <p className="text-white/65 text-xs mb-4">{t('cta_desc')}</p>
           <Link
             href="/post-ad"
-            className="inline-flex items-center gap-2 bg-[var(--color-secondary)] hover:bg-[var(--color-secondary-dark)] text-blue-900 font-bold px-4 py-2.5 rounded-xl text-sm transition-colors"
+            className="inline-flex items-center gap-2 bg-[var(--color-brand-accent)] hover:bg-[var(--color-secondary-dark)] text-white font-bold px-4 py-2.5 rounded-xl text-sm transition-colors"
           >
             <PlusCircle size={16} />
             {t('cta_btn')}

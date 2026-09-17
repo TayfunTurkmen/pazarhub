@@ -51,8 +51,8 @@ export default async function LocaleLayout({
           <AuthProvider>
             <ThemeProvider
               attribute="class"
-              defaultTheme="light"
-              enableSystem
+              defaultTheme="dark"
+              enableSystem={false}
             >
               <Header />
               <main className="flex-grow container-custom py-8">

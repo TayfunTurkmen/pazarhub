@@ -28,7 +28,7 @@ export default async function NewProjects() {
           >
             <div className="relative aspect-[16/10]">
               <Image src={project.image} alt={project.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" sizes="(max-width: 1024px) 100vw, 33vw" />
-              <span className="absolute top-4 left-4 bg-[var(--color-navy)] text-[var(--color-brand-yellow)] text-[11px] font-bold px-3 py-1 rounded-full">
+              <span className="absolute top-4 left-4 bg-[var(--color-navy)] text-[var(--color-brand-accent)] text-[11px] font-bold px-3 py-1 rounded-full">
                 {project.status}
               </span>
             </div>

@@ -14,7 +14,19 @@
         "logout": "Abmelden",
         "settings": "Einstellungen",
         "individual": "Privat",
-        "corporate": "Gewerblich"
+        "corporate": "Gewerblich",
+        "nav_sale": "Zu verkaufen",
+        "nav_rent": "Zu vermieten",
+        "nav_housing": "Wohnen",
+        "nav_commercial": "Gewerbe",
+        "nav_land": "Grundstück",
+        "nav_projects": "Projekte",
+        "nav_corporate": "Unternehmen",
+        "nav_doping": "Boost",
+        "nav_escrow": "Sichere Zahlung",
+        "nav_blog": "Blog",
+        "menu_open": "Menü öffnen",
+        "menu_close": "Menü schließen"
     },
     "Footer": {
         "corporate": "Unternehmen",
@@ -40,7 +52,9 @@
         "newsletter_success": "Danke! Sie sind abonniert.",
         "help": "Hilfe",
         "faq": "FAQ",
-        "copyright": "Alle Rechte vorbehalten."
+        "copyright": "Alle Rechte vorbehalten.",
+        "corporate_membership": "Firmenmitgliedschaft",
+        "escrow": "Sichere Zahlung"
     },
     "Home": {
         "categories": "Kategorien",
@@ -136,7 +150,24 @@
         "clear": "Löschen",
         "city_search": "Stadt suchen...",
         "price_tl": "Preis (TL)",
-        "show_results": "Ergebnisse anzeigen"
+        "show_results": "Ergebnisse anzeigen",
+        "province_all": "Provinz — Alle",
+        "district_all": "Bezirk — Alle",
+        "neighborhood_all": "Viertel — Alle",
+        "street_all": "Straße — Alle",
+        "loading_locations": "Standorte werden geladen…",
+        "fuel_type": "Kraftstoff",
+        "gear": "Getriebe",
+        "model_year": "Baujahr",
+        "all_years": "Alle Jahre",
+        "year_and_up": "und neuer",
+        "brand": "Marke",
+        "all_brands": "Alle Marken",
+        "condition": "Zustand",
+        "condition_new": "Neu",
+        "condition_used": "Gebraucht",
+        "floor_entry": "Erdgeschoss",
+        "floor_label": "Etage"
     },
     "PostAd": {
         "title": "Kostenlose Anzeige aufgeben",
@@ -163,7 +194,13 @@
         "back": "Zurück",
         "publish": "Anzeige veröffentlichen",
         "success": "Ihre Anzeige wurde erfolgreich erstellt!",
-        "login_required": "Sie müssen angemeldet sein, um eine Anzeige aufzugeben."
+        "login_required": "Sie müssen angemeldet sein, um eine Anzeige aufzugeben.",
+        "neighborhood": "Viertel",
+        "photos_selected": "{count} Fotos ausgewählt",
+        "publishing": "Wird veröffentlicht…",
+        "uploading": "Wird hochgeladen…",
+        "error": "Beim Veröffentlichen ist ein Fehler aufgetreten.",
+        "district": "Bezirk"
     },
     "Listing": {
         "description": "Beschreibung",
@@ -177,7 +214,9 @@
         "corporate_member": "Gewerbliches Mitglied",
         "individual_member": "Privates Mitglied",
         "authorized_office": "Autorisiertes Büro",
-        "vitrin": "Schaufenster"
+        "vitrin": "Schaufenster",
+        "message_placeholder": "Nachricht schreiben…",
+        "sending": "Senden…"
     },
     "Auth": {
         "login_title": "Anmelden",
@@ -206,7 +245,28 @@
         "store_name": "Shop-Name",
         "trade_name": "Handelsname",
         "tax_no": "Steuer-ID",
-        "phone": "Telefon"
+        "phone": "Telefon",
+        "admin_hint_title": "Demo-Admin",
+        "admin_hint": "Nutzen Sie die Demo-Zugangsdaten aus der README.",
+        "code_required": "Code erforderlich",
+        "continue_facebook": "Mit Facebook fortfahren",
+        "continue_google": "Mit Google fortfahren",
+        "email_login": "Mit E-Mail anmelden",
+        "name_required": "Name erforderlich",
+        "or_phone": "oder Telefon",
+        "password_mismatch": "Passwörter stimmen nicht überein",
+        "password_too_short": "Passwort zu kurz (min. 8 Zeichen)",
+        "phone_fast_hint": "Schnelle Anmeldung per WhatsApp-Code",
+        "phone_invalid": "Ungültige Telefonnummer",
+        "phone_login_error": "Telefon-Anmeldung fehlgeschlagen",
+        "phone_login_error_code": "Ungültiger oder abgelaufener Code",
+        "register_error": "Registrierung fehlgeschlagen",
+        "register_subtitle": "Erstellen Sie Ihr Konto und starten Sie",
+        "secure_login_desc": "Sichere Anmeldung mit verifizierter Identität",
+        "secure_login_title": "Sichere Anmeldung",
+        "secure_register_desc": "Registrieren Sie sich sicher und veröffentlichen Sie Inserate",
+        "secure_register_title": "Sichere Registrierung",
+        "sms_code": "SMS-/WhatsApp-Code"
     },
     "Search": {
         "title": "Anzeigen suchen",

@@ -68,7 +68,7 @@ function PaymentInner() {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <section className="rounded-3xl bg-[var(--color-navy)] text-white px-6 py-8">
-        <p className="text-[var(--color-brand-yellow)] text-xs font-black uppercase tracking-[0.2em]">Güvenli ödeme</p>
+        <p className="text-[var(--color-brand-accent)] text-xs font-black uppercase tracking-[0.2em]">Güvenli ödeme</p>
         <h1 className="text-3xl font-black mt-2">PayTR · iyzico · Demo</h1>
         {session && (
           <p className="mt-2 text-white/75">{session.basket} — {session.amount.toLocaleString('tr-TR')} ₺</p>

@@ -4,14 +4,15 @@
   --color-primary: #0a1628;
   --color-primary-dark: #06101c;
   --color-primary-light: #1b2d4a;
-  --color-secondary: #ffe135;
-  --color-secondary-dark: #e6c400;
-  --color-accent: #ffe135;
+  --color-secondary: #3d6fa8;
+  --color-secondary-dark: #2d5a8c;
+  --color-accent: #4a7fc4;
   --color-ink: #0a1628;
-  --color-brand-yellow: #ffe135;
+  --color-brand-yellow: #3d6fa8;
+  --color-brand-accent: #4a7fc4;
   --color-navy: #0a1628;
 
-  --color-background: #f4f1ea;
+  --color-background: #f0f3f8;
   --color-surface: #ffffff;
   --color-surface-elevated: #ffffff;
   --color-text: #0a1628;
@@ -19,11 +20,11 @@
   --color-text-muted: #6b7789;
   --color-foreground: #0a1628;
   --color-muted: #5c6b7e;
-  --color-border: #e4ded3;
-  --color-border-light: #efeae1;
+  --color-border: #d5dde8;
+  --color-border-light: #e8edf4;
 
   --color-success: #0f766e;
-  --color-warning: #e6c400;
+  --color-warning: #c9a227;
   --color-error: #dc2626;
 
   --font-sans: var(--font-display);
@@ -70,11 +71,11 @@
 }
 
 @utility btn-primary {
-  @apply bg-[var(--color-navy)] text-[var(--color-brand-yellow)] hover:bg-[var(--color-primary-light)] hover:shadow-lg active:scale-[0.98] font-bold;
+  @apply bg-[var(--color-navy)] text-white hover:bg-[var(--color-primary-light)] hover:shadow-lg active:scale-[0.98] font-bold;
 }
 
 @utility btn-secondary {
-  @apply bg-[var(--color-brand-yellow)] text-[var(--color-ink)] hover:bg-[var(--color-secondary-dark)] hover:shadow-lg active:scale-[0.98] font-bold;
+  @apply bg-[var(--color-brand-accent)] text-white hover:bg-[var(--color-secondary-dark)] hover:shadow-lg active:scale-[0.98] font-bold;
 }
 
 @utility card {
@@ -103,7 +104,7 @@
 }
 
 @utility gradient-text {
-  background: linear-gradient(135deg, var(--color-navy), #1b2d4a);
+  background: linear-gradient(135deg, #4a7fc4, #8bb4e8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -115,35 +116,38 @@
   --glass-card-bg: rgba(255, 255, 255, 0.92);
   --glass-card-border: rgba(10, 22, 40, 0.06);
   --glass-card-shadow: 0 1px 3px rgba(10, 22, 40, 0.06), 0 1px 2px rgba(10, 22, 40, 0.04);
-  --shimmer-gradient: linear-gradient(90deg, #efeae1 25%, #e4ded3 50%, #efeae1 75%);
+  --shimmer-gradient: linear-gradient(90deg, #e8edf4 25%, #d5dde8 50%, #e8edf4 75%);
 }
 
 .dark {
-  --color-primary: #ffe135;
-  --color-primary-dark: #e6c400;
-  --color-primary-light: #fff3a0;
-  --color-secondary: #ffe135;
-  --color-secondary-dark: #e6c400;
-  --color-accent: #ffe135;
-  --color-ink: #f8f5ef;
+  --color-primary: #6ba3e8;
+  --color-primary-dark: #4a7fc4;
+  --color-primary-light: #8bb4e8;
+  --color-secondary: #4a7fc4;
+  --color-secondary-dark: #3d6fa8;
+  --color-accent: #6ba3e8;
+  --color-ink: #e8eef6;
+  --color-brand-yellow: #4a7fc4;
+  --color-brand-accent: #4a7fc4;
+  --color-navy: #0a1628;
 
   --color-background: #070d16;
-  --color-surface: #101826;
-  --color-surface-elevated: #162033;
-  --color-text: #f8f5ef;
-  --color-text-secondary: #c5bbaa;
-  --color-text-muted: #8b8478;
-  --color-foreground: #f8f5ef;
-  --color-muted: #a39b8e;
-  --color-border: #243044;
-  --color-border-light: #1b2638;
+  --color-surface: #0e1624;
+  --color-surface-elevated: #152033;
+  --color-text: #e8eef6;
+  --color-text-secondary: #a8b8cc;
+  --color-text-muted: #7a8ba0;
+  --color-foreground: #e8eef6;
+  --color-muted: #8a9bb0;
+  --color-border: #1e2d42;
+  --color-border-light: #152033;
 
-  --glass-bg: rgba(16, 24, 38, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.06);
-  --glass-card-bg: rgba(16, 24, 38, 0.9);
-  --glass-card-border: rgba(255, 255, 255, 0.04);
-  --glass-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shimmer-gradient: linear-gradient(90deg, #162033 25%, #243044 50%, #162033 75%);
+  --glass-bg: rgba(14, 22, 36, 0.85);
+  --glass-border: rgba(107, 163, 232, 0.12);
+  --glass-card-bg: rgba(14, 22, 36, 0.92);
+  --glass-card-border: rgba(107, 163, 232, 0.08);
+  --glass-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shimmer-gradient: linear-gradient(90deg, #152033 25%, #1e2d42 50%, #152033 75%);
 }
 
 html {
@@ -158,8 +162,8 @@ body {
 }
 
 ::selection {
-  background: rgba(255, 225, 53, 0.45);
-  color: var(--color-ink);
+  background: rgba(74, 127, 196, 0.45);
+  color: #fff;
 }
 
 :focus-visible {
@@ -175,7 +179,7 @@ body {
 .dark .prose h1,
 .dark .prose h2,
 .dark .prose h3 {
-  color: #f8f5ef;
+  color: #e8eef6;
 }
 
 .dark .prose p,
@@ -184,7 +188,7 @@ body {
 }
 
 .dark .prose strong {
-  color: #f8f5ef;
+  color: #e8eef6;
 }
 
 ::-webkit-scrollbar {

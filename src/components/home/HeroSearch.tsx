@@ -5,7 +5,7 @@ import { Link, useRouter } from '@/i18n/navigation';
 import { MapPinned, Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { sanitizeSearchInput } from '@/lib/sanitize';
-import { LOCATION_DATA } from '@/services/locationData';
+import LocationCascade, { type LocationValue } from '@/components/listing/LocationCascade';
 
 interface HeroSearchProps {
   categories: { id: string; name: string; slug: string }[];
@@ -19,13 +19,19 @@ export default function HeroSearch({ categories }: HeroSearchProps) {
   const [tab, setTab] = useState<'sale' | 'rent' | 'projects'>('sale');
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('');
-  const [city, setCity] = useState('');
+  const [location, setLocation] = useState<LocationValue>({
+    city: '',
+    district: '',
+    neighborhood: '',
+  });
   const [rooms, setRooms] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const safeQuery = sanitizeSearchInput(query);
-    const safeCity = sanitizeSearchInput(city);
+    const safeCity = sanitizeSearchInput(location.city);
+    const safeDistrict = sanitizeSearchInput(location.district);
+    const safeNeighborhood = sanitizeSearchInput(location.neighborhood);
     const safeCategory = categories.some((c) => c.slug === category) ? category : '';
 
     const params = new URLSearchParams();
@@ -37,9 +43,14 @@ export default function HeroSearch({ categories }: HeroSearchProps) {
     if (safeQuery) params.set('query', safeQuery);
     if (safeCategory) params.set('category', safeCategory);
     if (safeCity) params.set('city', safeCity);
+    if (safeDistrict) params.set('district', safeDistrict);
+    if (safeNeighborhood) params.set('neighborhood', safeNeighborhood);
     if (rooms) params.set('roomCount', rooms);
     router.push(`/search?${params.toString()}`);
   };
+
+  const selectCls =
+    'px-4 py-3 text-sm text-[var(--color-foreground)] bg-[var(--color-background)] rounded-xl border border-[var(--color-border)] focus:outline-none cursor-pointer';
 
   return (
     <div className="w-full max-w-5xl mx-auto">
@@ -66,7 +77,7 @@ export default function HeroSearch({ categories }: HeroSearchProps) {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white dark:bg-[var(--color-surface)] rounded-2xl rounded-tl-none shadow-2xl shadow-black/25 p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2 border border-white/40"
+        className="bg-white dark:bg-[var(--color-surface)] rounded-2xl rounded-tl-none shadow-2xl shadow-black/25 p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2 border border-white/40 dark:border-[var(--color-border)]"
         noValidate
       >
         <input
@@ -78,21 +89,19 @@ export default function HeroSearch({ categories }: HeroSearchProps) {
           autoComplete="off"
           className="lg:col-span-3 px-4 py-3 text-sm text-[var(--color-foreground)] placeholder-[var(--color-muted)] bg-[var(--color-background)] rounded-xl border border-[var(--color-border)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30"
         />
-        <select
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          className="lg:col-span-2 px-4 py-3 text-sm text-[var(--color-foreground)] bg-[var(--color-background)] rounded-xl border border-[var(--color-border)] focus:outline-none cursor-pointer"
-          aria-label={t('search_city')}
-        >
-          <option value="">{t('search_city')}</option>
-          {LOCATION_DATA.map((item) => (
-            <option key={item.id} value={item.name}>{item.name}</option>
-          ))}
-        </select>
+        <div className="lg:col-span-4">
+          <LocationCascade
+            value={location}
+            onChange={setLocation}
+            showNeighborhood
+            compact
+            selectClassName={selectCls}
+          />
+        </div>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="lg:col-span-2 px-4 py-3 text-sm text-[var(--color-foreground)] bg-[var(--color-background)] rounded-xl border border-[var(--color-border)] focus:outline-none cursor-pointer"
+          className={`lg:col-span-2 ${selectCls}`}
           aria-label={t('search_type')}
         >
           <option value="">{t('search_type')}</option>
@@ -103,7 +112,7 @@ export default function HeroSearch({ categories }: HeroSearchProps) {
         <select
           value={rooms}
           onChange={(e) => setRooms(e.target.value)}
-          className="lg:col-span-2 px-4 py-3 text-sm text-[var(--color-foreground)] bg-[var(--color-background)] rounded-xl border border-[var(--color-border)] focus:outline-none cursor-pointer"
+          className={`lg:col-span-1 ${selectCls}`}
           aria-label={t('search_rooms')}
         >
           <option value="">{t('search_rooms')}</option>
@@ -111,10 +120,10 @@ export default function HeroSearch({ categories }: HeroSearchProps) {
             <option key={room} value={room}>{room}</option>
           ))}
         </select>
-        <div className="lg:col-span-3 flex gap-2">
+        <div className="lg:col-span-2 flex gap-2">
           <button
             type="submit"
-            className="flex-1 flex items-center justify-center gap-2 bg-[var(--color-brand-yellow)] hover:bg-[var(--color-secondary-dark)] text-[var(--color-ink)] px-4 py-3 rounded-xl font-extrabold text-sm"
+            className="flex-1 flex items-center justify-center gap-2 bg-[var(--color-brand-accent)] hover:bg-[var(--color-secondary-dark)] text-white px-4 py-3 rounded-xl font-extrabold text-sm"
           >
             <Search size={18} />
             {t('search_btn')}

@@ -57,7 +57,11 @@ export const POST = withApiHandler(async (request: Request) => {
         price: body.price,
         currency: 'TL',
         category,
-        location: { city: sanitizeText(body.city, 120), district: sanitizeText(body.district, 120) },
+        location: {
+            city: sanitizeText(body.city, 120),
+            district: sanitizeText(body.district, 120),
+            neighborhood: body.neighborhood ? sanitizeText(body.neighborhood, 120) : undefined,
+        },
         images,
         attributes: {},
         seller: seller as User,

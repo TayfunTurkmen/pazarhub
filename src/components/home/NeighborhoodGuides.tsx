@@ -27,7 +27,7 @@ export default async function NeighborhoodGuides() {
           >
             <Image src={item.image} alt={`${item.city} ${item.name}`} fill className="object-cover group-hover:scale-105 transition-transform duration-700" sizes="(max-width: 768px) 100vw, 25vw" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-            <div className="absolute top-4 left-4 bg-[var(--color-brand-yellow)] text-[var(--color-ink)] text-xs font-black px-2.5 py-1 rounded-full">
+            <div className="absolute top-4 left-4 bg-[var(--color-brand-accent)] text-white text-xs font-black px-2.5 py-1 rounded-full">
               {item.score}/10
             </div>
             <div className="absolute bottom-0 p-5 text-white">

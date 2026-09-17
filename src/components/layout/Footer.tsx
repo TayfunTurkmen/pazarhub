@@ -66,7 +66,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[var(--color-brand-yellow)] hover:text-[var(--color-ink)] text-white/80"
+                  className="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[var(--color-brand-accent)] hover:text-white text-white/80"
                 >
                   <social.icon size={16} />
                 </a>
@@ -77,32 +77,32 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-4">{t('corporate')}</h3>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/about" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('about')}</Link></li>
-              <li><Link href="/media" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('press')}</Link></li>
-              <li><Link href="/contact" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('contact')}</Link></li>
+              <li><Link href="/about" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('about')}</Link></li>
+              <li><Link href="/media" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('press')}</Link></li>
+              <li><Link href="/contact" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('contact')}</Link></li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-semibold mb-4">{t('services')}</h3>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/ai" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('ai_platform')}</Link></li>
-              <li><Link href="/blog" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('ai_blog')}</Link></li>
-              <li><Link href="/kurumsal" className="text-white/70 hover:text-[var(--color-brand-yellow)]">Kurumsal Üyelik</Link></li>
-              <li><Link href="/doping" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('doping')}</Link></li>
-              <li><Link href="/param-guvende" className="text-white/70 hover:text-[var(--color-brand-yellow)]">Param Güvende</Link></li>
-              <li><Link href="/safe-payment" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('safe_payment')}</Link></li>
-              <li><Link href="/mobile" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('mobile_apps')}</Link></li>
+              <li><Link href="/ai" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('ai_platform')}</Link></li>
+              <li><Link href="/blog" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('ai_blog')}</Link></li>
+              <li><Link href="/kurumsal" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('corporate_membership')}</Link></li>
+              <li><Link href="/doping" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('doping')}</Link></li>
+              <li><Link href="/param-guvende" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('escrow')}</Link></li>
+              <li><Link href="/safe-payment" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('safe_payment')}</Link></li>
+              <li><Link href="/mobile" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('mobile_apps')}</Link></li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-semibold mb-4">{t('help')}</h3>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/contact" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('faq')}</Link></li>
-              <li><Link href="/terms" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('terms')}</Link></li>
-              <li><Link href="/privacy" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('privacy')}</Link></li>
-              <li><Link href="/cookie" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('cookies')}</Link></li>
+              <li><Link href="/contact" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('faq')}</Link></li>
+              <li><Link href="/terms" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('terms')}</Link></li>
+              <li><Link href="/privacy" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('privacy')}</Link></li>
+              <li><Link href="/cookie" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('cookies')}</Link></li>
             </ul>
           </div>
 

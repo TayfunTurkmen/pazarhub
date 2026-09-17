@@ -52,7 +52,7 @@ export default async function HomePage() {
         <div className="relative px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 pt-12 pb-12">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-start mb-8">
-              <p className="text-[var(--color-brand-yellow)] text-xs font-bold uppercase tracking-[0.22em]">
+              <p className="text-[var(--color-brand-accent)] text-xs font-bold uppercase tracking-[0.22em]">
                 {t('hero_kicker')}
               </p>
               <div className="flex items-center gap-2 bg-white/95 dark:bg-[var(--color-surface)]/95 backdrop-blur-sm rounded-xl px-4 py-2.5 shadow-lg">
@@ -67,7 +67,7 @@ export default async function HomePage() {
             <div className="text-white space-y-3 mb-8 max-w-3xl">
               <h1 className="text-3xl md:text-5xl lg:text-[56px] font-black leading-[1.08] tracking-tight">
                 {t('hero_title_1')}{' '}
-                <span className="text-[var(--color-brand-yellow)]">{t('hero_title_2')}</span>{' '}
+                <span className="text-[var(--color-brand-accent)]">{t('hero_title_2')}</span>{' '}
                 {t('hero_title_3')}
               </h1>
               <p className="text-white/80 text-base md:text-lg max-w-2xl">{t('hero_subtitle')}</p>
@@ -92,7 +92,7 @@ export default async function HomePage() {
               ))}
               <Link
                 href="/search?view=map"
-                className="px-4 py-2 bg-[var(--color-brand-yellow)] text-[var(--color-ink)] rounded-full text-sm font-extrabold"
+                className="px-4 py-2 bg-[var(--color-brand-accent)] text-white rounded-full text-sm font-extrabold"
               >
                 {t('map_search')}
               </Link>
@@ -170,7 +170,7 @@ export default async function HomePage() {
         <CorporateStrip />
         <TrustBanner />
 
-        <section className="relative overflow-hidden rounded-3xl border border-[var(--color-navy)]/15 bg-gradient-to-br from-[var(--color-navy)]/8 via-[var(--color-brand-yellow)]/10 to-transparent p-8 md:p-10">
+        <section className="relative overflow-hidden rounded-3xl border border-[var(--color-navy)]/15 bg-gradient-to-br from-[var(--color-navy)]/8 via-[var(--color-brand-accent)]/10 to-transparent p-8 md:p-10">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
             <div className="max-w-xl space-y-4">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 text-teal-700 dark:text-teal-300 text-xs font-bold uppercase tracking-wide">
@@ -178,7 +178,7 @@ export default async function HomePage() {
               </span>
               <h2 className="text-2xl md:text-3xl font-extrabold text-[var(--color-foreground)]">{tAi('platform_title')}</h2>
               <p className="text-[var(--color-muted)] leading-relaxed">{tAi('platform_desc')}</p>
-              <Link href="/ai" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--color-navy)] text-[var(--color-brand-yellow)] font-semibold">
+              <Link href="/ai" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--color-navy)] text-[var(--color-brand-accent)] font-semibold">
                 {tAi('learn_more')} <ArrowRight size={16} />
               </Link>
             </div>
@@ -208,7 +208,7 @@ export default async function HomePage() {
               { icon: MessageCircle, title: t('step3_title'), desc: t('step3_desc'), color: 'text-sky-600 bg-sky-500/10', step: '03' },
             ].map((item) => (
               <div key={item.step} className="relative bg-[var(--color-surface)] rounded-2xl p-6 border border-[var(--color-border)] hover:shadow-lg text-center group">
-                <div className="absolute -top-3 -right-3 w-9 h-9 bg-[var(--color-navy)] text-[var(--color-brand-yellow)] rounded-full flex items-center justify-center text-xs font-black shadow-lg">
+                <div className="absolute -top-3 -right-3 w-9 h-9 bg-[var(--color-navy)] text-[var(--color-brand-accent)] rounded-full flex items-center justify-center text-xs font-black shadow-lg">
                   {item.step}
                 </div>
                 <div className={`w-14 h-14 rounded-2xl ${item.color} flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform`}>

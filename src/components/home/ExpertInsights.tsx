@@ -25,7 +25,7 @@ export default async function ExpertInsights() {
             href={item.href}
             className="group rounded-2xl bg-[var(--color-background)] p-5 hover:bg-[var(--color-navy)] hover:text-white transition-colors"
           >
-            <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wide text-[var(--color-primary)] group-hover:text-[var(--color-brand-yellow)]">
+            <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wide text-[var(--color-primary)] group-hover:text-[var(--color-primary-light)]">
               <span>{item.tag}</span>
               <span>0{index + 1}</span>
             </div>

@@ -62,7 +62,7 @@ export default function ParamGuvendePage() {
     <RouteGuard requireAuth>
       <div className="space-y-8">
         <section className="rounded-3xl bg-[var(--color-navy)] text-white px-6 py-10">
-          <p className="text-[var(--color-brand-yellow)] text-xs font-black uppercase tracking-[0.2em] mb-2">Param Güvende</p>
+          <p className="text-[var(--color-brand-accent)] text-xs font-black uppercase tracking-[0.2em] mb-2">Param Güvende</p>
           <h1 className="text-3xl md:text-4xl font-black">Tapu / teslim olana kadar para emanette</h1>
           <p className="mt-3 text-white/75 max-w-2xl">
             Alıcı PayTR veya iyzico ile öder. Tutar emanet hesabında tutulur; satıcı teslim işaretler, alıcı onaylayınca satıcıya geçer.
@@ -72,7 +72,7 @@ export default function ParamGuvendePage() {
 
         <div className="grid md:grid-cols-3 gap-4 text-sm">
           {['1. Alıcı ödemeyi yapar', '2. Satıcı teslim eder', '3. Alıcı onaylar, para çözülür'].map((step) => (
-            <Card key={step} className="p-5 font-bold text-[var(--color-navy)] dark:text-[var(--color-brand-yellow)]">{step}</Card>
+            <Card key={step} className="p-5 font-bold text-[var(--color-navy)] dark:text-[var(--color-brand-accent)]">{step}</Card>
           ))}
         </div>
 

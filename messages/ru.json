@@ -14,7 +14,19 @@
         "logout": "Выход",
         "settings": "Настройки",
         "individual": "Частное лицо",
-        "corporate": "Компания"
+        "corporate": "Компания",
+        "nav_sale": "Продажа",
+        "nav_rent": "Аренда",
+        "nav_housing": "Жильё",
+        "nav_commercial": "Коммерция",
+        "nav_land": "Земля",
+        "nav_projects": "Проекты",
+        "nav_corporate": "Корпоративным",
+        "nav_doping": "Продвижение",
+        "nav_escrow": "Безопасная оплата",
+        "nav_blog": "Блог",
+        "menu_open": "Открыть меню",
+        "menu_close": "Закрыть меню"
     },
     "Footer": {
         "corporate": "О компании",
@@ -40,7 +52,9 @@
         "newsletter_success": "Спасибо! Подписка оформлена.",
         "help": "Помощь",
         "faq": "FAQ",
-        "copyright": "Все права защищены."
+        "copyright": "Все права защищены.",
+        "corporate_membership": "Корпоративное членство",
+        "escrow": "Безопасная оплата"
     },
     "Home": {
         "categories": "Категории",
@@ -136,7 +150,24 @@
         "clear": "Очистить",
         "city_search": "Поиск города...",
         "price_tl": "Цена (TL)",
-        "show_results": "Показать результаты"
+        "show_results": "Показать результаты",
+        "province_all": "Провинция — Все",
+        "district_all": "Район — Все",
+        "neighborhood_all": "Микрорайон — Все",
+        "street_all": "Улица — Все",
+        "loading_locations": "Загрузка локаций…",
+        "fuel_type": "Тип топлива",
+        "gear": "КПП",
+        "model_year": "Год выпуска",
+        "all_years": "Все годы",
+        "year_and_up": "и новее",
+        "brand": "Бренд",
+        "all_brands": "Все бренды",
+        "condition": "Состояние",
+        "condition_new": "Новый",
+        "condition_used": "Б/у",
+        "floor_entry": "Цоколь",
+        "floor_label": "Этаж"
     },
     "PostAd": {
         "title": "Подать бесплатное объявление",
@@ -163,7 +194,13 @@
         "back": "Назад",
         "publish": "Опубликовать объявление",
         "success": "Ваше объявление успешно создано!",
-        "login_required": "Для подачи объявления необходимо войти в систему."
+        "login_required": "Для подачи объявления необходимо войти в систему.",
+        "neighborhood": "Микрорайон",
+        "photos_selected": "Выбрано фото: {count}",
+        "publishing": "Публикация…",
+        "uploading": "Загрузка…",
+        "error": "Ошибка при публикации объявления.",
+        "district": "Район"
     },
     "Listing": {
         "description": "Описание",
@@ -177,7 +214,9 @@
         "corporate_member": "Корпоративный",
         "individual_member": "Частное лицо",
         "authorized_office": "Авторизованный офис",
-        "vitrin": "Витрина"
+        "vitrin": "Витрина",
+        "message_placeholder": "Напишите сообщение…",
+        "sending": "Отправка…"
     },
     "Auth": {
         "login_title": "Вход",
@@ -206,7 +245,28 @@
         "store_name": "Название магазина",
         "trade_name": "Торговое название",
         "tax_no": "ИНН",
-        "phone": "Телефон"
+        "phone": "Телефон",
+        "admin_hint_title": "Демо-админ",
+        "admin_hint": "Используйте демо-данные из README.",
+        "code_required": "Требуется код",
+        "continue_facebook": "Продолжить через Facebook",
+        "continue_google": "Продолжить через Google",
+        "email_login": "Вход по email",
+        "name_required": "Требуется имя",
+        "or_phone": "или телефон",
+        "password_mismatch": "Пароли не совпадают",
+        "password_too_short": "Пароль слишком короткий (мин. 8)",
+        "phone_fast_hint": "Быстрый вход по коду WhatsApp",
+        "phone_invalid": "Неверный номер телефона",
+        "phone_login_error": "Ошибка входа по телефону",
+        "phone_login_error_code": "Неверный или просроченный код",
+        "register_error": "Ошибка регистрации",
+        "register_subtitle": "Создайте аккаунт и начните работу",
+        "secure_login_desc": "Безопасный вход с подтверждённой личностью",
+        "secure_login_title": "Безопасный вход",
+        "secure_register_desc": "Зарегистрируйтесь безопасно и публикуйте объявления",
+        "secure_register_title": "Безопасная регистрация",
+        "sms_code": "SMS/WhatsApp-код"
     },
     "Search": {
         "title": "Поиск объявлений",

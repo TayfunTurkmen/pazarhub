@@ -11,6 +11,7 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/AuthContext';
 import AiImageOptimizer from '@/components/ai/AiImageOptimizer';
 import { Listing } from '@/types';
+import LocationCascade from '@/components/listing/LocationCascade';
 
 export default function PostAdWizard() {
     const router = useRouter();
@@ -29,6 +30,7 @@ export default function PostAdWizard() {
         description: '',
         city: '',
         district: '',
+        neighborhood: '',
         roomCount: '',
         netArea: '',
         floor: '',
@@ -71,6 +73,7 @@ export default function PostAdWizard() {
                     categoryId: formData.category,
                     city: formData.city,
                     district: formData.district,
+                    neighborhood: formData.neighborhood || undefined,
                     roomCount: formData.roomCount || undefined,
                     netArea: formData.netArea ? Number(formData.netArea) : undefined,
                     floor: formData.floor ? Number(formData.floor) : undefined,
@@ -162,20 +165,26 @@ export default function PostAdWizard() {
                                 value={formData.price}
                                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                             />
-                            <Input
-                                label={t('city')}
-                                placeholder={t('city')}
-                                value={formData.city}
-                                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                            />
                         </div>
 
-                        <Input
-                            label={t('district')}
-                            placeholder={t('district')}
-                            value={formData.district}
-                            onChange={(e) => setFormData({ ...formData, district: e.target.value })}
-                        />
+                        <div>
+                            <label className="block text-sm font-medium text-[var(--color-foreground)] mb-1.5">{t('city')}</label>
+                            <LocationCascade
+                                value={{
+                                    city: formData.city,
+                                    district: formData.district,
+                                    neighborhood: formData.neighborhood,
+                                }}
+                                onChange={(next) =>
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        city: next.city,
+                                        district: next.district,
+                                        neighborhood: next.neighborhood,
+                                    }))
+                                }
+                            />
+                        </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <Input
@@ -224,7 +233,7 @@ export default function PostAdWizard() {
                                 <AiImageOptimizer file={pendingFile} listingTitle={formData.title || undefined} />
                             )}
                             {images.length > 0 && (
-                                <p className="text-xs text-[var(--color-muted)] mt-2">{images.length} {t('photos_selected')}</p>
+                                <p className="text-xs text-[var(--color-muted)] mt-2">{t('photos_selected', { count: images.length })}</p>
                             )}
                         </div>
 
@@ -250,7 +259,9 @@ export default function PostAdWizard() {
                                 </div>
                                 <div>
                                     <span className="font-bold text-[var(--color-muted)] text-xs uppercase">{t('city')}</span>
-                                    <p className="text-[var(--color-foreground)]">{formData.city || '-'}{formData.district ? `, ${formData.district}` : ''}</p>
+                                    <p className="text-[var(--color-foreground)]">
+                                        {[formData.city, formData.district, formData.neighborhood].filter(Boolean).join(', ') || '-'}
+                                    </p>
                                 </div>
                                 <div>
                                     <span className="font-bold text-[var(--color-muted)] text-xs uppercase">{t('room_count')}</span>

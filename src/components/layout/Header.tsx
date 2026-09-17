@@ -14,24 +14,24 @@ import { useRouter } from '@/i18n/navigation';
 import { sanitizeSearchInput } from '@/lib/sanitize';
 import Logo from '@/components/brand/Logo';
 
-const NAV_CATEGORIES = [
-  { name: 'Satılık', href: '/search?listingType=sale' },
-  { name: 'Kiralık', href: '/search?listingType=rent' },
-  { name: 'Konut', href: '/category/konut' },
-  { name: 'İş Yeri', href: '/category/isyeri' },
-  { name: 'Arsa', href: '/category/arsa' },
-  { name: 'Projeler', href: '/#projeler' },
-  { name: 'Kurumsal', href: '/kurumsal' },
-  { name: 'Doping', href: '/doping' },
-  { name: 'Param Güvende', href: '/param-guvende' },
-  { name: 'Blog', href: '/blog' },
-];
-
 export default function Header() {
   const t = useTranslations('Header');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
+
+  const NAV_CATEGORIES = [
+    { name: t('nav_sale'), href: '/search?listingType=sale' },
+    { name: t('nav_rent'), href: '/search?listingType=rent' },
+    { name: t('nav_housing'), href: '/category/konut' },
+    { name: t('nav_commercial'), href: '/category/isyeri' },
+    { name: t('nav_land'), href: '/category/arsa' },
+    { name: t('nav_projects'), href: '/#projeler' },
+    { name: t('nav_corporate'), href: '/kurumsal' },
+    { name: t('nav_doping'), href: '/doping' },
+    { name: t('nav_escrow'), href: '/param-guvende' },
+    { name: t('nav_blog'), href: '/blog' },
+  ];
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,18 +43,18 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50">
-      <div className="bg-[var(--color-brand-yellow)] text-[var(--color-ink)]">
+      <div className="bg-[var(--color-navy)] text-white border-b border-white/10">
         <div className="container-custom h-8 flex items-center justify-between text-[11px] font-semibold">
-          <p className="truncate">{t('topbar')}</p>
-          <div className="hidden sm:flex items-center gap-4">
-            <Link href="/about" className="hover:underline">{t('about_short')}</Link>
-            <Link href="/contact" className="hover:underline">{t('help_short')}</Link>
+          <p className="truncate text-white/90">{t('topbar')}</p>
+          <div className="hidden sm:flex items-center gap-4 text-white/80">
+            <Link href="/about" className="hover:text-[var(--color-primary-light)]">{t('about_short')}</Link>
+            <Link href="/contact" className="hover:text-[var(--color-primary-light)]">{t('help_short')}</Link>
             <span>444 76 66</span>
           </div>
         </div>
       </div>
 
-      <div className="bg-white dark:bg-[var(--color-surface)] border-b border-[var(--color-border)]">
+      <div className="bg-[var(--color-surface)] border-b border-[var(--color-border)]">
         <div className="container-custom h-16 flex items-center justify-between gap-4">
           <Logo />
 
@@ -78,7 +78,7 @@ export default function Header() {
               {t('favorites')}
             </Link>
             <UserActions />
-            <Link href="/post-ad" className="ml-1 inline-flex items-center gap-1.5 bg-[var(--color-brand-yellow)] hover:bg-[var(--color-secondary-dark)] text-[var(--color-ink)] px-4 py-2 rounded-xl text-sm font-extrabold">
+            <Link href="/post-ad" className="ml-1 inline-flex items-center gap-1.5 bg-[var(--color-brand-accent)] hover:bg-[var(--color-secondary-dark)] text-white px-4 py-2 rounded-xl text-sm font-extrabold">
               <PlusCircle size={16} />
               {t('post_ad')}
             </Link>
@@ -90,7 +90,7 @@ export default function Header() {
             type="button"
             className="md:hidden p-2 text-[var(--color-foreground)] rounded-xl"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
+            aria-label={mobileMenuOpen ? t('menu_close') : t('menu_open')}
           >
             {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -103,7 +103,7 @@ export default function Header() {
             <Link
               key={cat.href}
               href={cat.href}
-              className="px-3 py-1.5 text-xs font-semibold text-white/80 hover:text-[var(--color-brand-yellow)] whitespace-nowrap"
+              className="px-3 py-1.5 text-xs font-semibold text-white/80 hover:text-[var(--color-primary-light)] whitespace-nowrap"
             >
               {cat.name}
             </Link>
@@ -142,13 +142,14 @@ export default function Header() {
 
           <div className="space-y-3">
             <UserActions mobile />
-            <Link href="/post-ad" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-1.5 justify-center bg-[var(--color-brand-yellow)] text-[var(--color-ink)] px-4 py-3 rounded-xl text-sm font-extrabold w-full">
+            <Link href="/post-ad" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-1.5 justify-center bg-[var(--color-brand-accent)] text-white px-4 py-3 rounded-xl text-sm font-extrabold w-full">
               <PlusCircle size={16} />
               {t('post_ad')}
             </Link>
           </div>
 
-          <div className="flex justify-end border-t border-[var(--color-border)] pt-4">
+          <div className="flex justify-end border-t border-[var(--color-border)] pt-4 gap-2">
+            <ModeToggle />
             <LanguageSwitcher />
           </div>
         </div>

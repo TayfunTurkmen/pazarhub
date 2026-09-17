@@ -16,7 +16,9 @@ export default function ListingCard({ listing, badge, showVerified }: ListingCar
   const resolvedBadge = badge ?? (listing.tier === 'showcase' || listing.featured ? 'showcase' : listing.tier === 'premium' ? 'premium' : undefined);
   const isVerified = showVerified && listing.seller?.verified === true;
   const perM2 = formatPerM2(listing.price, listing.netArea);
-  const locationLabel = [listing.location.district, listing.location.city].filter(Boolean).join(', ');
+  const locationLabel = [listing.location.neighborhood, listing.location.district, listing.location.city]
+    .filter(Boolean)
+    .join(', ');
 
   return (
     <Link href={`/listing/${listing.id}`} className="block group h-full">
@@ -31,12 +33,12 @@ export default function ListingCard({ listing, badge, showVerified }: ListingCar
           />
 
           {resolvedBadge === 'showcase' && (
-            <div className="absolute top-2.5 left-2.5 bg-[var(--color-brand-yellow)] text-[var(--color-ink)] text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-wider">
+            <div className="absolute top-2.5 left-2.5 bg-[var(--color-brand-accent)] text-white text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-wider">
               Vitrin
             </div>
           )}
           {resolvedBadge === 'premium' && (
-            <div className="absolute top-2.5 left-2.5 bg-[var(--color-navy)] text-[var(--color-brand-yellow)] text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-wider">
+            <div className="absolute top-2.5 left-2.5 bg-[var(--color-navy)] text-[var(--color-brand-accent)] text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-wider">
               Premium
             </div>
           )}
@@ -65,7 +67,7 @@ export default function ListingCard({ listing, badge, showVerified }: ListingCar
         </div>
 
         <div className="p-3.5 space-y-2">
-          <p className="text-lg font-black text-[var(--color-navy)] dark:text-[var(--color-brand-yellow)]">
+          <p className="text-lg font-black text-[var(--color-navy)] dark:text-[var(--color-brand-accent)]">
             {formatTry(listing.price)}
           </p>
           {perM2 && <p className="text-[11px] text-[var(--color-muted)] -mt-1">{perM2}</p>}

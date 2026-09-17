@@ -43,7 +43,7 @@ function DopingInner() {
     <RouteGuard requireAuth>
       <div className="space-y-8">
         <section className="rounded-3xl bg-[var(--color-navy)] text-white px-6 py-10">
-          <p className="text-[var(--color-brand-yellow)] text-xs font-black uppercase tracking-[0.2em] mb-2">Doping & Vitrin</p>
+          <p className="text-[var(--color-brand-accent)] text-xs font-black uppercase tracking-[0.2em] mb-2">Doping & Vitrin</p>
           <h1 className="text-3xl md:text-4xl font-black">İlanınızı sarı vitrine taşıyın</h1>
           <p className="mt-3 text-white/75 max-w-2xl">
             Doping arama sıralamasını yükseltir, vitrin anasayfada ve kategori tepesinde gösterir. Ücret PayTR veya iyzico ile alınır.

@@ -8,7 +8,7 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { ChevronDown, ChevronUp, MapPin, Tag, Home, Ruler, Flame, Building, Car, Gauge, Calendar, Palette, Smartphone, Cpu, HardDrive, ShieldCheck } from 'lucide-react';
 
-import { LOCATION_DATA } from '@/services/locationData';
+import LocationCascade from '@/components/listing/LocationCascade';
 // Category-specific filter configurations
 type FilterConfig = {
     showListingType: boolean;
@@ -154,11 +154,6 @@ export default function FilterSidebar() {
         router.replace(`?${params.toString()}`);
     };
 
-    // Location Derived State
-    const selectedCity = useMemo(() => LOCATION_DATA.find(c => c.name === filters.city), [filters.city]);
-    const selectedDistrict = useMemo(() => selectedCity?.districts?.find(d => d.name === filters.district), [selectedCity, filters.district]);
-    const selectedNeighborhood = useMemo(() => selectedDistrict?.neighborhoods?.find(n => n.name === filters.neighborhood), [selectedDistrict, filters.neighborhood]);
-
     const Section = ({ id, title, icon: Icon, children }: any) => (
         <div className="border-b border-[var(--color-border)] py-4 last:border-0">
             <button
@@ -179,7 +174,7 @@ export default function FilterSidebar() {
         <button
             onClick={onClick}
             className={`px-3 py-2 text-xs font-medium border rounded-xl transition-all ${active
-                ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-sm'
+                ? 'bg-[var(--color-brand-accent)] text-white border-[var(--color-brand-accent)] shadow-sm'
                 : 'bg-[var(--color-surface)] text-[var(--color-muted)] border-[var(--color-border)] hover:border-[var(--color-primary)]/50 hover:text-[var(--color-primary)]'
                 }`}
         >
@@ -208,56 +203,25 @@ export default function FilterSidebar() {
                     </Section>
                 )}
 
-                {/* Location - always visible */}
+                {/* Location - always visible: 81 il + ilçe + mahalle */}
                 <Section id="location" title={t('location')} icon={MapPin}>
-                    <div className="flex flex-col gap-2">
-                        <select
-                            value={filters.city}
-                            onChange={(e) => handleChange('city', e.target.value)}
-                            className="w-full border border-[var(--color-border)] rounded-xl p-2.5 text-sm bg-[var(--color-surface)] text-[var(--color-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-colors"
-                        >
-                            <option value="">İl — Tümü</option>
-                            {LOCATION_DATA.map(city => (
-                                <option key={city.id} value={city.name}>{city.name}</option>
-                            ))}
-                        </select>
-                        {selectedCity && selectedCity.districts && (
-                            <select
-                                value={filters.district}
-                                onChange={(e) => handleChange('district', e.target.value)}
-                                className="w-full border border-[var(--color-border)] rounded-xl p-2.5 text-sm bg-[var(--color-surface)] text-[var(--color-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-colors"
-                            >
-                                <option value="">İlçe — Tümü</option>
-                                {selectedCity.districts.map(dist => (
-                                    <option key={dist.id} value={dist.name}>{dist.name}</option>
-                                ))}
-                            </select>
-                        )}
-                        {selectedDistrict && selectedDistrict.neighborhoods && (
-                            <select
-                                value={filters.neighborhood}
-                                onChange={(e) => handleChange('neighborhood', e.target.value)}
-                                className="w-full border border-[var(--color-border)] rounded-xl p-2.5 text-sm bg-[var(--color-surface)] text-[var(--color-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-colors"
-                            >
-                                <option value="">Mahalle — Tümü</option>
-                                {selectedDistrict.neighborhoods.map(neigh => (
-                                    <option key={neigh.id} value={neigh.name}>{neigh.name}</option>
-                                ))}
-                            </select>
-                        )}
-                        {selectedNeighborhood && selectedNeighborhood.streets && (
-                            <select
-                                value={filters.street}
-                                onChange={(e) => handleChange('street', e.target.value)}
-                                className="w-full border border-[var(--color-border)] rounded-xl p-2.5 text-sm bg-[var(--color-surface)] text-[var(--color-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 transition-colors"
-                            >
-                                <option value="">Sokak/Cadde — Tümü</option>
-                                {selectedNeighborhood.streets.map(street => (
-                                    <option key={street.id} value={street.name}>{street.name}</option>
-                                ))}
-                            </select>
-                        )}
-                    </div>
+                    <LocationCascade
+                        value={{
+                            city: filters.city,
+                            district: filters.district,
+                            neighborhood: filters.neighborhood,
+                            street: filters.street,
+                        }}
+                        onChange={(next) => {
+                            setFilters((prev) => ({
+                                ...prev,
+                                city: next.city,
+                                district: next.district,
+                                neighborhood: next.neighborhood,
+                                street: next.street || '',
+                            }));
+                        }}
+                    />
                 </Section>
 
                 {/* Price - always visible */}

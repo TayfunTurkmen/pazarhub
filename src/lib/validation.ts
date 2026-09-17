@@ -25,6 +25,7 @@ export const createListingSchema = z.object({
   categoryId: z.string().min(1).max(64),
   city: shortText,
   district: z.string().trim().max(120).optional().default(''),
+  neighborhood: z.string().trim().max(120).optional(),
   roomCount: z.string().trim().max(20).optional(),
   netArea: z.coerce.number().int().positive().max(100_000).optional(),
   floor: z.coerce.number().int().min(-5).max(200).optional(),

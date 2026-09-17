@@ -7,8 +7,8 @@ interface LogoProps {
 
 export default function Logo({ compact = false, inverted = false }: LogoProps) {
   return (
-    <Link href="/" className="flex items-center gap-2.5 shrink-0 group" aria-label="skonutal.com ana sayfa">
-      <span className="relative w-9 h-9 bg-[var(--color-brand-yellow)] text-[var(--color-ink)] rounded-lg flex items-center justify-center text-[15px] font-black shadow-[0_2px_0_#c9a400] group-hover:-translate-y-0.5 transition-transform">
+    <Link href="/" className="flex items-center gap-2.5 shrink-0 group" aria-label="skonutal.com">
+      <span className="relative w-9 h-9 bg-[var(--color-brand-accent)] text-white rounded-lg flex items-center justify-center text-[15px] font-black shadow-[0_2px_0_#2d5a8c] group-hover:-translate-y-0.5 transition-transform">
         S
       </span>
       {!compact && (
