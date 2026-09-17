@@ -59,7 +59,7 @@ export default async function LocaleLayout({
               enableSystem={false}
             >
               <Header />
-              <main className="flex-grow container-custom py-8">
+              <main className="flex-grow container-custom py-4 sm:py-8 min-w-0 overflow-x-clip">
                 {children}
               </main>
               <Footer />

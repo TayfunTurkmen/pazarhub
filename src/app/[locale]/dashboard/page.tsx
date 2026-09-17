@@ -100,35 +100,37 @@ export default function DashboardPage() {
         <RouteGuard requireAuth>
         <div className="space-y-8">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-5 bg-gradient-to-r from-blue-900/5 to-transparent -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 py-4 rounded-2xl mb-2">
-                <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-2xl bg-[var(--color-primary)]/10 flex items-center justify-center">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-[var(--color-border)] pb-5 bg-gradient-to-r from-blue-900/5 to-transparent -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 xl:-mx-16 xl:px-16 2xl:-mx-24 2xl:px-24 py-4 rounded-2xl mb-2">
+                <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[var(--color-primary)]/10 flex items-center justify-center shrink-0">
                         <User size={24} className="text-[var(--color-primary)]" />
                     </div>
-                    <div>
-                        <h1 className="text-2xl font-bold text-[var(--color-foreground)]">{t('my_account')}</h1>
-                        <p className="text-sm text-[var(--color-muted)] mt-0.5">
+                    <div className="min-w-0">
+                        <h1 className="text-xl sm:text-2xl font-bold text-[var(--color-foreground)] truncate">{t('my_account')}</h1>
+                        <p className="text-xs sm:text-sm text-[var(--color-muted)] mt-0.5 truncate">
                             {user?.name || 'Kullanıcı'} — {user?.type === 'corporate' ? t('corporate_account') : t('individual_account')} · {quotaLabel}
                         </p>
                     </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                     {user?.role === 'admin' && (
                         <Link href="/admin">
-                            <Button variant="outline" className="flex items-center gap-2">
+                            <Button variant="outline" className="flex items-center gap-2 text-sm">
                                 <Shield size={16} />
-                                {tDash('admin_panel')}
+                                <span className="hidden sm:inline">{tDash('admin_panel')}</span>
+                                <span className="sm:hidden">Admin</span>
                             </Button>
                         </Link>
                     )}
                     <Link href="/kurumsal">
-                        <Button variant="outline" className="flex items-center gap-2">
+                        <Button variant="outline" className="flex items-center gap-2 text-sm">
                             <Star size={16} />
-                            Kurumsal
+                            <span className="hidden sm:inline">Kurumsal</span>
+                            <span className="sm:hidden">Kurumsal</span>
                         </Button>
                     </Link>
-                    <Link href="/post-ad">
-                        <Button className="flex items-center gap-2">
+                    <Link href="/post-ad" className="flex-1 sm:flex-none">
+                        <Button className="flex items-center justify-center gap-2 text-sm w-full">
                             <PlusCircle size={18} />
                             {t('post_ad')}
                         </Button>

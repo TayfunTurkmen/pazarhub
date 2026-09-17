@@ -86,7 +86,7 @@ export default function MapComponent({ listings }: MapComponentProps) {
   }, []);
 
   if (!mounted) {
-    return <div className="w-full h-[min(70vh,560px)] min-h-[320px] bg-[var(--color-surface)] animate-pulse rounded-2xl border border-[var(--color-border)]" />;
+    return <div className="w-full h-[min(55dvh,480px)] min-h-[240px] sm:min-h-[320px] bg-[var(--color-surface)] animate-pulse rounded-2xl border border-[var(--color-border)]" />;
   }
 
   const googleBrowse = googleMapsBrowseUrl(center[0], center[1], 12);
@@ -124,11 +124,11 @@ export default function MapComponent({ listings }: MapComponentProps) {
       </div>
 
       {useGoogle && googleEmbed ? (
-        <div className="w-full h-[min(70vh,560px)] min-h-[320px] rounded-2xl overflow-hidden border border-[var(--color-border)] shadow-xl">
+        <div className="w-full h-[min(55dvh,480px)] min-h-[240px] sm:min-h-[320px] rounded-2xl overflow-hidden border border-[var(--color-border)] shadow-xl">
           <iframe title="Google Maps" src={googleEmbed} className="w-full h-full border-0" loading="lazy" allowFullScreen />
         </div>
       ) : (
-        <div className={`w-full h-[min(70vh,560px)] min-h-[320px] rounded-2xl overflow-hidden border border-[var(--color-border)] relative shadow-xl map-wrapper ${resolvedTheme === 'dark' ? 'dark-map' : ''}`}>
+        <div className={`w-full h-[min(55dvh,480px)] min-h-[240px] sm:min-h-[320px] rounded-2xl overflow-hidden border border-[var(--color-border)] relative shadow-xl map-wrapper ${resolvedTheme === 'dark' ? 'dark-map' : ''}`}>
           <style dangerouslySetInnerHTML={{
             __html: `
               .dark-map .leaflet-layer,

@@ -26,21 +26,20 @@ export default function SearchResultsHeader({ count }: { count: number }) {
     };
 
     return (
-        <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--color-border)]">
-            <div className="flex items-center gap-3">
-                <h1 className="text-xl font-bold text-[var(--color-foreground)]">{t('results')}</h1>
-                <span className="text-sm text-[var(--color-muted)] bg-[var(--color-surface-elevated)] px-3 py-1 rounded-full font-medium">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6 pb-4 border-b border-[var(--color-border)]">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <h1 className="text-lg sm:text-xl font-bold text-[var(--color-foreground)] truncate">{t('results')}</h1>
+                <span className="shrink-0 text-xs sm:text-sm text-[var(--color-muted)] bg-[var(--color-surface-elevated)] px-2.5 sm:px-3 py-1 rounded-full font-medium">
                     {count} {t('found')}
                 </span>
             </div>
 
-            <div className="flex items-center gap-3">
-                {/* Sort Dropdown */}
-                <div className="relative">
+            <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
+                <div className="relative flex-1 sm:flex-none min-w-0">
                     <select
                         value={currentSort}
                         onChange={(e) => handleSort(e.target.value)}
-                        className="appearance-none bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl pl-8 pr-4 py-2 text-sm text-[var(--color-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 cursor-pointer"
+                        className="w-full appearance-none bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl pl-8 pr-3 py-2 text-sm text-[var(--color-foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 cursor-pointer"
                     >
                         <option value="newest">{t('newest')}</option>
                         <option value="price_asc">{t('price_asc')}</option>
@@ -49,9 +48,9 @@ export default function SearchResultsHeader({ count }: { count: number }) {
                     <ArrowUpDown size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--color-muted)] pointer-events-none" />
                 </div>
 
-                {/* View Toggle */}
-                <div className="flex border border-[var(--color-border)] rounded-xl overflow-hidden bg-[var(--color-surface)]">
+                <div className="flex shrink-0 border border-[var(--color-border)] rounded-xl overflow-hidden bg-[var(--color-surface)]">
                     <button
+                        type="button"
                         onClick={() => handleViewMode('grid')}
                         className={`p-2.5 ${viewMode === 'grid' ? 'bg-[var(--color-primary)] text-white shadow-inner' : 'text-[var(--color-muted)] hover:bg-[var(--color-surface-elevated)]'} transition-colors`}
                         title="Izgara Görünümü"
@@ -59,6 +58,7 @@ export default function SearchResultsHeader({ count }: { count: number }) {
                         <LayoutGrid size={16} />
                     </button>
                     <button
+                        type="button"
                         onClick={() => handleViewMode('list')}
                         className={`p-2.5 border-l border-[var(--color-border)] ${viewMode === 'list' ? 'bg-[var(--color-primary)] text-white shadow-inner' : 'text-[var(--color-muted)] hover:bg-[var(--color-surface-elevated)]'} transition-colors`}
                         title="Liste Görünümü"
@@ -66,6 +66,7 @@ export default function SearchResultsHeader({ count }: { count: number }) {
                         <List size={16} />
                     </button>
                     <button
+                        type="button"
                         onClick={() => handleViewMode('map')}
                         className={`p-2.5 border-l border-[var(--color-border)] ${viewMode === 'map' ? 'bg-[var(--color-primary)] text-white shadow-inner' : 'text-[var(--color-muted)] hover:bg-[var(--color-surface-elevated)]'} transition-colors`}
                         title="Harita Görünümü"

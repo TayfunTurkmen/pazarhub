@@ -43,7 +43,7 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-0">
-      <section className="relative -mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-16 2xl:-mx-24 -mt-8 overflow-hidden min-h-[560px]">
+      <section className="relative full-bleed -mt-8 overflow-hidden min-h-0 sm:min-h-[480px] lg:min-h-[560px]">
         <Image
           src={HERO_IMAGE}
           alt=""
@@ -54,33 +54,33 @@ export default async function HomePage() {
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(47,40,88,0.82)_0%,rgba(47,40,88,0.55)_45%,rgba(18,15,36,0.9)_100%)]" />
 
-        <div className="relative px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 pt-12 pb-12">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex justify-between items-start mb-8 gap-4">
-              <p className="text-[var(--color-brand-yellow)] text-xs font-bold uppercase tracking-[0.22em]">
+        <div className="relative full-bleed-pad pt-8 sm:pt-12 pb-10 sm:pb-12">
+          <div className="max-w-7xl mx-auto min-w-0">
+            <div className="flex justify-between items-start mb-6 sm:mb-8 gap-3">
+              <p className="text-[var(--color-brand-yellow)] text-xs font-bold uppercase tracking-[0.22em] truncate">
                 {t('hero_kicker')}
               </p>
-              <div className="flex items-center gap-2 bg-white/95 dark:bg-[var(--color-surface)]/95 backdrop-blur-sm rounded-xl px-3 sm:px-4 py-2.5 shadow-lg shrink-0">
-                <ShieldCheck size={20} className="text-[var(--color-primary)]" />
-                <div className="text-left hidden xs:block sm:block">
+              <div className="flex items-center gap-2 bg-white/95 dark:bg-[var(--color-surface)]/95 backdrop-blur-sm rounded-xl px-3 sm:px-4 py-2 shadow-lg shrink-0">
+                <ShieldCheck size={18} className="text-[var(--color-primary)] shrink-0" />
+                <div className="text-left hidden sm:block">
                   <p className="text-xs font-bold text-[var(--color-foreground)]">{t('security_badge_title')}</p>
                   <p className="text-[10px] text-[var(--color-muted)]">{t('security_badge_desc')}</p>
                 </div>
               </div>
             </div>
 
-            <div className="text-white space-y-3 mb-8 max-w-3xl">
-              <h1 className="text-3xl md:text-5xl lg:text-[56px] font-black leading-[1.08] tracking-tight">
+            <div className="text-white space-y-3 mb-6 sm:mb-8 max-w-3xl">
+              <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-[56px] font-black leading-[1.08] tracking-tight">
                 {t('hero_title_1')}{' '}
                 <span className="text-[var(--color-brand-yellow)]">{t('hero_title_2')}</span>{' '}
                 {t('hero_title_3')}
               </h1>
-              <p className="text-white/80 text-base md:text-lg max-w-2xl">{t('hero_subtitle')}</p>
+              <p className="text-white/80 text-sm sm:text-base md:text-lg max-w-2xl">{t('hero_subtitle')}</p>
             </div>
 
             <HeroSearch />
 
-            <div className="flex flex-wrap gap-2 mt-5">
+            <div className="flex flex-wrap gap-2 mt-4 sm:mt-5">
               {[
                 { label: t('quick_istanbul'), href: '/search?city=İstanbul&listingType=sale&category=emlak' },
                 { label: t('quick_vehicles'), href: '/category/otomobil' },
@@ -91,14 +91,14 @@ export default async function HomePage() {
                 <Link
                   key={chip.href}
                   href={chip.href}
-                  className="px-4 py-2 bg-white/12 hover:bg-white/22 backdrop-blur-sm rounded-full text-sm text-white font-medium border border-white/20"
+                  className="px-3 sm:px-4 py-1.5 sm:py-2 bg-white/12 hover:bg-white/22 backdrop-blur-sm rounded-full text-xs sm:text-sm text-white font-medium border border-white/20"
                 >
                   {chip.label}
                 </Link>
               ))}
               <Link
                 href="/search?view=map"
-                className="px-4 py-2 bg-[var(--color-brand-yellow)] text-[var(--color-navy)] rounded-full text-sm font-extrabold"
+                className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[var(--color-brand-yellow)] text-[var(--color-navy)] rounded-full text-xs sm:text-sm font-extrabold"
               >
                 {t('map_search')}
               </Link>

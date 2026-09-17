@@ -23,16 +23,16 @@ export default function AiPlatformPageClient() {
   return (
     <div className="space-y-12">
       {/* Hero */}
-      <section className="relative -mx-4 sm:-mx-6 lg:-mx-8 xl:-mx-16 2xl:-mx-24 -mt-8 overflow-hidden rounded-b-3xl">
+      <section className="relative full-bleed -mt-8 overflow-hidden rounded-b-3xl">
         <div className="absolute inset-0 bg-gradient-to-br from-violet-600 via-blue-600 to-indigo-800" />
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
-        <div className="relative px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center text-white">
+        <div className="relative full-bleed-pad py-12 sm:py-16 md:py-24 text-center text-white">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm mb-6">
             <Sparkles size={16} />
             {t('platform_badge')}
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">{t('platform_title')}</h1>
-          <p className="text-lg text-white/80 max-w-2xl mx-auto mb-8">{t('platform_desc')}</p>
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-4 px-1">{t('platform_title')}</h1>
+          <p className="text-base sm:text-lg text-white/80 max-w-2xl mx-auto mb-8 px-1">{t('platform_desc')}</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link href="#recommend" className="px-6 py-3 rounded-xl bg-white text-violet-700 font-bold hover:bg-white/90 transition-colors">
               {t('platform_cta_recommend')}

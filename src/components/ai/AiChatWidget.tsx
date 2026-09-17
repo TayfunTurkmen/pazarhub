@@ -55,7 +55,7 @@ export default function AiChatWidget() {
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-violet-600 to-blue-600 text-white shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center gap-2 px-4 sm:px-5 py-3 rounded-full bg-gradient-to-r from-violet-600 to-blue-600 text-white shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
           aria-label={t('chat_open')}
         >
           <Sparkles size={18} />
@@ -65,7 +65,7 @@ export default function AiChatWidget() {
       )}
 
       {open && (
-        <div className="fixed bottom-6 right-6 z-50 w-[min(100vw-2rem,400px)] h-[min(80vh,560px)] flex flex-col rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-2xl overflow-hidden">
+        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[min(100dvw-1.5rem,400px)] h-[min(75dvh,560px)] flex flex-col rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-2xl overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-violet-600 to-blue-600 text-white">
             <div className="flex items-center gap-2">
               <Bot size={20} />

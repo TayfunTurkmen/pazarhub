@@ -161,7 +161,7 @@ export default function FilterSidebar() {
   );
 
   return (
-    <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl overflow-hidden md:sticky md:top-20 shadow-sm">
+    <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl overflow-hidden md:sticky md:top-28 shadow-sm">
       <div className="bg-[var(--color-surface-elevated)] p-4 border-b border-[var(--color-border)] flex items-center justify-between">
         <h3 className="font-bold text-[var(--color-foreground)]">{t('filter')}</h3>
         <button type="button" onClick={handleClear} className="text-xs text-[var(--color-muted)] hover:text-rose-500 font-medium transition-colors">
@@ -169,7 +169,7 @@ export default function FilterSidebar() {
         </button>
       </div>
 
-      <div className="p-4 max-h-[70vh] md:max-h-none overflow-y-auto">
+      <div className="p-4 max-h-[60vh] md:max-h-[calc(100vh-9rem)] overflow-y-auto">
         {config.showListingType && (
           <Section id="type" title={t('listing_type')} icon={Tag}>
             <div className="grid grid-cols-3 gap-2">

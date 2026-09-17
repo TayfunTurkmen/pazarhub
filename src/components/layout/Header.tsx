@@ -63,8 +63,10 @@ export default function Header() {
       </div>
 
       <div className="bg-[var(--color-surface)] border-b border-[var(--color-border)]">
-        <div className="container-custom h-16 flex items-center justify-between gap-4">
-          <Logo />
+        <div className="container-custom h-16 flex items-center justify-between gap-2 sm:gap-4 min-w-0">
+          <div className="min-w-0 shrink">
+            <Logo />
+          </div>
 
           <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-xl relative">
             <input
@@ -94,19 +96,22 @@ export default function Header() {
             <LanguageSwitcher />
           </div>
 
-          <button
-            type="button"
-            className="md:hidden p-2 text-[var(--color-foreground)] rounded-xl"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? t('menu_close') : t('menu_open')}
-          >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+          <div className="flex items-center gap-1 shrink-0 md:hidden">
+            <ModeToggle />
+            <button
+              type="button"
+              className="p-2 text-[var(--color-foreground)] rounded-xl"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? t('menu_close') : t('menu_open')}
+            >
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="hidden md:block bg-[var(--color-navy)]">
-        <div className="container-custom flex items-center gap-1 h-11 overflow-x-auto">
+        <div className="container-custom flex items-center gap-1 h-11 overflow-x-auto max-w-full [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {NAV_CATEGORIES.map((cat) => (
             <Link
               key={cat.href}

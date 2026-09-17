@@ -88,9 +88,9 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 space-y-6">
                     <div className="border-b border-[var(--color-border)] pb-4">
-                        <div className="flex items-start justify-between">
-                            <h1 className="text-2xl font-bold text-[var(--color-foreground)]">{listing.title}</h1>
-                            <div className="flex items-center gap-2 flex-shrink-0 ml-4">
+                        <div className="flex items-start justify-between gap-3">
+                            <h1 className="text-xl sm:text-2xl font-bold text-[var(--color-foreground)] min-w-0 flex-1 break-words">{listing.title}</h1>
+                            <div className="flex items-center gap-2 shrink-0">
                                 <button
                                     onClick={toggleFavorite}
                                     className={`p-2.5 rounded-xl border transition-colors ${isFavorite ? 'border-rose-300 text-rose-500 bg-rose-500/10' : 'border-[var(--color-border)] text-[var(--color-muted)] hover:text-rose-500 hover:border-rose-200'}`}

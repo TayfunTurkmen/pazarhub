@@ -21,8 +21,8 @@ export default function ListingCard({ listing, badge, showVerified }: ListingCar
     .join(', ');
 
   return (
-    <Link href={`/listing/${listing.id}`} className="block group h-full">
-      <article className="h-full overflow-hidden rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
+    <Link href={`/listing/${listing.id}`} className="block group h-full min-w-0">
+      <article className="h-full min-w-0 overflow-hidden rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300">
         <div className="relative aspect-[4/3] overflow-hidden bg-[var(--color-surface-elevated)]">
           <Image
             src={listing.images[0]}
@@ -67,7 +67,7 @@ export default function ListingCard({ listing, badge, showVerified }: ListingCar
         </div>
 
         <div className="p-3.5 space-y-2">
-          <p className="text-lg font-black text-[var(--color-navy)] dark:text-[var(--color-brand-accent)]">
+          <p className="text-base sm:text-lg font-black text-[var(--color-navy)] dark:text-[var(--color-brand-accent)] truncate">
             {formatTry(listing.price)}
           </p>
           {perM2 && <p className="text-[11px] text-[var(--color-muted)] -mt-1">{perM2}</p>}

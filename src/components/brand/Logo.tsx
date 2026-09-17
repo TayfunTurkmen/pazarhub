@@ -28,7 +28,7 @@ export default function Logo({ compact = false, inverted = false }: LogoProps) {
           width={240}
           height={80}
           priority
-          className="h-11 sm:h-12 w-auto max-w-[220px] sm:max-w-[260px] object-contain object-left"
+          className="h-9 sm:h-11 md:h-12 w-auto max-w-[150px] sm:max-w-[220px] md:max-w-[260px] object-contain object-left"
         />
       </Link>
     );
