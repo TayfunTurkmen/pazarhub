@@ -4,17 +4,20 @@
   "packages": {
     "node": "22"
   },
-  "buildAptPackages": ["openssl", "git", "python3", "make", "g++", "ffmpeg"],
+  "buildAptPackages": ["openssl", "python3", "ffmpeg"],
   "steps": {
     "install": {
       "commands": ["npm ci --include=dev"]
     },
     "build": {
-      "commands": ["...", "bash docker/bundle-evolution.sh /app/evolution"]
+      "commands": ["npm run build"]
     }
   },
   "deploy": {
-    "aptPackages": ["openssl", "ffmpeg", "redis-server", "python3"],
-    "startCommand": "bash docker/entrypoint.sh"
+    "aptPackages": ["openssl", "ffmpeg", "python3"],
+    "startCommand": "bash docker/entrypoint.sh",
+    "variables": {
+      "SKIP_EVOLUTION": "1"
+    }
   }
 }

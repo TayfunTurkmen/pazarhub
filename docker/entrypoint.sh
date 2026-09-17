@@ -9,6 +9,8 @@ export NEXT_PUBLIC_APP_URL="${NEXT_PUBLIC_APP_URL:-${NEXTAUTH_URL}}"
 export HOSTNAME="${HOSTNAME:-0.0.0.0}"
 export PORT="${PORT:-3000}"
 export NODE_ENV="${NODE_ENV:-production}"
+# Coolify Railpack: Evolution is not bundled by default (OOM on small builders)
+export SKIP_EVOLUTION="${SKIP_EVOLUTION:-0}"
 
 db_host() {
   node -e 'try{console.log(new URL(process.env.DATABASE_URL||"").hostname||"")}catch{console.log("")}'
@@ -124,6 +126,10 @@ start_redis() {
 start_evolution() {
   local dir
   dir="$(evo_dir)"
+  if [ "${SKIP_EVOLUTION:-0}" = "1" ]; then
+    echo "[skonutal] SKIP_EVOLUTION=1 — WhatsApp Evolution API disabled"
+    return 0
+  fi
   if [ -z "$dir" ]; then
     echo "[skonutal] Evolution API files missing — WhatsApp QR login disabled"
     return 0
