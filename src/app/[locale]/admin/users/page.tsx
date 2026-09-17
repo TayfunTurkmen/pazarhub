@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Card from '@/components/ui/Card';
-import { Search, Shield, ShieldCheck, Ban, Eye, Building2, User as UserIcon } from 'lucide-react';
+import { Search, Shield, ShieldCheck, Ban, Eye, Building2, User as UserIcon, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { User } from '@/types';
 
@@ -193,7 +193,9 @@ export default function AdminUsersPage() {
                 <Card className="p-6">
                     <div className="flex items-center justify-between mb-4">
                         <h3 className="font-bold text-[var(--color-foreground)]">{t('user_detail')}</h3>
-                        <button onClick={() => setSelectedUser(null)} className="text-[var(--color-muted)] hover:text-[var(--color-foreground)]">✕</button>
+                        <button type="button" onClick={() => setSelectedUser(null)} className="text-[var(--color-muted)] hover:text-[var(--color-foreground)]" aria-label="Kapat">
+                            <X size={18} />
+                        </button>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                         <div><span className="text-xs text-[var(--color-muted)] block">{t('name_label')}</span><span className="font-medium text-[var(--color-foreground)]">{selectedUser.name}</span></div>

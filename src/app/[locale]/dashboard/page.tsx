@@ -4,7 +4,7 @@ import { Link } from '@/i18n/navigation';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
-import { Edit, Trash2, MessageSquare, Eye, PlusCircle, Settings, Heart, BarChart3, User, Shield, Bell, Lock, Save, Star, ArrowRight } from 'lucide-react';
+import { Edit, Trash2, MessageSquare, Eye, PlusCircle, Settings, Heart, BarChart3, User, Shield, Bell, Lock, Save, Star, ArrowRight, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/AuthContext';
 import RouteGuard from '@/components/auth/RouteGuard';
@@ -368,7 +368,9 @@ export default function DashboardPage() {
                     <Card className="w-full max-w-lg p-0 overflow-hidden shadow-2xl modal-content" onClick={(e: React.MouseEvent) => e.stopPropagation()}>
                         <div className="flex items-center justify-between p-4 border-b border-[var(--color-border)] bg-[var(--color-surface-elevated)]">
                             <h3 className="font-bold text-[var(--color-foreground)]">Mesaj Detayı</h3>
-                            <button onClick={() => setSelectedMessage(null)} className="p-1 rounded-lg text-[var(--color-muted)] hover:text-[var(--color-foreground)] hover:bg-[var(--color-primary)]/10 transition-colors">✕</button>
+                            <button type="button" onClick={() => setSelectedMessage(null)} className="p-1 rounded-lg text-[var(--color-muted)] hover:text-[var(--color-foreground)] hover:bg-[var(--color-primary)]/10 transition-colors" aria-label="Kapat">
+                                <X size={18} />
+                            </button>
                         </div>
                         <div className="p-6 space-y-6">
                             <div className="flex items-start gap-4">

@@ -73,12 +73,12 @@ export const NEW_PROJECTS = [
 ] as const;
 
 export const PROPERTY_TYPES = [
-  { name: 'Konut', slug: 'konut', hint: 'Daire, villa, residence', emoji: '🏠' },
-  { name: 'İş Yeri', slug: 'isyeri', hint: 'Ofis, dükkan, plaza', emoji: '🏢' },
-  { name: 'Arsa', slug: 'arsa', hint: 'İmarlı, tarla, ticari', emoji: '🌿' },
-  { name: 'Yazlık', slug: 'apart-yazlik', hint: 'Sahil ve sayfiye', emoji: '☀️' },
-  { name: 'Devremülk', slug: 'devremulk', hint: 'Tatil yatırımı', emoji: '🛎️' },
-  { name: 'Turizm', slug: 'turizm', hint: 'Otel ve apart', emoji: '✈️' },
+  { name: 'Konut', slug: 'konut', hint: 'Daire, villa, residence', icon: 'Home' },
+  { name: 'İş Yeri', slug: 'isyeri', hint: 'Ofis, dükkan, plaza', icon: 'Building2' },
+  { name: 'Arsa', slug: 'arsa', hint: 'İmarlı, tarla, ticari', icon: 'Sprout' },
+  { name: 'Yazlık', slug: 'apart-yazlik', hint: 'Sahil ve sayfiye', icon: 'Sun' },
+  { name: 'Devremülk', slug: 'devremulk', hint: 'Tatil yatırımı', icon: 'ConciergeBell' },
+  { name: 'Turizm', slug: 'turizm', hint: 'Otel ve apart', icon: 'Plane' },
 ] as const;
 
 export const EXPERT_INSIGHTS = [

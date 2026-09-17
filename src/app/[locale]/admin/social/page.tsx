@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Card from '@/components/ui/Card';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
-import { Facebook, Twitter, Instagram, Youtube, Save, CheckCircle, ExternalLink } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Youtube, Save, CheckCircle, ExternalLink, Lightbulb } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 interface SocialLinks {
@@ -102,8 +102,11 @@ export default function AdminSocialSettings() {
             </Card>
 
             <Card className="p-5 bg-blue-500/5 border-blue-500/20">
-                <p className="text-sm text-[var(--color-muted)]">
-                    <strong className="text-[var(--color-foreground)]">💡 Bilgi:</strong> Sosyal medya linkleri sitenin footer bölümünde görüntülenir. Değişiklikler kaydedildikten sonra tüm sayfalarda otomatik olarak güncellenir.
+                <p className="text-sm text-[var(--color-muted)] flex items-start gap-2">
+                    <Lightbulb size={16} className="mt-0.5 shrink-0 text-blue-500" aria-hidden />
+                    <span>
+                        <strong className="text-[var(--color-foreground)]">Bilgi:</strong> Sosyal medya linkleri sitenin footer bölümünde görüntülenir. Değişiklikler kaydedildikten sonra tüm sayfalarda otomatik olarak güncellenir.
+                    </span>
                 </p>
             </Card>
         </div>
