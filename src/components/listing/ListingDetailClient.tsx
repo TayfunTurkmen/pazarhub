@@ -12,6 +12,8 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
 import CheckoutButton from '@/components/billing/CheckoutButton';
+import ListingMapWrapper from '@/components/listing/ListingMapWrapper';
+import NearbyPlaces from '@/components/listing/NearbyPlaces';
 
 export default function ListingDetailClient({ listing }: { listing: Listing }) {
     const t = useTranslations('Listing');
@@ -127,6 +129,22 @@ export default function ListingDetailClient({ listing }: { listing: Listing }) {
                         <h2 className="text-lg font-bold mb-4 border-b border-[var(--color-border)] pb-3 text-[var(--color-foreground)]">{t('description')}</h2>
                         <div className="text-[var(--color-foreground)] whitespace-pre-line leading-relaxed">{listing.description}</div>
                     </Card>
+
+                    {listing.location.lat != null && listing.location.lng != null && (
+                        <Card className="p-4 sm:p-6 space-y-4">
+                            <h2 className="text-lg font-bold text-[var(--color-foreground)]">{t('map_view')}</h2>
+                            <ListingMapWrapper
+                                lat={listing.location.lat}
+                                lng={listing.location.lng}
+                                title={listing.title}
+                            />
+                            <NearbyPlaces
+                                lat={listing.location.lat}
+                                lng={listing.location.lng}
+                                title={listing.title}
+                            />
+                        </Card>
+                    )}
                 </div>
 
                 <div className="space-y-6">

@@ -11,7 +11,8 @@ const CATEGORIES: Category[] = [
     // ── Root Categories ──
     { id: '1', name: 'Emlak', slug: 'emlak', icon: 'Building2' },
     { id: '2', name: 'Vasıta', slug: 'vasita', icon: 'Car' },
-    { id: '3', name: 'İkinci El ve Sıfır Alışveriş', slug: 'alisveris', icon: 'ShoppingBag' },
+    { id: '3', name: 'İkinci El', slug: 'ikinci-el', icon: 'RefreshCcw' },
+    { id: '8', name: 'Sıfır Ürünler', slug: 'sifir', icon: 'Package' },
     { id: '4', name: 'Turizm', slug: 'turizm', icon: 'Palmtree' },
     { id: '5', name: 'Yardımcı Hizmetler', slug: 'yardimci-hizmetler', icon: 'Wrench' },
     { id: '6', name: 'Sahiplendirme', slug: 'sahiplendirme', icon: 'PawPrint' },
@@ -31,14 +32,18 @@ const CATEGORIES: Category[] = [
     { id: '25', name: 'Ticari Araçlar', slug: 'ticari-araclar', parentId: '2' },
     { id: '211', name: 'Satılık', slug: 'satilik-otomobil', parentId: '21' },
     { id: '212', name: 'Kiralık', slug: 'kiralik-otomobil', parentId: '21' },
-    // ── Alışveriş subcategories ──
+    // ── İkinci El subcategories ──
     { id: '31', name: 'Bilgisayar', slug: 'bilgisayar', parentId: '3' },
     { id: '32', name: 'Telefon', slug: 'telefon', parentId: '3' },
     { id: '33', name: 'Ev Eşyaları', slug: 'ev-esyalari', parentId: '3' },
     { id: '34', name: 'Giyim & Aksesuar', slug: 'giyim-aksesuar', parentId: '3' },
     { id: '35', name: 'Spor & Hobi', slug: 'spor-hobi', parentId: '3' },
-    { id: '311', name: 'Sıfır', slug: 'sifir-bilgisayar', parentId: '31' },
-    { id: '312', name: 'İkinci El', slug: 'ikinci-el-bilgisayar', parentId: '31' },
+    // ── Sıfır Ürünler subcategories ──
+    { id: '81', name: 'Bilgisayar', slug: 'sifir-bilgisayar', parentId: '8' },
+    { id: '82', name: 'Telefon', slug: 'sifir-telefon', parentId: '8' },
+    { id: '83', name: 'Ev Eşyaları', slug: 'sifir-ev-esyalari', parentId: '8' },
+    { id: '84', name: 'Giyim & Aksesuar', slug: 'sifir-giyim', parentId: '8' },
+    { id: '85', name: 'Spor & Hobi', slug: 'sifir-spor', parentId: '8' },
     // ── Turizm subcategories ──
     { id: '41', name: 'Otel & Pansiyon', slug: 'otel-pansiyon', parentId: '4' },
     { id: '42', name: 'Apart & Yazlık', slug: 'apart-yazlik', parentId: '4' },
@@ -158,10 +163,10 @@ const LISTINGS: Listing[] = [
         title: 'Sahibinden 2024 Model BMW 320i, Hatasız',
         description: 'Sadece 8.000 km, garaj arabası. Tramersiz, boyasız. M Sport paket, harman kardon ses sistemi.',
         price: 2850000, currency: 'TL',
-        category: CATEGORIES[1],
+        category: CATEGORIES.find(c => c.id === '21')!,
         location: { city: 'Ankara', district: 'Çankaya', lat: 39.9200, lng: 32.8530 },
         images: ['https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=800&auto=format&fit=crop'],
-        attributes: { 'Yıl': 2024, 'Km': 8000, 'Renk': 'Beyaz', 'Vites': 'Otomatik', 'Yakıt': 'Benzin', 'Motor': '2.0L Turbo' }, listingType: 'sale', tier: 'standard',
+        attributes: { 'Yıl': 2024, 'Km': 8000, 'Renk': 'Beyaz', 'Vites': 'Otomatik', 'Yakıt': 'Benzin', 'Motor': '2.0L Turbo', 'Durum': 'İkinci El' }, listingType: 'sale', tier: 'standard',
         seller: USERS[2], createdAt: '2025-12-10T11:00:00Z', updatedAt: '2025-12-10T11:00:00Z', status: 'rejected', featured: false,
     },
     {
@@ -169,10 +174,10 @@ const LISTINGS: Listing[] = [
         title: 'Acil Satılık iPhone 15 Pro Max 256GB',
         description: 'Kutulu faturalı, Apple TR garantili. Pil sağlığı %98. Kılıf ve cam hediye.',
         price: 62000, currency: 'TL',
-        category: CATEGORIES[2],
+        category: CATEGORIES.find(c => c.id === '82')!,
         location: { city: 'İzmir', district: 'Karşıyaka', lat: 38.4550, lng: 27.1150 },
         images: ['https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800&auto=format&fit=crop'],
-        attributes: { 'Marka': 'Apple', 'Model': 'iPhone 15 Pro Max', 'Hafıza': '256 GB', 'Renk': 'Titanium', 'Garanti': 'Apple TR' }, listingType: 'sale', tier: 'showcase',
+        attributes: { 'Marka': 'Apple', 'Model': 'iPhone 15 Pro Max', 'Hafıza': '256 GB', 'Renk': 'Titanium', 'Garanti': 'Apple TR', 'Durum': 'Sıfır' }, listingType: 'sale', tier: 'showcase',
         seller: USERS[0], createdAt: '2025-12-12T15:00:00Z', updatedAt: '2025-12-12T15:00:00Z', status: 'active', featured: true,
     },
     {
@@ -204,10 +209,10 @@ const LISTINGS: Listing[] = [
         title: 'Mercedes-Benz C200d AMG 2023 Dizel',
         description: 'Full+Full donanım, gece paketi, panoramik tavan. Değişensiz, boyasız, tramersiz.',
         price: 3450000, currency: 'TL',
-        category: CATEGORIES[1],
+        category: CATEGORIES.find(c => c.id === '21')!,
         location: { city: 'İstanbul', district: 'Ataşehir', lat: 40.9900, lng: 29.1100 },
         images: ['https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop'],
-        attributes: { 'Yıl': 2023, 'Km': 22000, 'Renk': 'Siyah', 'Vites': 'Otomatik', 'Yakıt': 'Dizel', 'Motor': '1.6L' }, listingType: 'sale', tier: 'premium',
+        attributes: { 'Yıl': 2023, 'Km': 22000, 'Renk': 'Siyah', 'Vites': 'Otomatik', 'Yakıt': 'Dizel', 'Motor': '1.6L', 'Durum': 'İkinci El' }, listingType: 'sale', tier: 'premium',
         seller: USERS[2], createdAt: '2025-12-14T09:00:00Z', updatedAt: '2025-12-14T09:00:00Z', status: 'active', featured: false,
     },
     {
@@ -215,10 +220,10 @@ const LISTINGS: Listing[] = [
         title: 'MacBook Pro M3 Pro 14" 512GB',
         description: 'Kutusu açılmamış, Apple TR garantili. Space Black renk. Faturalı.',
         price: 85000, currency: 'TL',
-        category: CATEGORIES[2],
+        category: CATEGORIES.find(c => c.id === '81')!,
         location: { city: 'Ankara', district: 'Yenimahalle', lat: 39.9600, lng: 32.8100 },
         images: ['https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800&auto=format&fit=crop'],
-        attributes: { 'Marka': 'Apple', 'Model': 'MacBook Pro 14"', 'İşlemci': 'M3 Pro', 'RAM': '18 GB', 'SSD': '512 GB' }, listingType: 'sale', tier: 'standard',
+        attributes: { 'Marka': 'Apple', 'Model': 'MacBook Pro 14"', 'İşlemci': 'M3 Pro', 'RAM': '18 GB', 'SSD': '512 GB', 'Durum': 'Sıfır' }, listingType: 'sale', tier: 'standard',
         seller: USERS[3], createdAt: '2025-12-13T17:00:00Z', updatedAt: '2025-12-13T17:00:00Z', status: 'active', featured: false,
     },
     // ── Vasıta - Otomobil ──
@@ -227,7 +232,7 @@ const LISTINGS: Listing[] = [
         price: 1650000, currency: 'TL', category: CATEGORIES.find(c => c.id === '21')!,
         location: { city: 'İstanbul', district: 'Ümraniye', lat: 41.0250, lng: 29.0980 },
         images: ['https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=800&auto=format&fit=crop'],
-        attributes: { 'Yıl': 2023, 'Km': 15000, 'Renk': 'Gri', 'Vites': 'Otomatik', 'Yakıt': 'Benzin' }, listingType: 'sale', tier: 'showcase',
+        attributes: { 'Yıl': 2023, 'Km': 15000, 'Renk': 'Gri', 'Vites': 'Otomatik', 'Yakıt': 'Benzin', 'Durum': 'İkinci El' }, listingType: 'sale', tier: 'showcase',
         seller: USERS[2], createdAt: '2025-12-16T10:00:00Z', updatedAt: '2025-12-16T10:00:00Z', status: 'active', featured: true,
     },
     // ── Vasıta - Motosiklet ──
@@ -236,7 +241,7 @@ const LISTINGS: Listing[] = [
         price: 420000, currency: 'TL', category: CATEGORIES.find(c => c.id === '23')!,
         location: { city: 'Ankara', district: 'Çankaya', lat: 39.9000, lng: 32.8600 },
         images: ['https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=800&auto=format&fit=crop'],
-        attributes: { 'Yıl': 2024, 'Km': 1200, 'Motor': '650cc', 'Tip': 'Sport' }, listingType: 'sale', tier: 'standard',
+        attributes: { 'Yıl': 2024, 'Km': 1200, 'Motor': '650cc', 'Tip': 'Sport', 'Durum': 'İkinci El' }, listingType: 'sale', tier: 'standard',
         seller: USERS[0], createdAt: '2025-12-15T14:00:00Z', updatedAt: '2025-12-15T14:00:00Z', status: 'active', featured: false,
     },
     // ── Alışveriş - Telefon ──
@@ -245,7 +250,7 @@ const LISTINGS: Listing[] = [
         price: 55000, currency: 'TL', category: CATEGORIES.find(c => c.id === '32')!,
         location: { city: 'İstanbul', district: 'Şişli', lat: 41.0600, lng: 28.9870 },
         images: ['https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?q=80&w=800&auto=format&fit=crop'],
-        attributes: { 'Marka': 'Samsung', 'Model': 'Galaxy S24 Ultra', 'Hafıza': '512 GB', 'Renk': 'Titanium Gray' }, listingType: 'sale', tier: 'premium',
+        attributes: { 'Marka': 'Samsung', 'Model': 'Galaxy S24 Ultra', 'Hafıza': '512 GB', 'Renk': 'Titanium Gray', 'Durum': 'İkinci El' }, listingType: 'sale', tier: 'premium',
         seller: USERS[3], createdAt: '2025-12-14T11:00:00Z', updatedAt: '2025-12-14T11:00:00Z', status: 'active', featured: true,
     },
     // ── Alışveriş - Ev Eşyaları ──
@@ -254,7 +259,7 @@ const LISTINGS: Listing[] = [
         price: 18000, currency: 'TL', category: CATEGORIES.find(c => c.id === '33')!,
         location: { city: 'İzmir', district: 'Bornova', lat: 38.4620, lng: 27.2150 },
         images: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=800&auto=format&fit=crop'],
-        attributes: { 'Durum': 'Az kullanılmış', 'Renk': 'Krem', 'Marka': 'Bellona' }, listingType: 'sale', tier: 'standard',
+        attributes: { 'Durum': 'İkinci El', 'Renk': 'Krem', 'Marka': 'Bellona' }, listingType: 'sale', tier: 'standard',
         seller: USERS[0], createdAt: '2025-12-10T09:00:00Z', updatedAt: '2025-12-10T09:00:00Z', status: 'active', featured: false,
     },
     // ── Turizm - Apart ──
@@ -398,7 +403,23 @@ class MockListingRepository implements IListingRepository {
         }
         if (filter.category) {
             const q = filter.category.toLowerCase();
+            const matchRoot = CATEGORIES.find(c => c.id === filter.category || c.slug.toLowerCase() === q);
+            const allowed = new Set<string>();
+            if (matchRoot) {
+                allowed.add(matchRoot.id);
+                let growing = true;
+                while (growing) {
+                    growing = false;
+                    for (const cat of CATEGORIES) {
+                        if (cat.parentId && allowed.has(cat.parentId) && !allowed.has(cat.id)) {
+                            allowed.add(cat.id);
+                            growing = true;
+                        }
+                    }
+                }
+            }
             filtered = filtered.filter(l =>
+                allowed.has(l.category.id) ||
                 l.category.id === filter.category ||
                 l.category.parentId === filter.category ||
                 l.category.slug.toLowerCase() === q
@@ -413,6 +434,19 @@ class MockListingRepository implements IListingRepository {
         filtered = filtered.filter((l) => !l.expiresAt || new Date(l.expiresAt) > new Date());
         if (filter.heating) {
             filtered = filtered.filter(l => l.heating?.toLowerCase().includes(filter.heating!.toLowerCase()));
+        }
+        if (filter.floor && filter.floor.length > 0) {
+            filtered = filtered.filter((l) => {
+                if (l.floor == null) return false;
+                return filter.floor!.some((band) => {
+                    if (band === '0') return l.floor === 0;
+                    if (band === '1-3') return l.floor! >= 1 && l.floor! <= 3;
+                    if (band === '4-7') return l.floor! >= 4 && l.floor! <= 7;
+                    if (band === '8-12') return l.floor! >= 8 && l.floor! <= 12;
+                    if (band === '13+') return l.floor! >= 13;
+                    return false;
+                });
+            });
         }
         if (filter.fuel) {
             filtered = filtered.filter(l => l.attributes['Yakıt']?.toString().toLowerCase().includes(filter.fuel!.toLowerCase()));

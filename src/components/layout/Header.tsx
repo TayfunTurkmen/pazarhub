@@ -22,12 +22,12 @@ export default function Header() {
   const router = useRouter();
 
   const NAV_CATEGORIES = [
-    { name: t('nav_sale'), href: '/search?listingType=sale' },
-    { name: t('nav_rent'), href: '/search?listingType=rent' },
+    { name: t('nav_sale'), href: '/search?listingType=sale&category=emlak' },
+    { name: t('nav_rent'), href: '/search?listingType=rent&category=emlak' },
+    { name: t('nav_vehicles'), href: '/category/vasita' },
+    { name: t('nav_used'), href: '/category/ikinci-el' },
+    { name: t('nav_new_goods'), href: '/category/sifir' },
     { name: t('nav_housing'), href: '/category/konut' },
-    { name: t('nav_commercial'), href: '/category/isyeri' },
-    { name: t('nav_land'), href: '/category/arsa' },
-    { name: t('nav_projects'), href: '/#projeler' },
     { name: t('nav_corporate'), href: '/kurumsal' },
     { name: t('nav_doping'), href: '/doping' },
     { name: t('nav_escrow'), href: '/param-guvende' },

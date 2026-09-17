@@ -3,21 +3,21 @@ import { PROPERTY_TYPES } from '@/lib/marketData';
 import { getTranslations } from 'next-intl/server';
 import {
   Home,
-  Building2,
-  Sprout,
-  Sun,
-  ConciergeBell,
-  Plane,
+  Car,
+  RefreshCcw,
+  Package,
+  TreePalm,
+  Wrench,
   type LucideIcon,
 } from 'lucide-react';
 
 const propertyTypeIcons: Record<(typeof PROPERTY_TYPES)[number]['icon'], LucideIcon> = {
   Home,
-  Building2,
-  Sprout,
-  Sun,
-  ConciergeBell,
-  Plane,
+  Building2: Car,
+  Sprout: RefreshCcw,
+  Sun: Package,
+  ConciergeBell: Wrench,
+  Plane: TreePalm,
 };
 
 export default async function PropertyTypeRail() {

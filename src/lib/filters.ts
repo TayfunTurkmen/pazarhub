@@ -14,9 +14,10 @@ function parseNumber(value: string | undefined): number | undefined {
 }
 
 function parseArray(value: string | string[] | undefined): string[] | undefined {
-    const raw = first(value);
-    if (!raw) return undefined;
-    return raw.split(',').map(s => s.trim()).filter(Boolean);
+    if (!value) return undefined;
+    const parts = Array.isArray(value) ? value : [value];
+    const result = parts.flatMap((s) => s.split(',')).map((s) => s.trim()).filter(Boolean);
+    return result.length ? result : undefined;
 }
 
 export function parseFilterState(params: SearchParams): FilterState {

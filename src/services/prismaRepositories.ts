@@ -22,6 +22,8 @@ import {
 } from './repository';
 import { listingInclude, mapCategory, mapConversation, mapListing, mapMessage, mapUser } from './mappers';
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '@/lib/constants';
+import { CATEGORIES } from './mockData';
+import { getDescendantIds } from '@/lib/categoryTree';
 
 function buildListingWhere(filter?: FilterState): Prisma.ListingWhereInput {
   const where: Prisma.ListingWhereInput = {};
@@ -68,12 +70,14 @@ function buildListingWhere(filter?: FilterState): Prisma.ListingWhereInput {
     };
   }
   if (filter.category) {
-    where.category = {
+    const ids = getDescendantIds(CATEGORIES, filter.category);
+    const slugs = CATEGORIES.filter((c) => ids.includes(c.id)).map((c) => c.slug);
+    and.push({
       OR: [
-        { id: filter.category },
-        { slug: filter.category },
+        { categoryId: { in: ids } },
+        { category: { slug: { in: [...new Set([filter.category, ...slugs])] } } },
       ],
-    };
+    });
   }
   if (filter.listingType) where.listingType = filter.listingType.toUpperCase() as 'SALE' | 'RENT';
   if (filter.tier) where.tier = filter.tier.toUpperCase() as 'STANDARD' | 'PREMIUM' | 'SHOWCASE';
@@ -81,6 +85,41 @@ function buildListingWhere(filter?: FilterState): Prisma.ListingWhereInput {
   if (filter.minArea) where.netArea = { ...(where.netArea as object), gte: filter.minArea };
   if (filter.maxArea) where.netArea = { ...(where.netArea as object), lte: filter.maxArea };
   if (filter.heating) where.heating = { contains: filter.heating, mode: 'insensitive' };
+
+  if (filter.fuel) {
+    and.push({ attributes: { path: ['Yakıt'], string_contains: filter.fuel } });
+  }
+  if (filter.gear) {
+    and.push({ attributes: { path: ['Vites'], string_contains: filter.gear } });
+  }
+  if (filter.brand) {
+    and.push({ attributes: { path: ['Marka'], equals: filter.brand } });
+  }
+  if (filter.condition) {
+    and.push({ attributes: { path: ['Durum'], equals: filter.condition } });
+  }
+  if (filter.year) {
+    const minYear = parseInt(filter.year, 10);
+    if (!Number.isNaN(minYear)) {
+      and.push({
+        attributes: {
+          path: ['Yıl'],
+          gte: minYear,
+        },
+      });
+    }
+  }
+  if (filter.floor?.length) {
+    const floorOr: Prisma.ListingWhereInput[] = [];
+    for (const band of filter.floor) {
+      if (band === '0') floorOr.push({ floor: 0 });
+      else if (band === '1-3') floorOr.push({ floor: { gte: 1, lte: 3 } });
+      else if (band === '4-7') floorOr.push({ floor: { gte: 4, lte: 7 } });
+      else if (band === '8-12') floorOr.push({ floor: { gte: 8, lte: 12 } });
+      else if (band === '13+') floorOr.push({ floor: { gte: 13 } });
+    }
+    if (floorOr.length) and.push({ OR: floorOr });
+  }
 
   if (and.length) where.AND = and;
   return where;

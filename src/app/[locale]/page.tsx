@@ -2,14 +2,13 @@ import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { getListings } from '@/services/serverData';
-import { CATEGORIES } from '@/services/mockData';
 import ListingCard from '@/components/listing/ListingCard';
 import HeroSearch from '@/components/home/HeroSearch';
 import StatsBar from '@/components/home/StatsBar';
 import ListingCarousel from '@/components/home/ListingCarousel';
 import TrustBanner from '@/components/home/TrustBanner';
 import CorporateStrip from '@/components/home/CorporateStrip';
-import PropertyTypeRail from '@/components/home/PropertyTypeRail';
+import CategoryExploreGrid from '@/components/home/CategoryExploreGrid';
 import MarketIndex from '@/components/home/MarketIndex';
 import NeighborhoodGuides from '@/components/home/NeighborhoodGuides';
 import NewProjects from '@/components/home/NewProjects';
@@ -26,15 +25,21 @@ export default async function HomePage() {
   const t = await getTranslations('Home');
   const tAi = await getTranslations('AI');
 
-  const rootCategories = CATEGORIES.filter((c) => !c.parentId);
-  const emlakCategories = CATEGORIES.filter((c) => c.parentId === '1' || ['konut', 'isyeri', 'arsa', 'devremulk'].includes(c.slug));
   const isProperty = (listing: (typeof allListings)[number]) =>
-    Boolean(listing.roomCount || listing.netArea);
+    Boolean(listing.roomCount || listing.netArea) || listing.category.slug === 'konut' || listing.category.parentId === '1';
+  const isVehicle = (listing: (typeof allListings)[number]) =>
+    listing.category.id === '2' || listing.category.parentId === '2' || ['otomobil', 'motosiklet', 'arazi-suv-pickup'].includes(listing.category.slug);
+  const isShopping = (listing: (typeof allListings)[number]) =>
+    ['3', '8'].includes(listing.category.id) ||
+    ['3', '8'].includes(listing.category.parentId || '') ||
+    ['telefon', 'bilgisayar', 'ev-esyalari', 'sifir-telefon', 'sifir-bilgisayar'].includes(listing.category.slug);
 
-  const showcaseListings = allListings.filter((l) => l.tier === 'showcase' && isProperty(l));
-  const premiumListings = allListings.filter((l) => l.tier === 'premium' && isProperty(l));
+  const showcaseListings = allListings.filter((l) => l.tier === 'showcase').slice(0, 12);
+  const premiumListings = allListings.filter((l) => l.tier === 'premium').slice(0, 8);
   const saleListings = allListings.filter((l) => l.listingType === 'sale' && isProperty(l)).slice(0, 8);
   const rentListings = allListings.filter((l) => l.listingType === 'rent' && isProperty(l)).slice(0, 4);
+  const vehicleListings = allListings.filter(isVehicle).slice(0, 4);
+  const shoppingListings = allListings.filter(isShopping).slice(0, 4);
 
   return (
     <div className="space-y-0">
@@ -51,13 +56,13 @@ export default async function HomePage() {
 
         <div className="relative px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 pt-12 pb-12">
           <div className="max-w-7xl mx-auto">
-            <div className="flex justify-between items-start mb-8">
+            <div className="flex justify-between items-start mb-8 gap-4">
               <p className="text-[var(--color-brand-yellow)] text-xs font-bold uppercase tracking-[0.22em]">
                 {t('hero_kicker')}
               </p>
-              <div className="flex items-center gap-2 bg-white/95 dark:bg-[var(--color-surface)]/95 backdrop-blur-sm rounded-xl px-4 py-2.5 shadow-lg">
+              <div className="flex items-center gap-2 bg-white/95 dark:bg-[var(--color-surface)]/95 backdrop-blur-sm rounded-xl px-3 sm:px-4 py-2.5 shadow-lg shrink-0">
                 <ShieldCheck size={20} className="text-[var(--color-primary)]" />
-                <div className="text-left">
+                <div className="text-left hidden xs:block sm:block">
                   <p className="text-xs font-bold text-[var(--color-foreground)]">{t('security_badge_title')}</p>
                   <p className="text-[10px] text-[var(--color-muted)]">{t('security_badge_desc')}</p>
                 </div>
@@ -73,14 +78,15 @@ export default async function HomePage() {
               <p className="text-white/80 text-base md:text-lg max-w-2xl">{t('hero_subtitle')}</p>
             </div>
 
-            <HeroSearch categories={emlakCategories.length ? emlakCategories : rootCategories} />
+            <HeroSearch />
 
             <div className="flex flex-wrap gap-2 mt-5">
               {[
-                { label: t('quick_istanbul'), href: '/search?city=İstanbul&listingType=sale' },
-                { label: t('quick_3plus1'), href: '/search?roomCount=3+1&listingType=sale' },
-                { label: t('quick_rent'), href: '/search?listingType=rent' },
-                { label: t('quick_new'), href: '/search?tier=showcase' },
+                { label: t('quick_istanbul'), href: '/search?city=İstanbul&listingType=sale&category=emlak' },
+                { label: t('quick_vehicles'), href: '/category/otomobil' },
+                { label: t('quick_used'), href: '/category/ikinci-el' },
+                { label: t('quick_new_goods'), href: '/category/sifir' },
+                { label: t('quick_rent'), href: '/search?listingType=rent&category=emlak' },
               ].map((chip) => (
                 <Link
                   key={chip.href}
@@ -104,7 +110,7 @@ export default async function HomePage() {
       <StatsBar />
 
       <div className="space-y-12 py-10">
-        <PropertyTypeRail />
+        <CategoryExploreGrid />
 
         <section>
           <div className="flex items-center justify-between mb-4">
@@ -119,15 +125,39 @@ export default async function HomePage() {
           <ListingCarousel listings={showcaseListings} badge="showcase" />
         </section>
 
-        <NewProjects />
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-extrabold text-[var(--color-foreground)]">{t('section_vehicles')}</h2>
+              <Link href="/category/vasita" className="text-sm text-[var(--color-primary)] hover:underline font-semibold">{t('view_all')}</Link>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {vehicleListings.map((listing) => (
+                <ListingCard key={listing.id} listing={listing} showVerified />
+              ))}
+            </div>
+          </section>
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-extrabold text-[var(--color-foreground)]">{t('section_shopping')}</h2>
+              <Link href="/category/ikinci-el" className="text-sm text-[var(--color-primary)] hover:underline font-semibold">{t('view_all')}</Link>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {shoppingListings.map((listing) => (
+                <ListingCard key={listing.id} listing={listing} showVerified />
+              ))}
+            </div>
+          </section>
+        </div>
 
+        <NewProjects />
         <MarketIndex />
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
           <div className="xl:col-span-2">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-extrabold text-[var(--color-foreground)]">{t('latest_sale')}</h2>
-              <Link href="/search?listingType=sale" className="text-sm text-[var(--color-primary)] hover:underline font-semibold flex items-center gap-1">
+              <Link href="/search?listingType=sale&category=emlak" className="text-sm text-[var(--color-primary)] hover:underline font-semibold flex items-center gap-1">
                 {t('view_all')} <ArrowRight size={14} />
               </Link>
             </div>
@@ -140,7 +170,7 @@ export default async function HomePage() {
           <div>
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-extrabold text-[var(--color-foreground)]">{t('latest_rent')}</h2>
-              <Link href="/search?listingType=rent" className="text-sm text-[var(--color-primary)] hover:underline font-semibold">
+              <Link href="/search?listingType=rent&category=emlak" className="text-sm text-[var(--color-primary)] hover:underline font-semibold">
                 {t('view_all')}
               </Link>
             </div>

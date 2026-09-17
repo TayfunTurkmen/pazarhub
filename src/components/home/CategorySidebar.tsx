@@ -4,13 +4,13 @@ import { useState } from 'react';
 import { Link } from '@/i18n/navigation';
 import {
   Building2, Car, ShoppingBag, ChevronRight, TreePalm,
-  Wrench, PawPrint, Briefcase, PlusCircle,
+  Wrench, PawPrint, Briefcase, PlusCircle, Package, RefreshCcw,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 const categoryIcons: Record<string, LucideIcon> = {
-  Building2, Car, ShoppingBag, Palmtree: TreePalm, Wrench, PawPrint, Briefcase,
+  Building2, Car, ShoppingBag, Palmtree: TreePalm, Wrench, PawPrint, Briefcase, Package, RefreshCcw,
 };
 
 interface Category {

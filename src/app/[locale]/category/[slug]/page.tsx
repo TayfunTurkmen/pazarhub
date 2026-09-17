@@ -7,7 +7,7 @@ import SearchResultsHeader from '@/components/listing/SearchResultsHeader';
 import Pagination from '@/components/listing/Pagination';
 import { getMessages } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
-import { Link } from '@/i18n/navigation';
+import { Link, redirect } from '@/i18n/navigation';
 import { notFound } from 'next/navigation';
 import { Search as SearchIcon, Building2 } from 'lucide-react';
 import MapWrapper from '@/components/listing/MapWrapper';
@@ -23,12 +23,16 @@ export default async function CategoryPage({
     params: Promise<{ slug: string; locale: string }>;
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-    const { slug } = await params;
+    const { slug, locale } = await params;
     const resolvedSearchParams = await searchParams;
     const messages = await getMessages();
     const t = await getTranslations('Search');
 
-    // Find category by slug
+    // Legacy alias: combined shopping → ikinci el
+    if (slug === 'alisveris' || slug === 'ikinci-el-bilgisayar') {
+        redirect({ href: `/category/${slug === 'alisveris' ? 'ikinci-el' : 'bilgisayar'}`, locale });
+    }
+
     const category = CATEGORIES.find(c => c.slug === slug);
     if (!category) {
         notFound();
