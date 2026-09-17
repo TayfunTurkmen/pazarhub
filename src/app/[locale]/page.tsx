@@ -43,65 +43,67 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-0">
-      <section className="relative full-bleed -mt-8 overflow-hidden min-h-0 sm:min-h-[480px] lg:min-h-[560px]">
-        <Image
-          src={HERO_IMAGE}
-          alt=""
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(47,40,88,0.82)_0%,rgba(47,40,88,0.55)_45%,rgba(18,15,36,0.9)_100%)]" />
+      {/* Full-viewport bleed: escapes container padding without horizontal page scroll */}
+      <section className="relative w-screen max-w-[100vw] left-1/2 -translate-x-1/2 -mt-4 sm:-mt-8 overflow-x-clip overflow-y-visible">
+        <div className="absolute inset-0 -z-10">
+          <Image
+            src={HERO_IMAGE}
+            alt=""
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(47,40,88,0.88)_0%,rgba(47,40,88,0.62)_50%,rgba(18,15,36,0.94)_100%)]" />
+        </div>
 
-        <div className="relative full-bleed-pad pt-8 sm:pt-12 pb-10 sm:pb-12">
+        <div className="relative px-3 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 pt-5 sm:pt-10 pb-6 sm:pb-12">
           <div className="max-w-7xl mx-auto min-w-0">
-            <div className="flex justify-between items-start mb-6 sm:mb-8 gap-3">
-              <p className="text-[var(--color-brand-yellow)] text-xs font-bold uppercase tracking-[0.22em] truncate">
+            <div className="flex justify-between items-center mb-3 sm:mb-6 gap-2">
+              <p className="text-[var(--color-brand-yellow)] text-[10px] sm:text-xs font-bold uppercase tracking-[0.18em] truncate">
                 {t('hero_kicker')}
               </p>
-              <div className="flex items-center gap-2 bg-white/95 dark:bg-[var(--color-surface)]/95 backdrop-blur-sm rounded-xl px-3 sm:px-4 py-2 shadow-lg shrink-0">
+              <div className="hidden sm:flex items-center gap-2 bg-white/95 dark:bg-[var(--color-surface)]/95 backdrop-blur-sm rounded-xl px-4 py-2 shadow-lg shrink-0">
                 <ShieldCheck size={18} className="text-[var(--color-primary)] shrink-0" />
-                <div className="text-left hidden sm:block">
+                <div className="text-left">
                   <p className="text-xs font-bold text-[var(--color-foreground)]">{t('security_badge_title')}</p>
                   <p className="text-[10px] text-[var(--color-muted)]">{t('security_badge_desc')}</p>
                 </div>
               </div>
             </div>
 
-            <div className="text-white space-y-3 mb-6 sm:mb-8 max-w-3xl">
-              <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-[56px] font-black leading-[1.08] tracking-tight">
+            <div className="text-white space-y-1.5 sm:space-y-3 mb-3 sm:mb-6 max-w-3xl">
+              <h1 className="text-xl sm:text-3xl md:text-5xl lg:text-[56px] font-black leading-[1.15] sm:leading-[1.08] tracking-tight">
                 {t('hero_title_1')}{' '}
                 <span className="text-[var(--color-brand-yellow)]">{t('hero_title_2')}</span>{' '}
                 {t('hero_title_3')}
               </h1>
-              <p className="text-white/80 text-sm sm:text-base md:text-lg max-w-2xl">{t('hero_subtitle')}</p>
+              <p className="hidden sm:block text-white/80 text-base md:text-lg max-w-2xl">{t('hero_subtitle')}</p>
             </div>
 
             <HeroSearch />
 
-            <div className="flex flex-wrap gap-2 mt-4 sm:mt-5">
+            <div className="mt-3 sm:mt-5 -mx-1 px-1 flex gap-1.5 overflow-x-auto max-w-full [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible">
               {[
                 { label: t('quick_istanbul'), href: '/search?city=İstanbul&listingType=sale&category=emlak' },
                 { label: t('quick_vehicles'), href: '/category/otomobil' },
                 { label: t('quick_used'), href: '/category/ikinci-el' },
                 { label: t('quick_new_goods'), href: '/category/sifir' },
                 { label: t('quick_rent'), href: '/search?listingType=rent&category=emlak' },
+                { label: t('map_search'), href: '/search?view=map', accent: true },
               ].map((chip) => (
                 <Link
                   key={chip.href}
                   href={chip.href}
-                  className="px-3 sm:px-4 py-1.5 sm:py-2 bg-white/12 hover:bg-white/22 backdrop-blur-sm rounded-full text-xs sm:text-sm text-white font-medium border border-white/20"
+                  className={`shrink-0 px-3 py-1.5 rounded-full text-[11px] sm:text-sm font-semibold border ${
+                    'accent' in chip && chip.accent
+                      ? 'bg-[var(--color-brand-yellow)] text-[var(--color-navy)] border-transparent font-extrabold'
+                      : 'bg-white/12 text-white border-white/20'
+                  }`}
                 >
                   {chip.label}
                 </Link>
               ))}
-              <Link
-                href="/search?view=map"
-                className="px-3 sm:px-4 py-1.5 sm:py-2 bg-[var(--color-brand-yellow)] text-[var(--color-navy)] rounded-full text-xs sm:text-sm font-extrabold"
-              >
-                {t('map_search')}
-              </Link>
             </div>
           </div>
         </div>

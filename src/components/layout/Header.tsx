@@ -45,8 +45,8 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50">
       <div className="bg-[var(--color-navy)] text-[var(--color-brand-yellow)] border-b border-white/10">
-        <div className="container-custom h-8 flex items-center justify-between text-[11px] font-semibold">
-          <p className="truncate text-[var(--color-brand-yellow)]/90">{t('topbar')}</p>
+        <div className="container-custom h-8 flex items-center justify-between text-[11px] font-semibold gap-2 min-w-0">
+          <p className="truncate min-w-0 flex-1 text-[var(--color-brand-yellow)]/90">{t('topbar')}</p>
           <div className="hidden sm:flex items-center gap-4 text-[var(--color-brand-yellow)]/85">
             <Link href="/about" className="hover:text-white">{t('about_short')}</Link>
             <Link href="/contact" className="hover:text-white">{t('help_short')}</Link>
