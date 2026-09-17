@@ -246,8 +246,8 @@
         "trade_name": "Handelsname",
         "tax_no": "Steuer-ID",
         "phone": "Telefon",
-        "admin_hint_title": "Demo-Admin",
-        "admin_hint": "Nutzen Sie die Demo-Zugangsdaten aus der README.",
+        "admin_hint_title": "Demo-Konten",
+        "admin_hint": "Privat: demo@example.com / demo · Firma: corporate@example.com / corporate · Admin: admin@example.com / admin",
         "code_required": "Code erforderlich",
         "continue_facebook": "Mit Facebook fortfahren",
         "continue_google": "Mit Google fortfahren",
@@ -266,7 +266,14 @@
         "secure_login_title": "Sichere Anmeldung",
         "secure_register_desc": "Registrieren Sie sich sicher und veröffentlichen Sie Inserate",
         "secure_register_title": "Sichere Registrierung",
-        "sms_code": "SMS-/WhatsApp-Code"
+        "sms_code": "SMS-/WhatsApp-Code",
+        "demo_user_label": "Privatmitglied",
+        "demo_corporate_label": "Firmenmitglied",
+        "demo_admin_label": "Administrator",
+        "demo_user_hint": "Favoriten, Nachrichten und persönliches Dashboard testen.",
+        "demo_corporate_hint": "Shop-Panel, Mehrfachanzeigen und Firmensoftware testen.",
+        "demo_admin_hint": "Admin-Panel, Nutzer und Anzeigenfreigaben testen.",
+        "demo_click_hint": "Konto antippen — E-Mail und Passwort werden ausgefüllt."
     },
     "Search": {
         "title": "Anzeigen suchen",

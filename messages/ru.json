@@ -246,8 +246,8 @@
         "trade_name": "Торговое название",
         "tax_no": "ИНН",
         "phone": "Телефон",
-        "admin_hint_title": "Демо-админ",
-        "admin_hint": "Используйте демо-данные из README.",
+        "admin_hint_title": "Демо-аккаунты",
+        "admin_hint": "Пользователь: demo@example.com / demo · Корпоративный: corporate@example.com / corporate · Админ: admin@example.com / admin",
         "code_required": "Требуется код",
         "continue_facebook": "Продолжить через Facebook",
         "continue_google": "Продолжить через Google",
@@ -266,7 +266,14 @@
         "secure_login_title": "Безопасный вход",
         "secure_register_desc": "Зарегистрируйтесь безопасно и публикуйте объявления",
         "secure_register_title": "Безопасная регистрация",
-        "sms_code": "SMS/WhatsApp-код"
+        "sms_code": "SMS/WhatsApp-код",
+        "demo_user_label": "Частный пользователь",
+        "demo_corporate_label": "Корпоративный аккаунт",
+        "demo_admin_label": "Администратор",
+        "demo_user_hint": "Избранное, сообщения и личный кабинет.",
+        "demo_corporate_hint": "Панель магазина, несколько объявлений и корпоративные функции.",
+        "demo_admin_hint": "Админ-панель, пользователи и модерация объявлений.",
+        "demo_click_hint": "Нажмите на аккаунт — email и пароль заполнятся."
     },
     "Search": {
         "title": "Поиск объявлений",

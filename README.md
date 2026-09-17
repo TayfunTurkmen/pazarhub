@@ -1,4 +1,4 @@
-# skonutal.com
+# sendekonutal.com
 
 Satılık, kiralık ve yeni projeler için tek Docker container’da çalışan emlak platformu.
 
@@ -14,11 +14,15 @@ Tarayıcı: [http://localhost:3000](http://localhost:3000)
 
 ### Demo hesaplar
 
-| E-posta | Şifre | Rol |
-|---------|-------|-----|
-| demo@example.com | demo | Kullanıcı |
-| admin@example.com | admin | Yönetici |
-| corporate@example.com | corporate | Kurumsal |
+| Rol | E-posta | Şifre |
+|-----|---------|-------|
+| Bireysel üye | demo@example.com | demo |
+| Kurumsal üye | corporate@example.com | corporate |
+| Yönetici (Admin) | admin@example.com | admin |
+
+Giriş sayfasında bu hesaplara tıklayarak formu otomatik doldurabilirsiniz.
+
+Coolify ilk kurulumda demo veri için: `SEED_ON_START=1`
 
 ## Yerel geliştirme
 

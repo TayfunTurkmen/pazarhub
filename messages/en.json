@@ -265,8 +265,15 @@
         "secure_login_desc": "Your session is transmitted over an encrypted connection.",
         "secure_register_title": "Secure Registration",
         "secure_register_desc": "Your information is stored securely.",
-        "admin_hint_title": "Admin Login",
-        "admin_hint": "Use phone 05001234567 + SMS code 1337 to access the admin panel."
+        "admin_hint_title": "Demo accounts",
+        "admin_hint": "User: demo@example.com / demo · Corporate: corporate@example.com / corporate · Admin: admin@example.com / admin",
+        "demo_user_label": "Individual member",
+        "demo_corporate_label": "Corporate member",
+        "demo_admin_label": "Administrator",
+        "demo_user_hint": "Try favorites, messaging and the personal dashboard.",
+        "demo_corporate_hint": "Try the store panel, multi-listings and corporate tools.",
+        "demo_admin_hint": "Try the admin panel, users and listing approvals.",
+        "demo_click_hint": "Tap an account — email and password fill the form."
     },
     "Search": {
         "title": "Search Listings",

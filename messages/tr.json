@@ -265,8 +265,15 @@
         "secure_login_desc": "Oturum bilgileriniz şifreli bağlantı üzerinden iletilir.",
         "secure_register_title": "Güvenli Kayıt",
         "secure_register_desc": "Bilgileriniz şifreli olarak saklanır.",
-        "admin_hint_title": "Admin Girişi",
-        "admin_hint": "05001234567 numarası + SMS kodu 1337 ile admin paneline giriş yapabilirsiniz."
+        "admin_hint_title": "Demo hesaplar",
+        "admin_hint": "Bireysel: demo@example.com / demo · Kurumsal: corporate@example.com / corporate · Admin: admin@example.com / admin",
+        "demo_user_label": "Bireysel üye",
+        "demo_corporate_label": "Kurumsal üye",
+        "demo_admin_label": "Yönetici (Admin)",
+        "demo_user_hint": "İlan favorileme, mesajlaşma ve bireysel paneli deneyin.",
+        "demo_corporate_hint": "Mağaza paneli, çoklu ilan ve kurumsal özellikleri deneyin.",
+        "demo_admin_hint": "Yönetim paneli, kullanıcı ve ilan onaylarını deneyin.",
+        "demo_click_hint": "Hesaba tıklayın — e-posta ve şifre forma dolar."
     },
     "Search": {
         "title": "İlan Ara",
