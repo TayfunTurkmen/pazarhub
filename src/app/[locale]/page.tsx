@@ -42,8 +42,8 @@ export default async function HomePage() {
   const shoppingListings = allListings.filter(isShopping).slice(0, 4);
 
   return (
-    <div className="space-y-0">
-      <section className="relative full-bleed -mt-4 sm:-mt-8 overflow-hidden">
+    <div className="space-y-0 min-w-0 max-w-full overflow-x-clip">
+      <section className="relative full-bleed -mt-4 sm:-mt-8 overflow-x-clip">
         <div className="absolute inset-0">
           <Image
             src={HERO_IMAGE}
@@ -56,10 +56,10 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(47,40,88,0.88)_0%,rgba(47,40,88,0.62)_50%,rgba(18,15,36,0.94)_100%)]" />
         </div>
 
-        <div className="relative full-bleed-pad pt-5 sm:pt-10 pb-6 sm:pb-12">
-          <div className="max-w-7xl mx-auto min-w-0">
-            <div className="flex justify-between items-center mb-3 sm:mb-6 gap-2">
-              <p className="text-[var(--color-brand-yellow)] text-[10px] sm:text-xs font-bold uppercase tracking-[0.18em] truncate">
+        <div className="relative full-bleed-pad pt-5 sm:pt-10 pb-6 sm:pb-12 max-w-full">
+          <div className="max-w-7xl mx-auto min-w-0 w-full">
+            <div className="flex justify-between items-center mb-3 sm:mb-6 gap-2 min-w-0">
+              <p className="text-[var(--color-brand-yellow)] text-[10px] sm:text-xs font-bold uppercase tracking-[0.12em] sm:tracking-[0.18em] truncate min-w-0">
                 {t('hero_kicker')}
               </p>
               <div className="hidden sm:flex items-center gap-2 bg-white/95 dark:bg-[var(--color-surface)]/95 backdrop-blur-sm rounded-xl px-4 py-2 shadow-lg shrink-0">
@@ -71,8 +71,8 @@ export default async function HomePage() {
               </div>
             </div>
 
-            <div className="text-white space-y-1.5 sm:space-y-3 mb-3 sm:mb-6 max-w-3xl">
-              <h1 className="text-xl sm:text-3xl md:text-5xl lg:text-[56px] font-black leading-[1.15] sm:leading-[1.08] tracking-tight">
+            <div className="text-white space-y-1.5 sm:space-y-3 mb-3 sm:mb-6 max-w-3xl min-w-0">
+              <h1 className="text-xl sm:text-3xl md:text-5xl lg:text-[56px] font-black leading-[1.15] sm:leading-[1.08] tracking-tight break-words">
                 {t('hero_title_1')}{' '}
                 <span className="text-[var(--color-brand-yellow)]">{t('hero_title_2')}</span>{' '}
                 {t('hero_title_3')}
@@ -82,7 +82,7 @@ export default async function HomePage() {
 
             <HeroSearch />
 
-            <div className="mt-3 sm:mt-5 flex flex-wrap gap-1.5">
+            <div className="mt-3 sm:mt-5 flex gap-1.5 overflow-x-auto max-w-full pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible">
               {[
                 { label: t('quick_istanbul'), href: '/search?city=İstanbul&listingType=sale&category=emlak' },
                 { label: t('quick_vehicles'), href: '/category/otomobil' },
@@ -94,7 +94,7 @@ export default async function HomePage() {
                 <Link
                   key={chip.href}
                   href={chip.href}
-                  className={`px-3 py-1.5 rounded-full text-[11px] sm:text-sm font-semibold border ${
+                  className={`shrink-0 px-3 py-1.5 rounded-full text-[11px] sm:text-sm font-semibold border ${
                     'accent' in chip && chip.accent
                       ? 'bg-[var(--color-brand-yellow)] text-[var(--color-navy)] border-transparent font-extrabold'
                       : 'bg-white/12 text-white border-white/20'
@@ -110,16 +110,16 @@ export default async function HomePage() {
 
       <StatsBar />
 
-      <div className="space-y-12 py-10">
+      <div className="space-y-12 py-10 min-w-0 max-w-full">
         <CategoryExploreGrid />
 
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <div>
+        <section className="min-w-0 max-w-full">
+          <div className="flex items-center justify-between mb-4 gap-2 min-w-0">
+            <div className="min-w-0">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-primary)] mb-1">{t('featured')}</p>
               <h2 className="text-2xl font-extrabold text-[var(--color-foreground)]">{t('featured_listings')}</h2>
             </div>
-            <Link href="/search?tier=showcase" className="text-sm text-[var(--color-primary)] hover:underline font-semibold flex items-center gap-1">
+            <Link href="/search?tier=showcase" className="text-sm text-[var(--color-primary)] hover:underline font-semibold flex items-center gap-1 shrink-0">
               {t('view_all')} <ArrowRight size={14} />
             </Link>
           </div>

@@ -87,20 +87,20 @@ export default function HeroSearch() {
   };
 
   const selectCls =
-    'w-full min-w-0 px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-[var(--color-foreground)] bg-[var(--color-background)] rounded-xl border border-[var(--color-border)] focus:outline-none cursor-pointer';
+    'w-full min-w-0 max-w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-[var(--color-foreground)] bg-[var(--color-background)] rounded-xl border border-[var(--color-border)] focus:outline-none cursor-pointer';
 
   const showListingTabs = vertical === 'emlak' || vertical === 'turizm';
 
   return (
-    <div className="w-full max-w-5xl mx-auto min-w-0">
+    <div className="w-full max-w-5xl mx-auto min-w-0 overflow-x-clip">
       {/* Mobile: wrapped chips that never force page overflow */}
-      <div className="flex flex-wrap gap-1.5 sm:hidden mb-2">
+      <div className="flex flex-wrap gap-1.5 sm:hidden mb-2 max-w-full">
         {SEARCH_VERTICALS.map((item) => (
           <button
             key={item.id}
             type="button"
             onClick={() => handleVerticalChange(item.id)}
-            className={`px-2.5 py-1.5 rounded-full text-[11px] font-bold transition-colors ${
+            className={`max-w-full px-2.5 py-1.5 rounded-full text-[11px] font-bold transition-colors ${
               vertical === item.id
                 ? 'bg-[var(--color-brand-yellow)] text-[var(--color-navy)]'
                 : 'bg-black/30 text-white/90'
@@ -132,11 +132,11 @@ export default function HeroSearch() {
       {showListingTabs && (
         <>
           {/* Mobile: compact select instead of tabs */}
-          <div className="sm:hidden mb-2">
+          <div className="sm:hidden mb-2 min-w-0 max-w-full">
             <select
               value={tab}
               onChange={(e) => setTab(e.target.value as 'sale' | 'rent' | 'projects')}
-              className="w-full rounded-xl bg-black/35 text-white border border-white/20 px-3 py-2 text-sm font-semibold"
+              className="w-full min-w-0 max-w-full rounded-xl bg-black/35 text-white border border-white/20 px-3 py-2 text-sm font-semibold"
               aria-label={t('tab_sale')}
             >
               <option value="sale">{t('tab_sale')}</option>
@@ -170,7 +170,7 @@ export default function HeroSearch() {
 
       <form
         onSubmit={handleSubmit}
-        className={`bg-white dark:bg-[var(--color-surface)] rounded-2xl ${showListingTabs ? 'sm:rounded-tl-none' : ''} shadow-xl sm:shadow-2xl shadow-black/25 p-2.5 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2 border border-white/40 dark:border-[var(--color-border)] min-w-0`}
+        className={`bg-white dark:bg-[var(--color-surface)] rounded-2xl ${showListingTabs ? 'sm:rounded-tl-none' : ''} shadow-xl sm:shadow-2xl shadow-black/25 p-2.5 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-2 border border-white/40 dark:border-[var(--color-border)] w-full min-w-0 max-w-full overflow-x-clip [&>*]:min-w-0`}
         noValidate
       >
         <input
@@ -180,10 +180,10 @@ export default function HeroSearch() {
           placeholder={PLACEHOLDERS[vertical]}
           maxLength={120}
           autoComplete="off"
-          className="lg:col-span-3 min-w-0 px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-[var(--color-foreground)] placeholder-[var(--color-muted)] bg-[var(--color-background)] rounded-xl border border-[var(--color-border)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30"
+          className="lg:col-span-3 min-w-0 max-w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm text-[var(--color-foreground)] placeholder-[var(--color-muted)] bg-[var(--color-background)] rounded-xl border border-[var(--color-border)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30"
         />
 
-        <div className="lg:col-span-3 min-w-0">
+        <div className="lg:col-span-3 min-w-0 max-w-full">
           <LocationCascade
             value={location}
             onChange={setLocation}
