@@ -72,7 +72,7 @@
 }
 
 @utility full-bleed-pad {
-  @apply px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24;
+  @apply px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 min-w-0 box-border;
 }
 
 @utility btn {
@@ -172,6 +172,14 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: clip;
   max-width: 100%;
+}
+
+/* Native form controls can expand past the viewport via option text */
+input,
+select,
+textarea {
+  max-width: 100%;
+  min-width: 0;
 }
 
 ::selection {

@@ -81,12 +81,12 @@ export default function LocationCascade({
   const cls = `${selectBase} ${selectClassName}`.trim();
 
   return (
-    <div className={`grid grid-cols-1 gap-2 ${compact ? 'lg:grid lg:grid-cols-1' : ''} ${className}`.trim()}>
+    <div className={`grid grid-cols-1 gap-2 min-w-0 w-full max-w-full ${compact ? 'lg:grid lg:grid-cols-1' : ''} ${className}`.trim()}>
       <select
         value={value.city}
         onChange={(e) => handleCity(e.target.value)}
         disabled={loading}
-        className={`${cls} min-w-0 w-full`}
+        className={`${cls} min-w-0 w-full max-w-full`}
         aria-label={t('province_all')}
       >
         <option value="">{loading ? t('loading_locations') : t('province_all')}</option>
@@ -101,7 +101,7 @@ export default function LocationCascade({
         <select
           value={value.district}
           onChange={(e) => handleDistrict(e.target.value)}
-          className={`${cls} min-w-0 w-full`}
+          className={`${cls} min-w-0 w-full max-w-full`}
           aria-label={t('district_all')}
         >
           <option value="">{t('district_all')}</option>
@@ -117,7 +117,7 @@ export default function LocationCascade({
         <select
           value={value.neighborhood}
           onChange={(e) => handleNeighborhood(e.target.value)}
-          className={`${cls} min-w-0 w-full`}
+          className={`${cls} min-w-0 w-full max-w-full`}
           aria-label={t('neighborhood_all')}
         >
           <option value="">{t('neighborhood_all')}</option>

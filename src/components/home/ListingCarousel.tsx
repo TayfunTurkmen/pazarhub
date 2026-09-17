@@ -23,7 +23,7 @@ export default function ListingCarousel({ listings, badge }: ListingCarouselProp
   if (listings.length === 0) return null;
 
   return (
-    <div className="relative group/carousel">
+    <div className="relative group/carousel w-full min-w-0 max-w-full">
       <button
         type="button"
         onClick={() => scroll('left')}
@@ -35,13 +35,13 @@ export default function ListingCarousel({ listings, badge }: ListingCarouselProp
 
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-1 scrollbar-thin"
+        className="flex gap-4 overflow-x-auto overscroll-x-contain scroll-smooth snap-x snap-mandatory pb-1 scrollbar-thin w-full min-w-0 max-w-full"
         style={{ scrollbarWidth: 'thin' }}
       >
         {listings.map((listing) => (
           <div
             key={listing.id}
-            className="snap-start shrink-0 w-[260px] sm:w-[280px]"
+            className="snap-start shrink-0 w-[min(260px,75vw)] sm:w-[280px]"
           >
             <ListingCard listing={listing} badge={badge} showVerified />
           </div>

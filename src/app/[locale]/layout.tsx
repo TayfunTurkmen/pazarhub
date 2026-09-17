@@ -50,7 +50,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${display.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
+      <body className={`${display.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen min-w-0 max-w-full overflow-x-clip`}>
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
             <ThemeProvider
@@ -59,7 +59,7 @@ export default async function LocaleLayout({
               enableSystem={false}
             >
               <Header />
-              <main className="flex-grow container-custom py-4 sm:py-8 min-w-0 overflow-x-clip">
+              <main className="flex-grow container-custom py-4 sm:py-8 min-w-0 max-w-full overflow-x-clip">
                 {children}
               </main>
               <Footer />
