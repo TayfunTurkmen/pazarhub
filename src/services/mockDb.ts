@@ -396,6 +396,9 @@ class MockListingRepository implements IListingRepository {
                 l.seller.storeName?.toLowerCase().includes(sn)
             );
         }
+        if (filter.sellerType) {
+            filtered = filtered.filter(l => l.seller.type === filter.sellerType);
+        }
         if (filter.minArea) filtered = filtered.filter(l => (l.netArea || 0) >= filter.minArea!);
         if (filter.maxArea) filtered = filtered.filter(l => (l.netArea || 0) <= filter.maxArea!);
         if (filter.roomCount && filter.roomCount.length > 0) {

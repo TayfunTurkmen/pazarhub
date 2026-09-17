@@ -8,7 +8,7 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import {
   ChevronDown, ChevronUp, MapPin, Tag, Home, Ruler, Flame, Building,
-  Car, Gauge, Calendar, Smartphone, ShieldCheck, Briefcase, Wrench,
+  Car, Gauge, Calendar, Smartphone, ShieldCheck, Briefcase, Wrench, UserRound,
 } from 'lucide-react';
 import LocationCascade from '@/components/listing/LocationCascade';
 import { CATEGORIES } from '@/services/mockData';
@@ -54,10 +54,12 @@ export default function FilterSidebar() {
     neighborhood: searchParams.get('neighborhood') || '',
     street: searchParams.get('street') || '',
     condition: searchParams.get('condition') || '',
+    sellerType: searchParams.get('sellerType') || '',
   });
 
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({
     type: false,
+    seller: false,
     location: false,
     price: false,
     spec: false,
@@ -116,7 +118,7 @@ export default function FilterSidebar() {
     setFilters({
       minPrice: '', maxPrice: '', city: '', district: '', neighborhood: '', street: '',
       minArea: '', maxArea: '', roomCount: [], floor: [], listingType: '', heating: '',
-      fuel: '', gear: '', year: '', brand: '', condition: '',
+      fuel: '', gear: '', year: '', brand: '', condition: '', sellerType: '',
     });
     const params = new URLSearchParams();
     preserveParams(params);
@@ -179,6 +181,14 @@ export default function FilterSidebar() {
             </div>
           </Section>
         )}
+
+        <Section id="seller" title={t('seller_type')} icon={UserRound}>
+          <div className="grid grid-cols-3 gap-2">
+            <ToggleButton label={t('all')} active={filters.sellerType === ''} onClick={() => handleChange('sellerType', '')} />
+            <ToggleButton label={t('from_owner')} active={filters.sellerType === 'individual'} onClick={() => handleChange('sellerType', 'individual')} />
+            <ToggleButton label={t('from_agency')} active={filters.sellerType === 'corporate'} onClick={() => handleChange('sellerType', 'corporate')} />
+          </div>
+        </Section>
 
         <Section id="location" title={t('location')} icon={MapPin}>
           <LocationCascade

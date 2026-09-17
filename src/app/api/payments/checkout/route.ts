@@ -66,9 +66,9 @@ export const POST = withApiHandler(async (request: Request) => {
     if (!body.listingId) return jsonError('İlan gerekli', 422);
     const listing = await db.listings.getById(body.listingId);
     if (!listing) return jsonError('İlan bulunamadı', 404);
-    if (listing.seller.id === auth.userId) return jsonError('Kendi ilanınız için Param Güvende açılamaz', 422);
+    if (listing.seller.id === auth.userId) return jsonError('Kendi ilanınız için Sendeöde açılamaz', 422);
     amount = listing.price;
-    basket = `Param Güvende — ${listing.title}`;
+    basket = `Sendeöde — ${listing.title}`;
   }
 
   const provider = pickProvider(body.provider);

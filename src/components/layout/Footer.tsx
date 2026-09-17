@@ -99,7 +99,8 @@ export default function Footer() {
               <li><Link href="/blog" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('ai_blog')}</Link></li>
               <li><Link href="/kurumsal" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('corporate_membership')}</Link></li>
               <li><Link href="/doping" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('doping')}</Link></li>
-              <li><Link href="/param-guvende" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('escrow')}</Link></li>
+              <li><Link href="/ofisler" className="text-white/70 hover:text-[var(--color-brand-yellow)]">Emlak Ofisleri</Link></li>
+              <li><Link href="/sendeode" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('escrow')}</Link></li>
               <li><Link href="/safe-payment" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('safe_payment')}</Link></li>
               <li><Link href="/mobile" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('mobile_apps')}</Link></li>
             </ul>

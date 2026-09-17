@@ -30,7 +30,8 @@ export default function Header() {
     { name: t('nav_housing'), href: '/category/konut' },
     { name: t('nav_corporate'), href: '/kurumsal' },
     { name: t('nav_doping'), href: '/doping' },
-    { name: t('nav_escrow'), href: '/param-guvende' },
+    { name: t('nav_escrow'), href: '/sendeode' },
+    { name: 'Ofisler', href: '/ofisler' },
     { name: t('nav_blog'), href: '/blog' },
   ];
 
