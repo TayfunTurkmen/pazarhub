@@ -4,7 +4,7 @@
   "packages": {
     "node": "22"
   },
-  "buildAptPackages": ["openssl", "python3", "ffmpeg"],
+  "buildAptPackages": ["openssl", "python3"],
   "steps": {
     "install": {
       "commands": ["npm ci --include=dev"]
@@ -14,10 +14,12 @@
     }
   },
   "deploy": {
-    "aptPackages": ["openssl", "ffmpeg", "python3"],
+    "aptPackages": ["openssl", "python3"],
     "startCommand": "bash docker/entrypoint.sh",
     "variables": {
-      "SKIP_EVOLUTION": "1"
+      "SKIP_EVOLUTION": "1",
+      "LISTEN_HOST": "0.0.0.0",
+      "PORT": "3000"
     }
   }
 }
