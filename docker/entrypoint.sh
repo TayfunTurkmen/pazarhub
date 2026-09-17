@@ -70,7 +70,7 @@ fi
 cd /app
 if [ -n "${DATABASE_URL:-}" ]; then
   echo "[skonutal] Applying schema..."
-  npx prisma db push --skip-generate
+  npx prisma db push
 fi
 
 if [ "${SKIP_EMBEDDED}" != "1" ] && [ ! -f /var/lib/postgresql/.skonutal_seeded ]; then
@@ -135,9 +135,9 @@ start_evolution() {
     (
       cd "$dir"
       if [ -x ./Docker/scripts/deploy_database.sh ]; then
-        bash ./Docker/scripts/deploy_database.sh || npx prisma db push --skip-generate || true
+        bash ./Docker/scripts/deploy_database.sh || npx prisma db push || true
       elif [ -n "${DATABASE_CONNECTION_URI:-}" ]; then
-        npx prisma db push --skip-generate || true
+        npx prisma db push || true
       fi
       npm run start:prod
     ) >> /tmp/evolution.log 2>&1 || true

@@ -24,7 +24,7 @@ jobs:
         run: npm ci
 
       - name: Push database schema
-        run: npx prisma db push --skip-generate
+        run: npx prisma db push
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
