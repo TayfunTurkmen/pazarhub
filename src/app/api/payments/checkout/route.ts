@@ -41,7 +41,7 @@ export const POST = withApiHandler(async (request: Request) => {
   if (!user) return jsonError('Kullanıcı bulunamadı', 401);
 
   let amount = 0;
-  let basket = 'skonutal.com';
+  let basket = 'sendekonutal.com';
   let plan: PlanCode | undefined;
   let productCode: string | undefined;
 

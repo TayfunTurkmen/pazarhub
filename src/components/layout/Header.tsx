@@ -13,6 +13,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useRouter } from '@/i18n/navigation';
 import { sanitizeSearchInput } from '@/lib/sanitize';
 import Logo from '@/components/brand/Logo';
+import { APP_WHATSAPP, APP_WHATSAPP_DISPLAY } from '@/lib/constants';
 
 export default function Header() {
   const t = useTranslations('Header');
@@ -43,13 +44,20 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50">
-      <div className="bg-[var(--color-navy)] text-white border-b border-white/10">
+      <div className="bg-[var(--color-navy)] text-[var(--color-brand-yellow)] border-b border-white/10">
         <div className="container-custom h-8 flex items-center justify-between text-[11px] font-semibold">
-          <p className="truncate text-white/90">{t('topbar')}</p>
-          <div className="hidden sm:flex items-center gap-4 text-white/80">
-            <Link href="/about" className="hover:text-[var(--color-primary-light)]">{t('about_short')}</Link>
-            <Link href="/contact" className="hover:text-[var(--color-primary-light)]">{t('help_short')}</Link>
-            <span>444 76 66</span>
+          <p className="truncate text-[var(--color-brand-yellow)]/90">{t('topbar')}</p>
+          <div className="hidden sm:flex items-center gap-4 text-[var(--color-brand-yellow)]/85">
+            <Link href="/about" className="hover:text-white">{t('about_short')}</Link>
+            <Link href="/contact" className="hover:text-white">{t('help_short')}</Link>
+            <a
+              href={`https://wa.me/${APP_WHATSAPP.replace(/\D/g, '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white"
+            >
+              WhatsApp {APP_WHATSAPP_DISPLAY}
+            </a>
           </div>
         </div>
       </div>
@@ -66,9 +74,9 @@ export default function Header() {
               placeholder={t('search_placeholder')}
               maxLength={120}
               autoComplete="off"
-              className="w-full pl-4 pr-12 py-2.5 bg-[var(--color-background)] border border-[var(--color-border)] rounded-xl text-[var(--color-foreground)] placeholder-[var(--color-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)] text-sm"
+              className="w-full pl-4 pr-12 py-2.5 bg-[var(--color-background)] border border-[var(--color-border)] rounded-xl text-[var(--color-foreground)] placeholder-[var(--color-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brand-yellow)]/40 focus:border-[var(--color-navy)] text-sm"
             />
-            <button type="submit" aria-label={t('search_btn')} className="absolute right-1 top-1/2 -translate-y-1/2 p-2 text-[var(--color-muted)] hover:text-[var(--color-primary)] rounded-lg hover:bg-[var(--color-primary)]/10">
+            <button type="submit" aria-label={t('search_btn')} className="absolute right-1 top-1/2 -translate-y-1/2 p-2 text-[var(--color-muted)] hover:text-[var(--color-navy)] dark:hover:text-[var(--color-brand-yellow)] rounded-lg hover:bg-[var(--color-brand-yellow)]/15">
               <Search size={18} />
             </button>
           </form>
@@ -78,7 +86,7 @@ export default function Header() {
               {t('favorites')}
             </Link>
             <UserActions />
-            <Link href="/post-ad" className="ml-1 inline-flex items-center gap-1.5 bg-[var(--color-brand-accent)] hover:bg-[var(--color-secondary-dark)] text-white px-4 py-2 rounded-xl text-sm font-extrabold">
+            <Link href="/post-ad" className="ml-1 inline-flex items-center gap-1.5 bg-[var(--color-brand-yellow)] hover:bg-[var(--color-secondary-dark)] text-[var(--color-navy)] px-4 py-2 rounded-xl text-sm font-extrabold shadow-sm">
               <PlusCircle size={16} />
               {t('post_ad')}
             </Link>
@@ -103,7 +111,7 @@ export default function Header() {
             <Link
               key={cat.href}
               href={cat.href}
-              className="px-3 py-1.5 text-xs font-semibold text-white/80 hover:text-[var(--color-primary-light)] whitespace-nowrap"
+              className="px-3 py-1.5 text-xs font-semibold text-white/80 hover:text-[var(--color-brand-yellow)] whitespace-nowrap"
             >
               {cat.name}
             </Link>
@@ -142,7 +150,7 @@ export default function Header() {
 
           <div className="space-y-3">
             <UserActions mobile />
-            <Link href="/post-ad" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-1.5 justify-center bg-[var(--color-brand-accent)] text-white px-4 py-3 rounded-xl text-sm font-extrabold w-full">
+            <Link href="/post-ad" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-1.5 justify-center bg-[var(--color-brand-yellow)] text-[var(--color-navy)] px-4 py-3 rounded-xl text-sm font-extrabold w-full">
               <PlusCircle size={16} />
               {t('post_ad')}
             </Link>

@@ -6,7 +6,7 @@
         "post_ad": "İlan Ver",
         "favorites": "Favorilerim",
         "login": "Giriş Yap",
-        "topbar": "Türkiye'nin yeni nesil emlak platformu",
+        "topbar": "size göre mutlaka alabileceğiniz bir konut vardır.",
         "about_short": "Hakkımızda",
         "help_short": "Yardım",
         "register": "Üye Ol",
@@ -46,7 +46,7 @@
         "privacy": "Gizlilik Politikası",
         "cookies": "Çerez Yönetimi",
         "follow_us": "Bizi Takip Edin",
-        "tagline": "Satılık, kiralık ve yeni projelerde Türkiye'nin en net emlak adresi. Doğrulanmış ilanlar, semt endeksi ve güvenli mesajlaşma.",
+        "tagline": "size göre mutlaka alabileceğiniz bir konut vardır.",
         "newsletter_desc": "Kampanya ve güvenlik güncellemelerinden haberdar olun.",
         "newsletter_placeholder": "E-posta adresiniz",
         "newsletter_submit": "Abone ol",
@@ -58,7 +58,7 @@
     },
     "Home": {
         "categories": "Kategoriler",
-        "hero_kicker": "skonutal.com",
+        "hero_kicker": "sendekonutal.com",
         "hero_title_1": "Hayalinizdeki",
         "hero_title_2": "evi",
         "hero_title_3": "bulun",
@@ -416,7 +416,7 @@
     },
     "Pages": {
         "about_title": "Hakkımızda",
-        "about_desc": "skonutal.com, Türkiye'nin yeni nesil emlak platformudur. Satılık, kiralık ve yeni projeleri semt endeksi, harita araması ve doğrulanmış satıcılarla bir araya getirir.",
+        "about_desc": "sendekonutal.com, Türkiye'nin yeni nesil emlak platformudur. Satılık, kiralık ve yeni projeleri semt endeksi, harita araması ve doğrulanmış satıcılarla bir araya getirir.",
         "about_mission": "Misyonumuz",
         "about_mission_text": "İnsanların hayallerindeki eve ve araçlara en kolay şekilde ulaşmalarını sağlamak.",
         "about_vision": "Vizyonumuz",
@@ -447,9 +447,9 @@
         "safe_payment_title": "Güvenli Ödeme",
         "safe_payment_desc": "Alıcı ve satıcı arasında güvenli para transferi. Ürün teslim alınana kadar ödeme güvende.",
         "media_title": "Basında Biz",
-        "media_desc": "skonutal.com hakkında basında çıkan haberler ve basın bültenleri.",
+        "media_desc": "sendekonutal.com hakkında basında çıkan haberler ve basın bültenleri.",
         "mobile_title": "Mobil Uygulamalar",
-        "mobile_desc": "skonutal.com mobil uygulamasını iOS ve Android cihazlarınıza indirin."
+        "mobile_desc": "sendekonutal.com mobil uygulamasını iOS ve Android cihazlarınıza indirin."
     },
     "AI": {
         "platform_badge": "AI Destekli Platform",

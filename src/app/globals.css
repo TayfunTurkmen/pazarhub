@@ -1,30 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #0a1628;
-  --color-primary-dark: #06101c;
-  --color-primary-light: #1b2d4a;
-  --color-secondary: #3d6fa8;
-  --color-secondary-dark: #2d5a8c;
-  --color-accent: #4a7fc4;
-  --color-ink: #0a1628;
-  --color-brand-yellow: #3d6fa8;
-  --color-brand-accent: #4a7fc4;
-  --color-navy: #0a1628;
+  /* sendekonutal.com brand: lacivert + sarı */
+  --color-primary: #2f2858;
+  --color-primary-dark: #1f1a3d;
+  --color-primary-light: #4a4278;
+  --color-secondary: #f6e827;
+  --color-secondary-dark: #e6d410;
+  --color-accent: #f6e827;
+  --color-ink: #2f2858;
+  --color-brand-yellow: #f6e827;
+  --color-brand-accent: #f6e827;
+  --color-navy: #2f2858;
 
-  --color-background: #f0f3f8;
+  --color-background: #f4f2fb;
   --color-surface: #ffffff;
   --color-surface-elevated: #ffffff;
-  --color-text: #0a1628;
-  --color-text-secondary: #3d4a5c;
-  --color-text-muted: #6b7789;
-  --color-foreground: #0a1628;
-  --color-muted: #5c6b7e;
-  --color-border: #d5dde8;
-  --color-border-light: #e8edf4;
+  --color-text: #2f2858;
+  --color-text-secondary: #4a4568;
+  --color-text-muted: #6f6a88;
+  --color-foreground: #2f2858;
+  --color-muted: #6f6a88;
+  --color-border: #ddd8ec;
+  --color-border-light: #ebe7f5;
 
   --color-success: #0f766e;
-  --color-warning: #c9a227;
+  --color-warning: #e6d410;
   --color-error: #dc2626;
 
   --font-sans: var(--font-display);
@@ -71,11 +72,11 @@
 }
 
 @utility btn-primary {
-  @apply bg-[var(--color-navy)] text-white hover:bg-[var(--color-primary-light)] hover:shadow-lg active:scale-[0.98] font-bold;
+  @apply bg-[var(--color-navy)] text-[var(--color-brand-yellow)] hover:bg-[var(--color-primary-light)] hover:shadow-lg active:scale-[0.98] font-bold;
 }
 
 @utility btn-secondary {
-  @apply bg-[var(--color-brand-accent)] text-white hover:bg-[var(--color-secondary-dark)] hover:shadow-lg active:scale-[0.98] font-bold;
+  @apply bg-[var(--color-brand-yellow)] text-[var(--color-navy)] hover:bg-[var(--color-secondary-dark)] hover:shadow-lg active:scale-[0.98] font-bold;
 }
 
 @utility card {
@@ -104,7 +105,7 @@
 }
 
 @utility gradient-text {
-  background: linear-gradient(135deg, #4a7fc4, #8bb4e8);
+  background: linear-gradient(135deg, #f6e827, #fff59a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -114,40 +115,40 @@
   --glass-bg: rgba(255, 255, 255, 0.8);
   --glass-border: rgba(255, 255, 255, 0.3);
   --glass-card-bg: rgba(255, 255, 255, 0.92);
-  --glass-card-border: rgba(10, 22, 40, 0.06);
-  --glass-card-shadow: 0 1px 3px rgba(10, 22, 40, 0.06), 0 1px 2px rgba(10, 22, 40, 0.04);
-  --shimmer-gradient: linear-gradient(90deg, #e8edf4 25%, #d5dde8 50%, #e8edf4 75%);
+  --glass-card-border: rgba(47, 40, 88, 0.08);
+  --glass-card-shadow: 0 1px 3px rgba(47, 40, 88, 0.08), 0 1px 2px rgba(47, 40, 88, 0.04);
+  --shimmer-gradient: linear-gradient(90deg, #ebe7f5 25%, #ddd8ec 50%, #ebe7f5 75%);
 }
 
 .dark {
-  --color-primary: #6ba3e8;
-  --color-primary-dark: #4a7fc4;
-  --color-primary-light: #8bb4e8;
-  --color-secondary: #4a7fc4;
-  --color-secondary-dark: #3d6fa8;
-  --color-accent: #6ba3e8;
-  --color-ink: #e8eef6;
-  --color-brand-yellow: #4a7fc4;
-  --color-brand-accent: #4a7fc4;
-  --color-navy: #0a1628;
+  --color-primary: #f6e827;
+  --color-primary-dark: #e6d410;
+  --color-primary-light: #fff36a;
+  --color-secondary: #f6e827;
+  --color-secondary-dark: #e6d410;
+  --color-accent: #f6e827;
+  --color-ink: #f7f5ff;
+  --color-brand-yellow: #f6e827;
+  --color-brand-accent: #f6e827;
+  --color-navy: #2f2858;
 
-  --color-background: #070d16;
-  --color-surface: #0e1624;
-  --color-surface-elevated: #152033;
-  --color-text: #e8eef6;
-  --color-text-secondary: #a8b8cc;
-  --color-text-muted: #7a8ba0;
-  --color-foreground: #e8eef6;
-  --color-muted: #8a9bb0;
-  --color-border: #1e2d42;
-  --color-border-light: #152033;
+  --color-background: #120f24;
+  --color-surface: #1a1633;
+  --color-surface-elevated: #24204a;
+  --color-text: #f7f5ff;
+  --color-text-secondary: #c8c2e0;
+  --color-text-muted: #9089b0;
+  --color-foreground: #f7f5ff;
+  --color-muted: #a39cbf;
+  --color-border: #322c58;
+  --color-border-light: #24204a;
 
-  --glass-bg: rgba(14, 22, 36, 0.85);
-  --glass-border: rgba(107, 163, 232, 0.12);
-  --glass-card-bg: rgba(14, 22, 36, 0.92);
-  --glass-card-border: rgba(107, 163, 232, 0.08);
-  --glass-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.25);
-  --shimmer-gradient: linear-gradient(90deg, #152033 25%, #1e2d42 50%, #152033 75%);
+  --glass-bg: rgba(26, 22, 51, 0.88);
+  --glass-border: rgba(246, 232, 39, 0.12);
+  --glass-card-bg: rgba(26, 22, 51, 0.94);
+  --glass-card-border: rgba(246, 232, 39, 0.08);
+  --glass-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shimmer-gradient: linear-gradient(90deg, #24204a 25%, #322c58 50%, #24204a 75%);
 }
 
 html {
@@ -162,12 +163,12 @@ body {
 }
 
 ::selection {
-  background: rgba(74, 127, 196, 0.45);
-  color: #fff;
+  background: rgba(246, 232, 39, 0.45);
+  color: #2f2858;
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-brand-yellow);
   outline-offset: 2px;
   border-radius: 8px;
 }
@@ -179,7 +180,7 @@ body {
 .dark .prose h1,
 .dark .prose h2,
 .dark .prose h3 {
-  color: #e8eef6;
+  color: #f7f5ff;
 }
 
 .dark .prose p,
@@ -188,7 +189,7 @@ body {
 }
 
 .dark .prose strong {
-  color: #e8eef6;
+  color: #f7f5ff;
 }
 
 ::-webkit-scrollbar {

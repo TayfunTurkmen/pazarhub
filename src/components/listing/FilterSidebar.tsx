@@ -174,8 +174,8 @@ export default function FilterSidebar() {
         <button
             onClick={onClick}
             className={`px-3 py-2 text-xs font-medium border rounded-xl transition-all ${active
-                ? 'bg-[var(--color-brand-accent)] text-white border-[var(--color-brand-accent)] shadow-sm'
-                : 'bg-[var(--color-surface)] text-[var(--color-muted)] border-[var(--color-border)] hover:border-[var(--color-primary)]/50 hover:text-[var(--color-primary)]'
+                ? 'bg-[var(--color-navy)] text-[var(--color-brand-yellow)] border-[var(--color-navy)] shadow-sm'
+                : 'bg-[var(--color-surface)] text-[var(--color-muted)] border-[var(--color-border)] hover:border-[var(--color-brand-yellow)]/50 hover:text-[var(--color-brand-yellow)]'
                 }`}
         >
             {label}

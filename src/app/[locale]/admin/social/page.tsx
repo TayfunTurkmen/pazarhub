@@ -42,10 +42,10 @@ export default function AdminSocialSettings() {
     };
 
     const socials = [
-        { key: 'facebook' as const, label: 'Facebook', icon: Facebook, color: 'text-blue-600', bg: 'bg-blue-500/10', placeholder: 'https://facebook.com/skonutal' },
-        { key: 'twitter' as const, label: 'Twitter / X', icon: Twitter, color: 'text-sky-500', bg: 'bg-sky-500/10', placeholder: 'https://twitter.com/skonutal' },
-        { key: 'instagram' as const, label: 'Instagram', icon: Instagram, color: 'text-pink-500', bg: 'bg-pink-500/10', placeholder: 'https://instagram.com/skonutal' },
-        { key: 'youtube' as const, label: 'YouTube', icon: Youtube, color: 'text-red-500', bg: 'bg-red-500/10', placeholder: 'https://youtube.com/@skonutal' },
+        { key: 'facebook' as const, label: 'Facebook', icon: Facebook, color: 'text-blue-600', bg: 'bg-blue-500/10', placeholder: 'https://facebook.com/sendekonutal' },
+        { key: 'twitter' as const, label: 'Twitter / X', icon: Twitter, color: 'text-sky-500', bg: 'bg-sky-500/10', placeholder: 'https://twitter.com/sendekonutal' },
+        { key: 'instagram' as const, label: 'Instagram', icon: Instagram, color: 'text-pink-500', bg: 'bg-pink-500/10', placeholder: 'https://instagram.com/sendekonutal' },
+        { key: 'youtube' as const, label: 'YouTube', icon: Youtube, color: 'text-red-500', bg: 'bg-red-500/10', placeholder: 'https://youtube.com/@sendekonutal' },
     ];
 
     return (

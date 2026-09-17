@@ -53,7 +53,7 @@ export default function AdminWhatsAppPage() {
       const res = await fetch('/api/admin/whatsapp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'test', phone: testPhone, text: 'skonutal.com WhatsApp bağlantı testi.' }),
+        body: JSON.stringify({ action: 'test', phone: testPhone, text: 'sendekonutal.com WhatsApp bağlantı testi.' }),
       });
       const json = await res.json() as { success: boolean; error?: string };
       setMessage(json.success ? 'Test mesajı gönderildi.' : (json.error || 'Gönderilemedi'));

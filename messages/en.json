@@ -6,7 +6,7 @@
         "post_ad": "Post Ad",
         "favorites": "My Favorites",
         "login": "Login",
-        "topbar": "Turkey's next-generation real estate platform",
+        "topbar": "There is definitely a home you can buy that suits you.",
         "about_short": "About",
         "help_short": "Help",
         "register": "Register",
@@ -46,7 +46,7 @@
         "privacy": "Privacy Policy",
         "cookies": "Cookie Management",
         "follow_us": "Follow Us",
-        "tagline": "Turkey's clearest address for sale, rental and new-build homes. Verified listings, neighborhood index and secure messaging.",
+        "tagline": "There is definitely a home you can buy that suits you.",
         "newsletter_desc": "Stay updated on campaigns and security updates.",
         "newsletter_placeholder": "Your email address",
         "newsletter_submit": "Subscribe",
@@ -58,7 +58,7 @@
     },
     "Home": {
         "categories": "Categories",
-        "hero_kicker": "skonutal.com",
+        "hero_kicker": "sendekonutal.com",
         "hero_title_1": "Find the",
         "hero_title_2": "home",
         "hero_title_3": "you want",
@@ -416,7 +416,7 @@
     },
     "Pages": {
         "about_title": "About Us",
-        "about_desc": "skonutal.com is Turkey's next-generation real estate platform. It brings sale, rental and new-build listings together with neighborhood index, map search and verified sellers.",
+        "about_desc": "sendekonutal.com is Turkey's next-generation real estate platform. It brings sale, rental and new-build listings together with neighborhood index, map search and verified sellers.",
         "about_mission": "Our Mission",
         "about_mission_text": "To help people find their dream homes and vehicles in the easiest way.",
         "about_vision": "Our Vision",
@@ -447,9 +447,9 @@
         "safe_payment_title": "Secure Payment",
         "safe_payment_desc": "Safe money transfer between buyer and seller. Payment is secured until the product is delivered.",
         "media_title": "Press",
-        "media_desc": "News and press releases about skonutal.com.",
+        "media_desc": "News and press releases about sendekonutal.com.",
         "mobile_title": "Mobile Apps",
-        "mobile_desc": "Download the skonutal.com mobile app for your iOS and Android devices."
+        "mobile_desc": "Download the sendekonutal.com mobile app for your iOS and Android devices."
     },
     "AI": {
         "platform_badge": "AI-Powered Platform",

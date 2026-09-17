@@ -33,7 +33,7 @@ export default function ListingCard({ listing, badge, showVerified }: ListingCar
           />
 
           {resolvedBadge === 'showcase' && (
-            <div className="absolute top-2.5 left-2.5 bg-[var(--color-brand-accent)] text-white text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-wider">
+            <div className="absolute top-2.5 left-2.5 bg-[var(--color-brand-yellow)] text-[var(--color-navy)] text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-wider">
               Vitrin
             </div>
           )}

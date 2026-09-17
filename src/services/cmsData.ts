@@ -20,7 +20,7 @@ let PAGES: CMSPage[] = [
 ];
 
 let SETTINGS: SiteSettings = {
-    title: 'skonutal.com',
+    title: 'sendekonutal.com',
     primaryColor: '#3255a4',
     logoUrl: '/logo.png'
 };

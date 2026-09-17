@@ -34,7 +34,7 @@ export const POST = withApiHandler(async (request: Request) => {
   if (parsed.data.action === 'test') {
     if (!parsed.data.phone) return jsonError('Telefon gerekli', 422);
     try {
-      await sendWhatsAppText(parsed.data.phone, parsed.data.text || 'skonutal.com WhatsApp bağlantısı çalışıyor.');
+      await sendWhatsAppText(parsed.data.phone, parsed.data.text || 'sendekonutal.com WhatsApp bağlantısı çalışıyor.');
     } catch (err) {
       return jsonError(err instanceof Error ? err.message : 'Gönderilemedi', 503);
     }

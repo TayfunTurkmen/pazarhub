@@ -47,12 +47,12 @@ export default async function HomePage() {
           className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,22,40,0.72)_0%,rgba(10,22,40,0.45)_45%,rgba(10,22,40,0.82)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(47,40,88,0.82)_0%,rgba(47,40,88,0.55)_45%,rgba(18,15,36,0.9)_100%)]" />
 
         <div className="relative px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 pt-12 pb-12">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-start mb-8">
-              <p className="text-[var(--color-brand-accent)] text-xs font-bold uppercase tracking-[0.22em]">
+              <p className="text-[var(--color-brand-yellow)] text-xs font-bold uppercase tracking-[0.22em]">
                 {t('hero_kicker')}
               </p>
               <div className="flex items-center gap-2 bg-white/95 dark:bg-[var(--color-surface)]/95 backdrop-blur-sm rounded-xl px-4 py-2.5 shadow-lg">
@@ -67,7 +67,7 @@ export default async function HomePage() {
             <div className="text-white space-y-3 mb-8 max-w-3xl">
               <h1 className="text-3xl md:text-5xl lg:text-[56px] font-black leading-[1.08] tracking-tight">
                 {t('hero_title_1')}{' '}
-                <span className="text-[var(--color-brand-accent)]">{t('hero_title_2')}</span>{' '}
+                <span className="text-[var(--color-brand-yellow)]">{t('hero_title_2')}</span>{' '}
                 {t('hero_title_3')}
               </h1>
               <p className="text-white/80 text-base md:text-lg max-w-2xl">{t('hero_subtitle')}</p>
@@ -92,7 +92,7 @@ export default async function HomePage() {
               ))}
               <Link
                 href="/search?view=map"
-                className="px-4 py-2 bg-[var(--color-brand-accent)] text-white rounded-full text-sm font-extrabold"
+                className="px-4 py-2 bg-[var(--color-brand-yellow)] text-[var(--color-navy)] rounded-full text-sm font-extrabold"
               >
                 {t('map_search')}
               </Link>

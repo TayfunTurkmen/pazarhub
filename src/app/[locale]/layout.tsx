@@ -8,6 +8,7 @@ import Footer from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/theme-provider';
 import { AuthProvider } from '@/context/AuthContext';
 import AiChatWidget from '@/components/ai/AiChatWidget';
+import { APP_DOMAIN, APP_TAGLINE } from '@/lib/constants';
 import "../globals.css";
 
 const display = Plus_Jakarta_Sans({
@@ -23,11 +24,14 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: {
-    default: "skonutal.com — Hayalinizdeki evi bulun",
-    template: "%s | skonutal.com",
+    default: `${APP_DOMAIN} — ${APP_TAGLINE}`,
+    template: `%s | ${APP_DOMAIN}`,
   },
-  description: "Satılık ve kiralık konut, iş yeri, arsa ve yeni projeler. Türkiye'nin yeni nesil emlak platformu.",
+  description: APP_TAGLINE,
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+  icons: {
+    icon: '/brand/favicon.png',
+  },
 };
 
 export default async function LocaleLayout({

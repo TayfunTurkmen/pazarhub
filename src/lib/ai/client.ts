@@ -60,5 +60,5 @@ function fallbackChat(messages: ChatMessage[]): string {
     return 'İlan vermek için ücretsiz kayıt olup "İlan Ver" adımlarını takip edebilirsiniz. Arama yapmak için ana sayfadaki arama kutusunu veya AI öneri panelini kullanabilirsiniz.';
   }
 
-  return 'Merhaba! skonutal.com AI asistanınızım — 7/24 yanınızdayım. İlan arama, fiyat bilgisi, güvenli alışveriş veya platform kullanımı hakkında sorularınızı yanıtlayabilirim. Size nasıl yardımcı olabilirim?';
+  return 'Merhaba! sendekonutal.com AI asistanınızım — 7/24 yanınızdayım. İlan arama, fiyat bilgisi, güvenli alışveriş veya platform kullanımı hakkında sorularınızı yanıtlayabilirim. Size nasıl yardımcı olabilirim?';
 }

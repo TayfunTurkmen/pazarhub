@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import NewsletterForm from '@/components/home/NewsletterForm';
 import { isSafeExternalUrl } from '@/lib/sanitize';
 import Logo from '@/components/brand/Logo';
+import { APP_WHATSAPP, APP_WHATSAPP_DISPLAY } from '@/lib/constants';
 
 interface SocialLinks {
   facebook: string;
@@ -55,9 +56,17 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           <div className="lg:col-span-1">
             <Logo inverted />
-            <p className="text-sm text-white/70 leading-relaxed mt-4 mb-4">
+            <p className="text-sm text-white/70 leading-relaxed mt-4 mb-3">
               {t('tagline')}
             </p>
+            <a
+              href={`https://wa.me/${APP_WHATSAPP.replace(/\D/g, '')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex text-sm font-semibold text-[var(--color-brand-yellow)] hover:underline mb-4"
+            >
+              WhatsApp {APP_WHATSAPP_DISPLAY}
+            </a>
             <div className="flex gap-2">
               {socials.map((social) => (
                 <a
@@ -66,7 +75,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[var(--color-brand-accent)] hover:text-white text-white/80"
+                  className="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-[var(--color-brand-yellow)] hover:text-[var(--color-navy)] text-white/80"
                 >
                   <social.icon size={16} />
                 </a>
@@ -77,32 +86,32 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-4">{t('corporate')}</h3>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/about" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('about')}</Link></li>
-              <li><Link href="/media" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('press')}</Link></li>
-              <li><Link href="/contact" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('contact')}</Link></li>
+              <li><Link href="/about" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('about')}</Link></li>
+              <li><Link href="/media" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('press')}</Link></li>
+              <li><Link href="/contact" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('contact')}</Link></li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-semibold mb-4">{t('services')}</h3>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/ai" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('ai_platform')}</Link></li>
-              <li><Link href="/blog" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('ai_blog')}</Link></li>
-              <li><Link href="/kurumsal" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('corporate_membership')}</Link></li>
-              <li><Link href="/doping" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('doping')}</Link></li>
-              <li><Link href="/param-guvende" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('escrow')}</Link></li>
-              <li><Link href="/safe-payment" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('safe_payment')}</Link></li>
-              <li><Link href="/mobile" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('mobile_apps')}</Link></li>
+              <li><Link href="/ai" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('ai_platform')}</Link></li>
+              <li><Link href="/blog" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('ai_blog')}</Link></li>
+              <li><Link href="/kurumsal" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('corporate_membership')}</Link></li>
+              <li><Link href="/doping" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('doping')}</Link></li>
+              <li><Link href="/param-guvende" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('escrow')}</Link></li>
+              <li><Link href="/safe-payment" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('safe_payment')}</Link></li>
+              <li><Link href="/mobile" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('mobile_apps')}</Link></li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-semibold mb-4">{t('help')}</h3>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/contact" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('faq')}</Link></li>
-              <li><Link href="/terms" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('terms')}</Link></li>
-              <li><Link href="/privacy" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('privacy')}</Link></li>
-              <li><Link href="/cookie" className="text-white/70 hover:text-[var(--color-primary-light)]">{t('cookies')}</Link></li>
+              <li><Link href="/contact" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('faq')}</Link></li>
+              <li><Link href="/terms" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('terms')}</Link></li>
+              <li><Link href="/privacy" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('privacy')}</Link></li>
+              <li><Link href="/cookie" className="text-white/70 hover:text-[var(--color-brand-yellow)]">{t('cookies')}</Link></li>
             </ul>
           </div>
 
@@ -116,7 +125,7 @@ export default function Footer() {
 
       <div className="bg-black/30 py-4">
         <div className="container-custom text-center text-sm text-white/50">
-          &copy; {new Date().getFullYear()} skonutal.com — {t('copyright')}
+          &copy; {new Date().getFullYear()} sendekonutal.com — {t('copyright')}
         </div>
       </div>
     </footer>

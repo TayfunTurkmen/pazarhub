@@ -6,7 +6,7 @@
         "post_ad": "Anzeige aufgeben",
         "favorites": "Favoriten",
         "login": "Anmelden",
-        "topbar": "Die Immobilienplattform der nächsten Generation",
+        "topbar": "Es gibt bestimmt ein Zuhause, das zu Ihnen passt.",
         "about_short": "Über uns",
         "help_short": "Hilfe",
         "register": "Registrieren",
@@ -44,7 +44,7 @@
         "privacy": "Datenschutzrichtlinie",
         "cookies": "Cookie-Verwaltung",
         "follow_us": "Folgen Sie uns",
-        "tagline": "Der klarste Immobilienmarkt der Türkei für Kauf, Miete und Neubauprojekte.",
+        "tagline": "Es gibt bestimmt ein Zuhause, das zu Ihnen passt.",
         "newsletter_desc": "Kampagnen und Marktupdates direkt in Ihr Postfach.",
         "newsletter_placeholder": "Ihre E-Mail-Adresse",
         "newsletter_submit": "Abonnieren",
@@ -58,7 +58,7 @@
     },
     "Home": {
         "categories": "Kategorien",
-        "hero_kicker": "skonutal.com",
+        "hero_kicker": "sendekonutal.com",
         "hero_title_1": "Finden Sie das",
         "hero_title_2": "Zuhause",
         "hero_title_3": "das Sie wollen",
@@ -416,7 +416,7 @@
     },
     "Pages": {
         "about_title": "Über uns",
-        "about_desc": "skonutal.com ist die Immobilienplattform der nächsten Generation in der Türkei.",
+        "about_desc": "sendekonutal.com ist die Immobilienplattform der nächsten Generation in der Türkei.",
         "about_mission": "Unsere Mission",
         "about_mission_text": "Menschen den einfachsten Weg zu ihrem Traumhaus und Fahrzeug zu ermöglichen.",
         "about_vision": "Unsere Vision",
@@ -447,9 +447,9 @@
         "safe_payment_title": "Sichere Zahlung",
         "safe_payment_desc": "Sicherer Geldtransfer zwischen Käufer und Verkäufer.",
         "media_title": "Presse",
-        "media_desc": "Nachrichten und Pressemitteilungen über skonutal.com.",
+        "media_desc": "Nachrichten und Pressemitteilungen über sendekonutal.com.",
         "mobile_title": "Mobile Apps",
-        "mobile_desc": "Laden Sie die skonutal.com App für iOS und Android herunter."
+        "mobile_desc": "Laden Sie die sendekonutal.com App für iOS und Android herunter."
     },
     "AI": {
         "platform_badge": "KI-gestützte Plattform",

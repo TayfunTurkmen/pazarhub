@@ -33,7 +33,7 @@ export const POST = withApiHandler(async (request: Request) => {
   try {
     await sendWhatsAppText(
       phone,
-      `skonutal.com giriş kodunuz: ${code}\n5 dakika geçerlidir. Bu kodu kimseyle paylaşmayın.`,
+      `sendekonutal.com giriş kodunuz: ${code}\n5 dakika geçerlidir. Bu kodu kimseyle paylaşmayın.`,
     );
   } catch (err) {
     return jsonError(err instanceof Error ? err.message : 'WhatsApp mesajı gönderilemedi', 503);

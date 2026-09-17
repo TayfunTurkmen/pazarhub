@@ -123,7 +123,7 @@ export default function HeroSearch({ categories }: HeroSearchProps) {
         <div className="lg:col-span-2 flex gap-2">
           <button
             type="submit"
-            className="flex-1 flex items-center justify-center gap-2 bg-[var(--color-brand-accent)] hover:bg-[var(--color-secondary-dark)] text-white px-4 py-3 rounded-xl font-extrabold text-sm"
+            className="flex-1 flex items-center justify-center gap-2 bg-[var(--color-brand-yellow)] hover:bg-[var(--color-secondary-dark)] text-[var(--color-navy)] px-4 py-3 rounded-xl font-extrabold text-sm"
           >
             <Search size={18} />
             {t('search_btn')}

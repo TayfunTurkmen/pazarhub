@@ -37,7 +37,7 @@ export default function NewsletterForm() {
         <button
           type="submit"
           aria-label={t('newsletter_submit')}
-          className="w-10 h-10 bg-[var(--color-brand-accent)] hover:bg-[var(--color-secondary-dark)] text-white rounded-xl flex items-center justify-center shrink-0 transition-colors"
+          className="w-10 h-10 bg-[var(--color-brand-yellow)] hover:bg-[var(--color-secondary-dark)] text-[var(--color-navy)] rounded-xl flex items-center justify-center shrink-0 transition-colors"
         >
           <ArrowRight size={18} />
         </button>

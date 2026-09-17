@@ -9,7 +9,7 @@ export default function CorporatePlansPage() {
       <section className="rounded-3xl bg-[var(--color-navy)] text-white px-6 py-12 md:px-12">
         <p className="text-[var(--color-brand-accent)] text-xs font-black uppercase tracking-[0.2em] mb-3">Kurumsal üyelik</p>
         <h1 className="text-3xl md:text-5xl font-black max-w-3xl leading-tight">
-          Ofisinizi <span className="text-[var(--color-brand-accent)]">skonutal.com</span> vitrinine taşıyın
+          Ofisinizi <span className="text-[var(--color-brand-accent)]">sendekonutal.com</span> vitrinine taşıyın
         </h1>
         <p className="mt-4 text-white/75 max-w-2xl">
           Ücretsiz hesapta 1 ilan / 30 gün. Kurumsal aylık planlarla kota, doping, vitrin ve mağaza sayfası açılır.

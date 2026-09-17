@@ -6,7 +6,7 @@
         "post_ad": "Подать объявление",
         "favorites": "Избранное",
         "login": "Войти",
-        "topbar": "Недвижимость нового поколения",
+        "topbar": "Обязательно найдётся жильё, которое вам подойдёт.",
         "about_short": "О нас",
         "help_short": "Помощь",
         "register": "Регистрация",
@@ -44,7 +44,7 @@
         "privacy": "Политика конфиденциальности",
         "cookies": "Управление файлами cookie",
         "follow_us": "Следите за нами",
-        "tagline": "Самый понятный рынок недвижимости Турции: продажа, аренда и новые проекты.",
+        "tagline": "Обязательно найдётся жильё, которое вам подойдёт.",
         "newsletter_desc": "Акции и рыночные обновления на почту.",
         "newsletter_placeholder": "Ваш e-mail",
         "newsletter_submit": "Подписаться",
@@ -58,7 +58,7 @@
     },
     "Home": {
         "categories": "Категории",
-        "hero_kicker": "skonutal.com",
+        "hero_kicker": "sendekonutal.com",
         "hero_title_1": "Найдите",
         "hero_title_2": "дом",
         "hero_title_3": "о котором мечтаете",
@@ -416,7 +416,7 @@
     },
     "Pages": {
         "about_title": "О нас",
-        "about_desc": "skonutal.com — платформа недвижимости нового поколения в Турции.",
+        "about_desc": "sendekonutal.com — платформа недвижимости нового поколения в Турции.",
         "about_mission": "Наша миссия",
         "about_mission_text": "Помочь людям найти дом и автомобиль мечты самым простым способом.",
         "about_vision": "Наше видение",
@@ -447,9 +447,9 @@
         "safe_payment_title": "Безопасная оплата",
         "safe_payment_desc": "Безопасный перевод денег между покупателем и продавцом.",
         "media_title": "Пресса",
-        "media_desc": "Новости и пресс-релизы о skonutal.com.",
+        "media_desc": "Новости и пресс-релизы о sendekonutal.com.",
         "mobile_title": "Мобильные приложения",
-        "mobile_desc": "Скачайте приложение skonutal.com для iOS и Android."
+        "mobile_desc": "Скачайте приложение sendekonutal.com для iOS и Android."
     },
     "AI": {
         "platform_badge": "Платформа с ИИ",

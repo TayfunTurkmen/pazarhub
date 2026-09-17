@@ -1,6 +1,9 @@
-export const APP_NAME = 'Skonutal';
-export const APP_DOMAIN = 'skonutal.com';
-export const APP_EMAIL = 'info@skonutal.com';
+export const APP_NAME = 'Sendekonutal';
+export const APP_DOMAIN = 'sendekonutal.com';
+export const APP_EMAIL = 'info@sendekonutal.com';
+export const APP_TAGLINE = 'size göre mutlaka alabileceğiniz bir konut vardır.';
+export const APP_WHATSAPP = '+905444429444';
+export const APP_WHATSAPP_DISPLAY = '+90 544 442 94 44';
 export const DEFAULT_PAGE_SIZE = 24;
 export const MAX_PAGE_SIZE = 100;
-export const SESSION_STORAGE_KEY = 'skonutal_user';
+export const SESSION_STORAGE_KEY = 'sendekonutal_user';
