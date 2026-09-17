@@ -43,9 +43,8 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-0">
-      {/* Full-viewport bleed: escapes container padding without horizontal page scroll */}
-      <section className="relative w-screen max-w-[100vw] left-1/2 -translate-x-1/2 -mt-4 sm:-mt-8 overflow-x-clip overflow-y-visible">
-        <div className="absolute inset-0 -z-10">
+      <section className="relative full-bleed -mt-4 sm:-mt-8 overflow-hidden">
+        <div className="absolute inset-0">
           <Image
             src={HERO_IMAGE}
             alt=""
@@ -57,7 +56,7 @@ export default async function HomePage() {
           <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(47,40,88,0.88)_0%,rgba(47,40,88,0.62)_50%,rgba(18,15,36,0.94)_100%)]" />
         </div>
 
-        <div className="relative px-3 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 pt-5 sm:pt-10 pb-6 sm:pb-12">
+        <div className="relative full-bleed-pad pt-5 sm:pt-10 pb-6 sm:pb-12">
           <div className="max-w-7xl mx-auto min-w-0">
             <div className="flex justify-between items-center mb-3 sm:mb-6 gap-2">
               <p className="text-[var(--color-brand-yellow)] text-[10px] sm:text-xs font-bold uppercase tracking-[0.18em] truncate">
@@ -83,7 +82,7 @@ export default async function HomePage() {
 
             <HeroSearch />
 
-            <div className="mt-3 sm:mt-5 -mx-1 px-1 flex gap-1.5 overflow-x-auto max-w-full [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-visible">
+            <div className="mt-3 sm:mt-5 flex flex-wrap gap-1.5">
               {[
                 { label: t('quick_istanbul'), href: '/search?city=İstanbul&listingType=sale&category=emlak' },
                 { label: t('quick_vehicles'), href: '/category/otomobil' },
@@ -95,7 +94,7 @@ export default async function HomePage() {
                 <Link
                   key={chip.href}
                   href={chip.href}
-                  className={`shrink-0 px-3 py-1.5 rounded-full text-[11px] sm:text-sm font-semibold border ${
+                  className={`px-3 py-1.5 rounded-full text-[11px] sm:text-sm font-semibold border ${
                     'accent' in chip && chip.accent
                       ? 'bg-[var(--color-brand-yellow)] text-[var(--color-navy)] border-transparent font-extrabold'
                       : 'bg-white/12 text-white border-white/20'
